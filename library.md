@@ -11,6 +11,8 @@ This research library contains resources I will be using to inform a report on z
 ## Docs
 2013-08-19: [Really Really ultimate blockchain compression: CoinWitness](https://bitcointalk.org/index.php?topic=277389.0)
 
+2018-09-22: [On-chain scaling to potentially ~500 tx/sec through mass tx validation](https://ethresear.ch/t/on-chain-scaling-to-potentially-500-tx-sec-through-mass-tx-validation/3477)
+
 2018-10-03: [Roll_up / roll_back snark side chain ~17000 tps](https://ethresear.ch/t/roll-up-roll-back-snark-side-chain-17000-tps/3675)
 
 2019-01-03: [Introducing Matter Testnet (Proposal: Multi-operator model)](https://blog.matter-labs.io/introducing-matter-testnet-502fab5a6f17)
@@ -29,6 +31,8 @@ This research library contains resources I will be using to inform a report on z
 
 2020-01-23: [Fighting censorship attacks on smart contracts](https://medium.com/offchainlabs/fighting-censorship-attacks-on-smart-contracts-c026a7c0ff02)
 
+2020-02-05: [Zendoo: a zk-SNARK Verifiable Cross-Chain Transfer Protocol Enabling Decoupled and Decentralized Sidechains](https://www.horizen.io/assets/files/Horizen-Sidechain-Zendoo-A_zk-SNARK-Verifiable-Cross-Chain-Transfer-Protocol.pdf)
+
 2020-07-17: [Rollups improve scalability vs Rollups increase throughput](https://twitter.com/_prestwich/status/1284174488247009281)
 
 2020-10-03: [SNARKs and the future of blockchains](https://medium.com/@RubenSomsen/snarks-and-the-future-of-blockchains-55b82012452b)
@@ -42,6 +46,8 @@ This research library contains resources I will be using to inform a report on z
 2022-02-16: [Pay Attention To Celestia](https://members.delphidigital.io/reports/pay-attention-to-celestia)
 
 2022-03-01: [Introducing AnyTrust Chains: Cheaper, Faster L2 Chains with Minimal Trust Assumptions](https://medium.com/offchainlabs/introducing-anytrust-chains-cheaper-faster-l2-chains-with-minimal-trust-assumptions-31def59eb8d7)
+
+2022-03-24: [Bitcoin zk-rollups](https://tr3y.io/articles/crypto/bitcoin-zk-rollups.html)
 
 ## Interviews
 
@@ -62,3 +68,5 @@ This research library contains resources I will be using to inform a report on z
 ## Misc
 
 [Cross-rollup zk-transfers](https://github.com/ConsenSys/liszt)
+
+[Fuel security analysis](https://docs.fuel.sh/v1.1.0/Concepts/Fundamentals/Security%20Analysis.html#securityanalysis)
