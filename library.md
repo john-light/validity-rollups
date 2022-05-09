@@ -33,6 +33,8 @@ This research library contains resources I will be using to inform a report on z
 
 2020-02-05: [Zendoo: a zk-SNARK Verifiable Cross-Chain Transfer Protocol Enabling Decoupled and Decentralized Sidechains](https://www.horizen.io/assets/files/Horizen-Sidechain-Zendoo-A_zk-SNARK-Verifiable-Cross-Chain-Transfer-Protocol.pdf)
 
+2020-06-11: [CoinPool, exploring generic payment pools for Fun and Privacy](https://discrete-blog.github.io/coinpool/)
+
 2020-07-17: [Rollups improve scalability vs Rollups increase throughput](https://twitter.com/_prestwich/status/1284174488247009281)
 
 2020-10-03: [SNARKs and the future of blockchains](https://medium.com/@RubenSomsen/snarks-and-the-future-of-blockchains-55b82012452b)
@@ -44,6 +46,8 @@ This research library contains resources I will be using to inform a report on z
 2022-01-22: [A Token Model for Layer-2 Block Production](https://fuel-labs.ghost.io/token-model-layer-2-block-production)
 
 2022-02-16: [Pay Attention To Celestia](https://members.delphidigital.io/reports/pay-attention-to-celestia)
+
+2022-02-21: [CoinPool: efficient off-chain payment pools for Bitcoin](https://coinpool.dev/v0.1.pdf)
 
 2022-03-01: [Introducing AnyTrust Chains: Cheaper, Faster L2 Chains with Minimal Trust Assumptions](https://medium.com/offchainlabs/introducing-anytrust-chains-cheaper-faster-l2-chains-with-minimal-trust-assumptions-31def59eb8d7)
 
