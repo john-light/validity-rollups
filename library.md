@@ -63,6 +63,8 @@ This research library contains resources I will be using to inform a report on z
 
 ## Presentations
 
+2017-09-19: [The Data Availability Problem](https://yewtu.be/watch?v=OJT_fR7wexw)
+
 2019-03-15: [Scalable blockchains as data layers](https://yewtu.be/watch?v=mOm47gBMfg8)
 
 2019-06-24: [ZK Rollup - Ethereum Scalability with ZKPs](https://yewtu.be/watch?v=QyM9qdFKsEA)
