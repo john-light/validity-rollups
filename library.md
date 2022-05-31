@@ -43,6 +43,8 @@ This research library contains resources I will be using to inform a report on z
 
 2020-10-08: [The Optimistic Rollup Dilemma](https://medium.com/starkware/the-optimistic-rollup-dilemma-c8fc470ca10c)
 
+2020-12-23: [Avail: The Data Availability Blockchain](https://github.com/maticnetwork/data-availability/blob/master/reference%20document/Data%20Availability%20-%20Reference%20Document.pdf)
+
 2022-01-13: [RSK scalability](https://medium.com/iovlabs-innovation-stories/rsk-scalability-c44252f05a4b)
 
 2022-01-22: [A Token Model for Layer-2 Block Production](https://fuel-labs.ghost.io/token-model-layer-2-block-production)
