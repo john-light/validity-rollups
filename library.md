@@ -21,6 +21,8 @@ This research library contains resources I will be using to inform a report on z
 
 2019-04-03: [SoK: Layer-Two Blockchain Protocols](https://eprint.iacr.org/2019/360)
 
+2019-06-15: [Minimal Viable Merged Consensus](https://ethresear.ch/t/minimal-viable-merged-consensus/5617)
+
 2019-07-10: [Trustless Two-Way Bridges With Side Chains By Halting](https://ethresear.ch/t/trustless-two-way-bridges-with-side-chains-by-halting/5728)
 
 2019-11-04: [Optimistic vs. ZK Rollup: Deep Dive](https://blog.matter-labs.io/optimistic-vs-zk-rollup-deep-dive-ea141e71e075)
