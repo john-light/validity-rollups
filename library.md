@@ -11,6 +11,8 @@ This research library contains resources I will be using to inform a report on z
 ## Docs
 2013-08-19: [Really Really ultimate blockchain compression: CoinWitness](https://bitcointalk.org/index.php?topic=277389.0)
 
+2014-09-17: [Scalability, Part 1: Building on Top](https://blog.ethereum.org/2014/09/17/scalability-part-1-building-top)
+
 2018-08-15: [Arbitrum: Scalable, private smart contracts](https://www.usenix.org/system/files/conference/usenixsecurity18/sec18-kalodner.pdf)
 
 2018-09-22: [On-chain scaling to potentially ~500 tx/sec through mass tx validation](https://ethresear.ch/t/on-chain-scaling-to-potentially-500-tx-sec-through-mass-tx-validation/3477)
