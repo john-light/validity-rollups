@@ -11,6 +11,8 @@ This research library contains resources I will be using to inform a report on z
 ## Docs
 2013-08-19: [Really Really ultimate blockchain compression: CoinWitness](https://bitcointalk.org/index.php?topic=277389.0)
 
+2018-08-15: [Arbitrum: Scalable, private smart contracts](https://www.usenix.org/system/files/conference/usenixsecurity18/sec18-kalodner.pdf)
+
 2018-09-22: [On-chain scaling to potentially ~500 tx/sec through mass tx validation](https://ethresear.ch/t/on-chain-scaling-to-potentially-500-tx-sec-through-mass-tx-validation/3477)
 
 2018-10-03: [Roll_up / roll_back snark side chain ~17000 tps](https://ethresear.ch/t/roll-up-roll-back-snark-side-chain-17000-tps/3675)
