@@ -29,6 +29,8 @@ This research library contains resources I will be using to inform a report on z
 
 2019-07-10: [Trustless Two-Way Bridges With Side Chains By Halting](https://ethresear.ch/t/trustless-two-way-bridges-with-side-chains-by-halting/5728)
 
+2019-08-28: [Ethereum Smart Contracts in L2: Optimistic Rollup](https://medium.com/plasma-group/ethereum-smart-contracts-in-l2-optimistic-rollup-2c1cef2ec537)
+
 2019-11-04: [Optimistic vs. ZK Rollup: Deep Dive](https://blog.matter-labs.io/optimistic-vs-zk-rollup-deep-dive-ea141e71e075)
 
 2019-11-06: [The “Why”s of Optimistic Rollup](https://medium.com/@adlerjohn/the-why-s-of-optimistic-rollup-7c6a22cbb61a)
