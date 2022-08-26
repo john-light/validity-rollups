@@ -397,7 +397,7 @@ The novelty or Lindy factor of the cryptography used in validity proofs depends 
 
 ![crypto-family-tree](https://user-images.githubusercontent.com/9424721/186959627-1f09a5d3-a4d5-4d06-980b-bd0791bd1543.png)
 
-Image source: [ibid]
+> Image source: [ibid]
 
 Another consideration is the age of implementation and "battle hardening" that a given validity proof implementation has gone through. With the oldest production implementations now several years old (about as old as the Schnorr algorithm implementation that was integrated into Bitcoin Core) there are several validity proof systems that could be used or at least looked at for inspiration.[113] Though it should still be noted that the validity proof designs the implementations are based on are relatively new than the Schnorr signature algorithm.
 
