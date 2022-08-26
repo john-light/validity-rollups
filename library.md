@@ -1,6 +1,6 @@
-# zkRollup research library
+# Validity rollup research library
 
-This research library contains resources I will be using to inform a report on zkRollups that I am producing as part of the Human Rights Foundation's [ZK-Rollup Research Fellowship](https://twitter.com/gladstein/status/1507069251047215112). Pull requests adding related and useful resources are appreciated!
+This research library contains resources I will be using to inform a report on validity rollups that I am producing as part of the Human Rights Foundation's [ZK-Rollup Research Fellowship](https://twitter.com/gladstein/status/1507069251047215112). Pull requests adding related and useful resources are appreciated!
 
 ## Other research libraries
 
