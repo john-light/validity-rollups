@@ -1,4 +1,13 @@
+# ⚠️ FIRST DRAFT - POSTED FOR REVIEW ⚠️
+> The report will be finalized soon. Until then, please:
+> - Be aware that some information may be incorrect
+> - Leave a comment if you have any factual / typo corrections or vitally important information to add
+
 # Validity Rollups on Bitcoin
+
+By John Light
+
+Contact the author: https://lightco.in/contact
 
 ## Section 0. The history and prehistory of validity rollups
 
