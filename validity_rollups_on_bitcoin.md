@@ -167,21 +167,24 @@ Since the early days of bitcoin, additional scripting capabilities have been env
 - Simplicity: [https://blog.blockstream.com/en-simplicity-github/](https://blog.blockstream.com/en-simplicity-github/)
 - Sway: [https://fuellabs.github.io/sway/v0.18.1/](https://fuellabs.github.io/sway/v0.18.1/)
 - Yul: [https://docs.soliditylang.org/en/latest/yul.html](https://docs.soliditylang.org/en/latest/yul.html)
+- zkMove: [https://www.zkmove.net/](https://www.zkmove.net/)
 
 Today, there are two ways that these programming languages could be used in a bitcoin context:
 
 1. Build support for them into bitcoin as an "embedded consensus" layer (e.g. Omni, Counterparty)[62]
 2. Build support for them into an alternative blockchain (e.g. an altcoin or a sidechain)[63]
 
-In both cases, these alternative programming languages would not be able to operate on satoshis natively. Instead, a bridge (also referred to as a "two-way peg" in the literature) would need to be built that would lock satoshis on the bitcoin mainchain, release an equivalent amount of satoshi IOUs inside the new execution environment, and implement some mechanism for converting the IOUs back into satoshis on the mainchain.[64] Today, the types of bridges that can be built to and from arbitrarily complex execution environments are limited by bitcoin consensus rules and generally considered less secure than using the bitcoin mainchain directly.[65] With a validity rollup, bitcoin users could experiment with these alternative execution environments while retaining the full ownership security of the bitcoin mainchain, without imposing any additional computational burden on mainchain full nodes.
+In both cases, these alternative programming languages would not be able to operate on satoshis natively. Instead, a bridge (also referred to as a "two-way peg" in the literature) would need to be built that would lock satoshis on the bitcoin mainchain, release an equivalent amount of satoshi IOUs inside the new execution environment, and implement some mechanism for converting the IOUs back into satoshis on the mainchain.[64] Today, the types of bridges that can be built to and from arbitrarily complex execution environments are limited by bitcoin consensus rules and generally considered less secure than using the bitcoin mainchain directly.[65, 66] 
+
+If it were possible to build validity rollups with alternative execution environments on bitcoin, then bitcoin users could experiment with these alternative execution environments while retaining the full ownership security of the bitcoin mainchain. Validity rollups would eliminate the need for "satoshi IOUs", since validity rollups built on bitcoin would be able to operate on satoshis natively. Additionally, because bitcoin full nodes would only have to verify a proof of correct computation, and not actually replay the full computation needed to execute rollup transactions, implementing these alternative execution models in a validity rollup would impose little-to-no additional computational burden on bitcoin full nodes.
 
 ### 3.2 New privacy protections
 
-Bitcoin's transparency makes privacy protocols built on-chain inherently fragile and therefore inadequate for preserving privacy in the long-run.[66] Offchain Layer 2 protocols such as Lightning and zkChannels have their privacy own challenges and limitations, largely due to the transparency and limited scripting capabilities of the bitcoin base layer these protocols are built on.[67, 68] As a result, bitcoin users must either follow long, detailed guides about how to gain some semblance of privacy, meticulously following each step and hoping other users do the same so that they can preserve their anonymity set, or else surrender their bitcoin to a centralized or federated offchain system to gain stronger, more easily usable privacy elsewhere.[69, 70, 71]
+Bitcoin's transparency makes privacy protocols built on-chain inherently fragile and therefore inadequate for preserving privacy in the long-run.[67] Offchain Layer 2 protocols such as Lightning and zkChannels have their privacy own challenges and limitations, largely due to the transparency and limited scripting capabilities of the bitcoin base layer these protocols are built on.[68, 69] As a result, bitcoin users must either follow long, detailed guides about how to gain some semblance of privacy, meticulously following each step and hoping other users do the same so that they can preserve their anonymity set, or else surrender their bitcoin to a centralized or federated offchain system to gain stronger, more easily usable privacy elsewhere.[70, 71, 72]
 
 In the years since Satoshi first contemplated how zk proofs could be used to improve bitcoin privacy, cryptographers have invented new protocols that greatly improve the quality and usability of private cryptocurrency transactions. Validity rollups make it possible to implement these new privacy protocols on bitcoin while inheriting the full security guarantees of the bitcoin mainchain. This would provide bitcoin users with state-of-the-art privacy without having to give up self-custody of their satoshis. Additionally, with a flexible enough proof verification system implemented in the bitcoin consensus rules, bitcoin can be future-proofed so that new advancements in privacy protocols can be adopted without requiring any further consensus-level changes to bitcoin.
 
-An example of a new privacy technology that could be implemented is the zero-knowledge, end-to-end encrypted transaction technique first described in the Zerocash whitepaper and later implemented in Zcash.[72] Zerocash end-to-end encrypted transactions (also referred to as "shielded transactions") provide the best privacy possible today, cryptographically hiding the transaction amount, the sender address, and the recipient address. Shielded transactions also offer the largest theoretical anonymity set, with the upper limit being _the total number of shielded transactions that have been made using the shielded protocol_. 
+An example of a new privacy technology that could be implemented is the zero-knowledge, end-to-end encrypted transaction technique first described in the Zerocash whitepaper and later implemented in Zcash.[73] Zerocash end-to-end encrypted transactions (also referred to as "shielded transactions") provide the best privacy possible today, cryptographically hiding the transaction amount, the sender address, and the recipient address. Shielded transactions also offer the largest theoretical anonymity set, with the upper limit being _the total number of shielded transactions that have been made using the shielded protocol_.[74] 
 
 For example, if there have been 1,000,000 shielded transactions so far, the upper limit of the anonymity set of the next transaction is 1,000,000 since each prior transaction could have each been received by a different user. The next sender could therefore be any one of those up to 1,000,000 prior recipients, providing them an anonymity set of 1,000,000 possible users to hide among. (Of course, each prior transaction that is linked to the same unique recipient will decrease the upper limit of the anonymity set. De-anonymization techniques outside of the blockchain, such as at the network layer, must also be taken into consideration.)
 
@@ -367,8 +370,8 @@ Researchers have been able to develop many solutions that prevent or minimize th
 
 Enabling validity rollups could have unintended negative side effects aside from MEV in the form of "harmful smart contracts". These are smart contracts that could be used to incentivize miners to attack each other or specific users, disrupting the normal incentives of Nakamoto consensus. This section will look at a few examples of harmful (or potentially harmful) smart contracts that could be enabled because of or alongside validity rollups on bitcoin. This is not an exhaustive catalogue of such contracts. The most important takeaway is that there are risks both known and unknown (with the possibility of unknown risks being a risk itself) associated with enabling more advanced scripts on decentralized blockchains such as bitcoin.
 
-**TxWithold contracts**
-One example of a harmful smart contract is a TxWithold contract. In a BitMEX Research article, Gleb Naumenko describes how covenants can be used to build a smart contract that incentivizes miners to withold (i.e. not confirm) a transaction for a certain number of blocks.[103] In the Del Bonis rollup model described in Section 5, recursive covenants are a prerequisite for enabling validity rollups on bitcoin.[89] Even if the rollups enabled are relatively limited in capability e.g. no more capable of expressive contracts than bitcoin is today, by enabling recursive covenants on bitcoin Layer 1, certain TxWithold smart contracts could be possible. Exactly how much harm these kinds of contracts could do in practice is an area where further research is needed.
+**TxWithhold contracts**
+One example of a harmful smart contract is a "TxWithhold" contract. In a BitMEX Research article, Gleb Naumenko describes how covenants can be used to build a smart contract that incentivizes miners to withold (i.e. not confirm) a transaction for a certain number of blocks.[103] As described in Section 5, some designs for building validity rollups on bitcoin require the use of recursive covenants. Even if the rollups enabled are relatively limited in capability e.g. no more capable of expressive contracts than bitcoin is today, by enabling recursive covenants on bitcoin Layer 1, certain TxWithhold smart contracts could be possible. Exactly how much harm these kinds of contracts could do in practice is an area where further research is needed.
 
 **Re-org wars**
 If a validity rollup on bitcoin supported expressive smart contracts, they could be used to instigate "re-org wars", where smart contracts battle each other to incentivize and dis-incentivize miners reorganizing the blockchain.[104, 105] A similar attack was shown to be possible using a "HistoryRevision contract" on Ethereum Layer 1.[106] It's unclear if such contracts deployed to Layer 2 could have the same effect on Layer 1, or whether it _would_ be possible but only under _certain conditions_ (e.g. heavy overlap of block producers on both layers). Even if such reorg contracts on Layer 2 could have the same effect on Layer 1, if they can both incentivize and dis-incentivize reorgs then perhaps they cancel each other out and there's no harm done. Again, this is an area where further research is needed.
@@ -377,6 +380,20 @@ If a validity rollup on bitcoin supported expressive smart contracts, they could
 One category of smart contract whose positive uses have been discussed at length by researchers but whose potential for harm has arguably been under-explored is the "SPV bridge" (also referred to as a "hashrate escrow") and the similar category of "optimistic" smart contracts.[107, 108] These smart contracts are similar in that their users "trust" the hashpower majority to not "steal" funds held in the smart contract. In this context, it is not the potential for theft by miners that makes the smart contract harmful (though that would of course be harmful to the specific victims of the theft). Rather, it is _the enabling incentive to collude to effectuate the theft_ that makes the contract potentially harmful _to the security of the blockchain itself_. By creating an incentive to collude to form a hostile majority where no such incentive would otherwise exist, the SPV bridge and similar contracts can be considered to be directly undermining the otherwise honest, correct, incentive-compatible operation of Nakamoto consensus.
 
 Implicit in the categorization of such SPV bridge and optimistic contracts as harmful is the assumption that they do in fact incentivize miners to collude to form a hostile majority. However empirical observation has shown that miners have not yet colluded to steal despite such contracts existing, suggesting there is some other counter- or dis-incentive preventing them from doing so.[109] It's also possible that there's simply a tipping point that has yet to be reached and it's only a matter of time before the collusion and theft these contracts incentivize finally occurs. With such contracts having already been deployed in the wild, only time will tell what harm or lack thereof they do to their host networks. Once again, more time and research is needed.
+
+**Fully-automated totalitarianism**
+
+Here we again reference the rollup designs from Section 5 that require the use of recursive covenants. The defining quality of a recursive covenant is that it not only defines the conditions under which a UTXO locked in the covenant script can be spent, but it also defines the type of script that the UTXO can be encumbered by after it is spent (hence the name "recursive" covenant). In theory, a recursive covenant can require a UTXO to be locked into the same type of restrictive script forever, no matter how many times the UTXO is spent.
+
+Some commentators have cited the recursive restrictions enabled by recursive covenants as justification for pushing back on the implementation of covenants in bitcoin.[110, 111] They point out that this capability could be used by totalitarian governments to force bitcoin users in their jurisdictions to lock their satoshis into recursive covenants where the government has programmed in their control of the satoshis in perpetuity. While that would indeed be technically possible to implement with recursive covenants, that is only one way that such controls could be implemented.
+
+It is currently possible for governments to implement restrictions on how the satoshis owned by their citizens can be transferred, and in a much more flexible way than recursive covenants allow, using a type of smart contract that has been standard in bitcoin for over a decade: multisig.[112] The basic idea is that the government would require satoshis owned by their citizens to be encumbered by a multisig script that requires a signature from both a government-controlled private keys and the actual owner's private key in order to transfer the satoshis to another address. Before the government co-signs the transaction, the computer that has control of the government's private key will check to make sure that the transaction is following a transfer policy that is defined offchain in a normal text file that is stored on the government's computer. If the transaction complies with this transfer policy, then the government computer will co-sign the transaction. If the transaction does not comply with the transfer policy (for example, by trying to transfer satoshis to an address that the government has not approved) then the government copmuter will not co-sign the transaction and the transaction will effectively be blocked. If the government ever wants to update their transfer policy to add or remove restrictions, then it's as simple as updating the offchain text file that defines the policy.
+
+A working example showing how transfer restrictions can be implemented using multisig is found in Blockstream AMP, a platform developed by the company Blockstream to support the managed issuance and transfer of assets on the Liquid blockchain.[113] Despite the Liquid blockchain already having support for recursive covenants, Blockstream still decided to implement transfer restrictions using multisig. Blockstream explains in their documentation that transfer restrictions implemented at the smart contract level are "very difficult to adapt to fast-moving regulations worldwide".[114] In contrast, "Blockstream AMP implements transfer restrictions through a simple multisig authorizer setup, providing [the user] with flexibility to adapt to shifting regulations."[ibid]
+
+Implementing spending restrictions offchain using multisig would enable the government to change the restrictions whenever they want and make the restrictions as complex as they want. If the government implemented the restrictions directly in a smart contract using a recursive covenant, then their restrictions would be constrained by the size limits and capabilities of bitcoin Script. Allowing for the possibility of changing the transfer restrictions, to mirror the inevitable changes in offchain government policy, would require additional script complexity.
+
+If support for recursive covenants was added to bitcoin, and a government wanted to implement totalitarian controls over how its citizens could transfer their satoshis, they would be more likely to implement such controls using multisig, not recursive covenants, due to the flexibility offered by offchain transfer policies. In any case, the takeaway here is that, contrary to popular belief, from a practical standpoint recursive covenants do not introduce any new risks when it comes to government-enforced transfer restrictions.
 
 ### 6.5 Provoking authoritarians
 While the very existence of bitcoin itself is a provocation toward authoritarians who seek to control how other people earn, save, and spend money, validity rollups could add whole new provocative dimensions to bitcoin.
@@ -391,7 +408,7 @@ Censorship-resistant smart contracts provide permissionless access to finance ou
 Decentralized domain name systems provide websites with censorship-resistant memorable identities. When combined with shielded bitcoin used to pay file hosts on decentralized filesharing protocols such as Bittorrent or IPFS, it becomes possible to create websites that are nearly impossible to take down. In societies where activists and journalists are targeted for the information they publish, this could be a real thorn in the side of authoritarians.
 
 **To be (a powerful and private smart contract platform) or not to be...**
-Giving people new tools to fight authoritarians is a good thing. The risk is that these powerful new tools invite more negative attention to bitcoin. Where freedom vs authoritarianism is concerned, the anti-authoritarian bitcoin community may be willing to say, "bring it on". But these powerful new tools enabled by validity rollups can be used for harmful purposes as well. Just as private payments can be used by someone to escape the prying eyes of their abusive domestic partner, private payments can also be used to facilitate untraceable ransom payments. Just as a censorship-resistant website can be used to host an uncomfortable political truth, it can also be used to host nonconsensual material that victimizes innocent people. The bitcoin community already has to deal with these kinds of concerns, but validity rollups could amplify them even further.[110, 111]
+Giving people new tools to fight authoritarians is a good thing. The risk is that these powerful new tools invite more negative attention to bitcoin. Where freedom vs authoritarianism is concerned, the anti-authoritarian bitcoin community may be willing to say, "bring it on". But these powerful new tools enabled by validity rollups can be used for harmful purposes as well. Just as private payments can be used by someone to escape the prying eyes of their abusive domestic partner, private payments can also be used to facilitate untraceable ransom payments. Just as a censorship-resistant website can be used to host an uncomfortable political truth, it can also be used to host nonconsensual material that victimizes innocent people. The bitcoin community already has to deal with these kinds of concerns, but validity rollups could amplify them even further.[115, 116]
 
 This is another one of those issues where if validity rollups are enabled, the bitcoin community will have to make a decision about exactly _what kind_ of rollups will be enabled: does the bitcoin community invite the full contents of Pandora's box to be released on Layer 2, or are there certain features or smart contracts that bitcoin users should never be allowed to access in a trustless manner? I phrase the question that way, with an emphasis on "trustless" because the alternative to supporting these powerful and controversial use-cases directly on bitcoin (via a Layer 1 extension or as a new protocol on Layer 2) is not that these use cases will never happen and all risk and harm from such use cases will be averted. The alternative is the status quo, where bitcoin users must give up control of their satoshis to trusted "bridges" in exchange for IOUs on sidechains or altcoin chains where these use cases are actually supported.[64] On this question, the choice before the bitcoin community isn't between _risk_ or _no risk_, it's between _risk without trusted third parties / with fewer trusted third parties_ or _risk with trusted third parties / more trusted third parties_.
 
@@ -499,7 +516,7 @@ We can see in Table 5 how validity rollups are designed with a unique combinatio
 
 Due to many of bitcoin's current limitations (e.g. limited scripting capabilities) and qualities (e.g. transparent transaction amounts) the efforts to reduce the traceability and improve the privacy of bitcoin transactions are always an uphill battle. Examples of such protocols built for bitcoin include Cahoots, CoinJoin, CoinSwap, PayJoin, TumbleBit, stealth addresses, and variations or spinoffs thereof.
 
-Perhaps the most important weakness of bitcoin that makes privacy difficult is also seen as one of bitcoin's biggest strengths: the transparent nature of transaction amounts i.e. bitcoin's public auditability. Because bitcoin transaction amounts are transparent and publicly visible on the blockchain, they can be used to correlate senders and recipients and distinguish recipient addresses from change addresses and self-sends.[114, 115] Bitcoin privacy protocols try to fight these heuristics by mixing coins with one or more other users and by creating equal-amount outputs to increase the anonymity set of each transaction. But if any participant in the mix does something to de-anonymize themselves, they are removed from the anonymity set (sometimes without other mix participants even knowing). Eventually, an anonymity set can be whittled down to being no larger than a single-output transaction. This gradual degradation of mix anonymity sets makes bitcoin privacy inherently fragile, requiring constant costs (incurred as mining fees) to maintain anonymity set sizes via re-mixing.
+Perhaps the most important weakness of bitcoin that makes privacy difficult is also seen as one of bitcoin's biggest strengths: the transparent nature of transaction amounts i.e. bitcoin's public auditability. Because bitcoin transaction amounts are transparent and publicly visible on the blockchain, they can be used to correlate senders and recipients and distinguish recipient addresses from change addresses and self-sends.[114, 115] Bitcoin privacy protocols try to fight these heuristics by mixing coins with one or more other users and by creating equal-amount outputs to increase the anonymity set of each transaction. But if any participant in the mix does something to de-anonymize themselves, they are removed from the anonymity set (sometimes without other mix participants even knowing). Eventually, an anonymity set can be whittled down to being no larger than a single-output transaction.[116] This gradual degradation of mix anonymity sets makes bitcoin privacy inherently fragile, requiring constant costs (incurred as mining fees) to maintain anonymity set sizes via re-mixing or other "post-mix" privacy techniques.
 
 The cost of maintaining anonymity set sizes, plus the requirement to wait for a sufficient number of users to mix equal-amount outputs to gain a sufficiently large anonymity set, can make bitcoin privacy techniques impractical for point of sale transactions or transactions of low value. There is justification for hoping that offchain protocols such as Lightning can offer improvemnts: because Lightning transactions are offchain, the details of transactions are only known to each node along a payment channel path, and in some cases only part of the details of the transaction are known to each node along the path. Atomic multipath routing could add even more ambiguity into Lightning payments, since routing nodes would not know whether they are routing the full payment or only part of the payment. However the privacy enabled here is probabilistic at best, and difficult to quantify for both senders and recipients: it could be the case that their counterparties along the path know either very little or everything about their payments. That's not to mention the privacy issues associated with balance probing and channel open/close transactions.[116] In its current form, Lightning is best considered to be a fast and high-throughput payments solution, not a privacy solution.
 
@@ -543,7 +560,7 @@ Zcash is the first implementation of the Zerocash protocol. The defining privacy
 
 ![figure12_vr](https://user-images.githubusercontent.com/9424721/186961677-5b858ee8-9d44-4208-8d9a-f456693c9581.png)
 
-> Image source: [73]
+> Image source: [124]
 
 While Zerocash transactions hide the most transaction information of all currently known techniques, there is still some onchain metadata leakage that could be used to de-anonymize transactions. For example, a Zerocash transaction publicly reveals the amount of inputs and outputs used in the transaction. This has been shown in practice to be enough information to de-anonymize the sender of a Zerocash transaction.[124] While this demonstration was contrived, and there is a way to mitigate this attack by merging the notes together before sending them to their final destination, and the risk of deanonymization decreases the more transactions with like-input-and-output note amounts there are to hide among, the mock attack showed how the little metadata that Zerocash does reveal can be used to deanonymize users. Countermeasures against the onchain (and offchain) metadata leaks that there are must therefore be taken by users (or the wallets of users) who need to remain unidentifiable when transacting with shielded coins.
 
@@ -814,23 +831,31 @@ New - TODO: cleanup
 
 [64] https://lightco.in/2020/08/02/bitcoin-pegs/
 
-[65] https://blog.rsk.co/noticia/blockchain-bridges-an-industry-overview/
+[65] https://eprint.iacr.org/2019/1128
 
-[66] https://yewtu.be/watch?v=9s3EbSKDA3o
+[66] https://blog.rsk.co/noticia/blockchain-bridges-an-industry-overview/
 
-[67] https://bitcoinmagazine.com/technical/state-of-bitcoin-lightning-network-privacy
+[67] https://yewtu.be/watch?v=9s3EbSKDA3o
 
-[68] https://medium.com/boltlabs/zkchannels-for-bitcoin-f1bbf6e3570e
+[68] https://bitcoinmagazine.com/technical/state-of-bitcoin-lightning-network-privacy
 
-[69] https://bitcoiner.guide/privacy/
+[69] https://medium.com/boltlabs/zkchannels-for-bitcoin-f1bbf6e3570e
 
-[70] https://medium.com/aztec-protocol/introducing-private-bitcoin-1cd9d895c770
+[70] https://bitcoiner.guide/privacy/
 
-[71] https://blog.blockstream.com/blockstream-sponsors-federated-e-cash-as-a-bitcoin-scaling-technology/
+[71] https://medium.com/aztec-protocol/introducing-private-bitcoin-1cd9d895c770
 
-[72] http://zerocash-project.org/paper
+[72] https://blog.blockstream.com/blockstream-sponsors-federated-e-cash-as-a-bitcoin-scaling-technology/
 
-[73] https://explorer.zcha.in/transactions/169b903466119c78653eaf94d8d4b69eb51c38a3a6fcaa318f21f41adcec59ea
+[73] http://zerocash-project.org/paper
+
+--
+
+New - TODO: cleanup
+
+[74] https://fc21.ifca.ai/papers/243.pdf
+
+--
 
 [74] https://medium.com/aztec-protocol/launching-aztec-2-0-rollup-ac7db8012f4b
 
@@ -904,9 +929,19 @@ New - TODO: cleanup
 
 [109] https://lightco.in/2022/06/15/miners-can-steal-2/
 
-[110] https://www.pymnts.com/cryptocurrency/2022/privacy-coin-moneros-use-in-ransomware-fuels-growing-security-concerns/
+[110] https://yewtu.be/watch?v=vAE5fOZ2Luw (fast forward to 11:01)
 
-[111] https://fc18.ifca.ai/preproceedings/6.pdf
+[111] https://bitcoinmagazine.com/culture/bitcoin-songsheet-private-property
+
+[112] https://github.com/bitcoin/bips/blob/master/bip-0011.mediawiki 
+
+[113] https://docs.blockstream.com/blockstream-amp/overview.html
+
+[114] https://docs.blockstream.com/blockstream-amp/case-studies.html#case-study-2-exordium-security-token
+
+[115] https://www.pymnts.com/cryptocurrency/2022/privacy-coin-moneros-use-in-ransomware-fuels-growing-security-concerns/
+
+[116] https://fc18.ifca.ai/preproceedings/6.pdf
 
 --
 New - TODO: cleanup
@@ -937,6 +972,14 @@ New - TODO: cleanup
 
 [115] https://en.bitcoin.it/wiki/Privacy#Change_address_detection
 
+--
+
+New - TODO: cleanup
+
+[116] https://arxiv.org/abs/2109.10229v2
+
+--
+
 [116] https://abytesjourney.com/lightning-privacy/
 
 [117] https://docs.grin.mw/about-grin/privacy/
@@ -952,6 +995,14 @@ New - TODO: cleanup
 [122] https://www.exploremonero.com/transaction/9942cb34786bbb46f106ed31a6bb67eeb6e946d592def0900cab60ca83199f22
 
 [123] https://z.cash/technology/zksnarks/
+
+--
+
+New - TODO: cleanup
+
+[124] https://explorer.zcha.in/transactions/169b903466119c78653eaf94d8d4b69eb51c38a3a6fcaa318f21f41adcec59ea
+
+--
 
 [124] https://twitter.com/socrates1024/status/1224434578149888000
 
