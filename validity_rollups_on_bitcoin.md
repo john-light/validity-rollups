@@ -79,11 +79,15 @@ See Appendix A for a table comparing validity rollups to other offchain protocol
 
 ## Section 2. The validity rollup user experience
 
-### Section 2.1 Deploying and using a validity rollup
+### Section 2.1 Deploying a validity rollup
 
 To create a validity rollup, a protocol is implemented on the parent blockchain that defines how the validity rollup works. This protocol includes details such as rollup consensus rules, how to verify that rollup blocks follow the consensus rules, how rollup block producers are selected in case there are multiple competing block producers, a protocol for moving assets from the parent chain to the rollup and back to the parent chain again, etc. The rollup protocol is often implemented as a smart contract that is deployed to the parent chain, however the rollup could also be implemented directly in the consensus rules of the parent chain, making it an "enshrined rollup".[50]
 
-Once the rules of the rollup are defined on the parent chain, the genesis block of the rollup can be published and the block producer(s) can begin advancing the state of the rollup. With each rollup block that gets produced, the rollup transaction data is stored in a state update transaction on the parent chain along with a cryptographic proof of the validity of the rollup block (the "validity proof" — which may or may not also be "zero knowledge" in nature). Once the state update transaction is confirmed on the parent chain, the rollup block is considered confirmed by rollup full nodes and is added to the rollup chain tip. In order to re-organize a rollup block that has been confirmed on the parent chain, the parent chain block that the rollup block was confirmed in would have to be re-organized too. This gives rollups their _inherited double-spend security_ feature.
+Once the rules of the rollup are defined on the parent chain, the genesis block of the rollup can be published and the block producer(s) can begin advancing the state of the rollup. Today, all rollups deployed in production use a centralized block producer, generally to reduce implementation complexity and time-to-market. This is considered an acceptable tradeoff because even if the centralized block producer completely halts block production, users can still confirm a transaction on the parent chain that allows them to unilaterally exit the rollup.[51] This unilateral exit mechanism is described in more detail in Section 2.3. As the existing rollups in production mature, they are expected to transition to decentralized block production.[52, 53]
+
+With each rollup block that gets produced, the rollup transaction data is stored in a state update transaction on the parent chain along with a cryptographic proof of the validity of the rollup block (the "validity proof" — which may or may not also be "zero knowledge" in nature). Once the state update transaction is confirmed on the parent chain, the rollup block is considered confirmed by rollup full nodes and is added to the rollup chain tip. In order to re-organize a rollup block that has been confirmed on the parent chain, the parent chain block that the rollup block was confirmed in would have to be re-organized too. This gives rollups their _inherited double-spend security_ feature. 
+
+### Section 2.2 Using a validity rollup
 
 To begin using a rollup, a new user has two options: either transfer an existing asset from the parent chain to the rollup, or receive a transfer from someone who already owns an asset on the rollup. Transferring an asset from the parent chain to the rollup is straightforward: the user sends a deposit transaction to the rollup contract on the parent chain specifying the asset and amount to deposit from their address, along with the rollup address that should receive the deposit. Once the deposit transaction is confirmed on the parent chain, the user will receive their asset in their specified rollup address and can then freely transfer the asset to any other rollup address as they would if they were using the base layer blockchain.
 
@@ -97,13 +101,15 @@ The ability to freely transfer assets on a rollup to any other rollup address ma
 > 
 > The economic penalty provides transaction recipients a strong guarantee that pending transactions cumulatively worth less than the value of the security bond will be confirmed as promised. Recipients can thus treat the signed receipt from block producers "as good as cash", providing ~instant confirmation for their transaction. [51]
 
+### Section 2.3 Exiting a validity rollup
+
 To transfer assets on the rollup back to an address on the parent chain, a rollup user submits a withdrawal transaction to the rollup, specifying the asset and amount to withdraw, along with the parent chain address that should receive the withdrawal. Once the withdrawal transaction is confirmed on the rollup, the withdrawn asset will be deleted from the rollup ledger and the rollup smart contract on the parent chain will send the withdrawn asset to the specified parent chain address.
 
 If the rollup block producers are uncooperative, for example by refusing to include the user's withdrawal transaction in a rollup block, the user can unilaterally withdraw their funds from the rollup. They can use the rollup block data that has been stored on the parent chain to create a validity proof that will convince parent chain full nodes that they currently own a certain amount of the asset they want to withdraw, then push their withdrawal transaction through by submitting it directly to the rollup smart contract on the parent chain. By storing rollup state root updates and rollup block data on the parent chain, and using validity proofs to ensure the validity of withdrawals, validity rollups offer their users a _secure bridge_ to the parent chain (and by extension, other validity rollups built on the parent chain).[52]
 
-A validity rollup bridge gives users two important guarantees: 1) only users who can cryptographically prove ownership of an asset can transfer that asset on the rollup or withdraw the asset back to the parent chain, and 2) as long users can get a transaction confirmed on the parent chain, users can always advance the state of the rollup, including unilaterally exiting the rollup back to the parent chain, even if rollup block production has otherwise completely halted for whatever reason. These guarantees give assets on the rollup the same level of ownership security as assets owned on the parent chain, giving validity rollups the strongest level of ownership security possible.[53]
+A validity rollup bridge gives users two important guarantees: 1) only users who can cryptographically prove ownership of an asset can transfer that asset on the rollup or withdraw the asset back to the parent chain, and 2) as long users can get the necessary transaction confirmed on the parent chain, users can always advance the state of the rollup, including unilaterally exiting the rollup back to the parent chain, even if rollup block production has otherwise completely halted for whatever reason. These guarantees give assets held on the rollup the same level of ownership security as assets held on the parent chain.
 
-### Section 2.2 Case study: Passing the #tBTCzkSyncTorch
+### Section 2.4 Case study: Passing the #tBTCzkSyncTorch
 
 One of the first multi-user applications of a validity rollup was #tBTCzkSyncTorch, a social media game started by Eric Wall in September 2020. The game was simple: Wall deposited some TBTC ("trustless BTC" on Ethereum) into zkSync, a "Layer 2" validity rollup, then told his followers,
 
@@ -391,7 +397,7 @@ This is another one of those issues where if validity rollups are enabled, the b
 
 ### 6.6 Novel cryptography
 
-The novelty or Lindy factor of the cryptography used in validity proofs depends on what kind of validity proof is being referred to. STARK-based validity proofs rely on the oldest cryptographic primitives and have the weakest security assumptions of the various validity proof systems. SNARK-based validity proofs rely on newer cryptographic primitives such as elliptic curves (as in bitcoin) and have stronger security assumptions.[112]
+The novelty or "Lindy" factor of the cryptography used in validity proofs depends on what kind of validity proof is being referred to.[112] STARK-based validity proofs rely on the oldest cryptographic primitives and have the weakest security assumptions of the various validity proof systems. SNARK-based validity proofs rely on newer cryptographic primitives such as elliptic curves (as in bitcoin) and have stronger security assumptions.[113]
 
 **Figure 9. The Cryptographic Proof Family Trees - Age and cryptographic assumptions**
 
@@ -399,7 +405,17 @@ The novelty or Lindy factor of the cryptography used in validity proofs depends 
 
 > Image source: [ibid]
 
-Another consideration is the age of implementation and "battle hardening" that a given validity proof implementation has gone through. With the oldest production implementations now several years old (about as old as the Schnorr algorithm implementation that was integrated into Bitcoin Core) there are several validity proof systems that could be used or at least looked at for inspiration.[113] Though it should still be noted that the validity proof designs the implementations are based on are relatively new compared to the Schnorr signature algorithm.
+Another consideration is the age of implementation and "battle hardening" that a given validity proof implementation has gone through. With the oldest production implementations now several years old (about as old as the Schnorr algorithm implementation that was integrated into Bitcoin Core) there are several validity proof systems that could be used or at least looked at for inspiration.[114] That said, there have been vulnerabilities found in some production implementations of cryptographic proof protocols.[115, 116] Each time such a vulnerability is discovered in a given cryptographic proof implementation, that implementation's "Lindy clock" is reset back to zero.
+
+While the implementations of the oldest validity proof and Schnorr protocols used by cryptocurrencies in production are now around the same age, the _protocol designs_ that the validity proof implementations are based on are relatively new compared to the Schnorr signature algorithm. This means that the validity proof designs have had less time for review. We can gemerally expect that if there is a vulnerability in a protocol design, then as time goes and the number of reviews the protocol receives increases, the likelihood that the vulnerability will be discovered also increases. For example, during a review of the details of Zcash's "Sprout" cryptographic proof protocol ahead of giving a technical presentation about the protocol in 2018, Ariel Gabizon discovered a critical design flaw that would have enabled an attacker to undetectably counterfeit shielded coins.[117]
+
+The discovery of vulnerabilities in the design and implementation of production cryptographic proof systems shows that additional caution, time, review, and testing is warranted when deploying such a system into a blockchain such as bitcoin where it may not be possible to fix a vulnerability without a consensus-level software update.
+
+### 6.7 Compromised "toxic waste"
+
+Some cryptographic proof protocols rely on a "parameter generation ceremony" (also known as a "trusted setup") to instantiate the protocol.[118] The purpose of this ceremony is to generate "public parameters" that can be used to verify the validity proofs produced by users of the protocol. In order to generate the public parameters, random numbers have to be used as inputs. If a user knows all of the random numbers used to generate the public parameters, they will be able to produce counterfeit proofs that appear valid even though the transaction the proof is validating violates the basic expectations of the protocol e.g. a user with all of the random numbers could mint coins "out of thin air" rather than minting them via the mining protocol. Because these random numbers are both critical to the integrity of the protocol and necessary byproducts of the protocol setup that must be carefully kept separate from each other at all time, they are often referred to as "toxic waste".
+
+STARK-based proof protocols, being "transparent" in nature, inherently do not require a parameter generation ceremony.[119] Most SNARK-based proof protocols, however, including all of the proof protocols used by SNARK-based validity rollups in production today, do require a parameter generation ceremony. However in 2019 Sean Bowe discovered how to do zero-knowledge proof constructions on ordinary elliptic curves, with the exciting outcome that zk-SNARKs could be produced without the need for a parameter generation ceremony.[120] Later that year, Bowe published a paper with co-authors Daira Hopwood and Jack Grigg describing the new protocol, which they named "Halo", in detail.[83] The invention of the Halo protocol opens the possbility of SNARK-based validity rollups that do not require a parameter generation ceremony, thereby eliminating the toxic waste vulnerability.
 
 ---
 
@@ -407,7 +423,7 @@ Another consideration is the age of implementation and "battle hardening" that a
 
 Validity rollups are part of a decade-long history of protocols designed to improve the scalability and capabilities of blockchain-based digital asset and smart contracts.
 
-We can see in Table 5 how validity rollups are designed with a unique combination of onchain data availability and validity proofs, giving them no channel or denomination limit and ownership security equal to that of their parent chain.
+We can see in Table 5 how validity rollups are designed with a unique combination of onchain data availability and validity proofs, giving them no channel or denomination limit and ownership security equal to that of their parent chain. See also similar comparisons (sans rollups) by Gudgeon et al in their April 2019 paper "SoK: Layer-Two Blockchain Protocols".[121]
 
 **Table 5. Protocol comparison table**
 
@@ -573,6 +589,8 @@ Since data availability is provided offchain, it is expected that storing valuti
 
 In an April 2021 blog post, Matter Labs proposed the first validity valutia, zkPorter.[126] The design Matter Labs proposed used Ethereum as the settlement layer and a network of zkSync token stakers for data availability. In a February 2022 blog post, Celestia Labs proposed a similar valutia design called a Celestium, which could work with validity proof- or fault proof-secured bridges.[127] Celestia Labs proposed that Celestiums would use Ethereum as the settlement layer and a separate blockchain called Celestia specifically for data availability.
 
+In the May 2019 "LazyLedger: A Distributed Data Availability Ledger With Client-Side Smart Contracts" paper that Celestia is based on, Al-Bassam proposes using "data availability sampling" so that valutia chain nodes that rely on LazyLedger for data availability do not have to download the entire LazyLedger blockchain to confirm whether or not the data is available.[128] This data availability sampling technique is based on earlier work by Al-Bassam et al in the September 2018 paper "Fraud Proofs: Maximising Light Client Security and Scaling Blockchains with Dishonest Majorities".[129] Later research published by Joachim Neu in August 2022 shows that data availability sampling is not a silver bullet, and there remain several open questions about the effectiveness of this technique at scale.[130]
+
 ### Volition
 
 A volition gives users a choice on a per-transaction basis between storing data onchain ("rollup mode") or storing data offchain ("validium/valutia mode"). If the user chooses rollup mode, then the data that they need to unilaterally exit the volition is stored inside a parent chain block as it is with a validity rollup. If the user chooses validium/valutia mode, then the data is stored using whatever offchain data availability solution the volition is configured to use.
@@ -612,14 +630,14 @@ The Adamantium model was first described by Starkware in their June 2020 post "V
 
 In the October 2014 paper "Enabling Blockchain Innovations with Pegged Sidechains" by Back et al, the authors defined a pegged sidechain as:
 
-> a sidechain whose assets can be imported from and returned to other chains; that is, a sidechain that supports two-way pegged assets. (p. 8)
+> a sidechain whose assets can be imported from and returned to other chains; that is, a sidechain that supports two-way pegged assets.[129]
 
-Back et al also gave pegged sidechains these ownership security requirements:
+In the same paper, Back et al also gave pegged sidechains these ownership security requirements:
 
 > 1.  Assets which are moved between sidechains should be able to be moved back by whomever their current holder is, and nobody else (including previous holders).
-> 2.  Assets should be moved without counterparty risk; that is, there should be no ability for a dishonest party to prevent the transfer occurring. (p. 5)
+> 2.  Assets should be moved without counterparty risk; that is, there should be no ability for a dishonest party to prevent the transfer occurring.[ibid]
 
-The authors go on to specify the design of a sidechain that uses SPV proofs to facilitate the transfer of coins between the parent chain and a pegged sidechain.[53] The problem with the SPV proof design is that it does not actually satisfy the two ownership security requirements defined for pegged sidechains. Requirement (1) is violated because a majority of parent chain hashpower managers (miners or pool operators) would be able to forge SPV proofs to move coins they are not the "current holder" of, according to the current sidechain state, out of the sidechain script and into one or more parent chain addresses of their choosing. This is the "parent chain miners can steal" problem mentioned in Table 5 and also described in Section 6.4 of this report and Section 4.2 of the pegged sidechains whitepaper.[ibid] Requirement (2) is violated because a "dishonest" hashpower majority can censor legitimate withdrawal transactions to prevent users from moving their coins from the sidechain back to a parent chain address.
+In Section 3 of the pegged sidechains paper, Back et al go on to specify the design of a sidechain that uses SPV proofs to facilitate the transfer of coins between the parent chain and a pegged sidechain.[ibid] The problem with the SPV proof design is that it does not actually satisfy the two ownership security requirements defined for pegged sidechains. Requirement (1) is violated because a majority of parent chain hashpower managers (miners or pool operators) would be able to forge SPV proofs to move coins they are not the "current holder" of, according to the current sidechain state, out of the sidechain script and into one or more parent chain addresses of their choosing. This is the "parent chain miners can steal" problem mentioned in Table 5 of this report, described in Section 6.4 of this report, and also described in Section 4.2 of the pegged sidechains whitepaper.[ibid] Requirement (2) is violated because a "dishonest" hashpower majority can censor legitimate withdrawal transactions to prevent users from moving their coins from the sidechain back to a parent chain address.
 
 Validity rollups satisfy requirement (1), but do not satisfy requirement (2) for the same reason that the SPV proof design does not satisfy requirement (2). It is a fundamental feature of bitcoin that 51% attackers are able to control the contents of the blockchain _absolutely_ from the moment they gain the hashpower majority, and so it is a given that they can prevent a transaction from being confirmed until an "honest" majority regains control. So in practice requirement (2) is impossible to satisfy so long as bitcoin relies on Nakamoto consensus for security and transaction withholding goes unpunished.
 
@@ -627,22 +645,22 @@ Another protocol that satisfies requirement (1) is a validity sidechain. This is
 
 > An exciting recent development in academic cryptography has been the invention of SNARKs. SNARKs are space-efficient, quickly verifiable zero-knowledge cryptographic proofs that some computation was done... Then blocks could be constructed which prove their changes to the unspent-output set, but do so in zero-knowledge in the actual transactions. They could even commit to the full verification of all previous blocks, allowing new users to get up to speed by verifying only the single latest block. These proofs could also replace the DMMSes used to move coins from another chain by proving that the sending chain is valid according to some rules previously defined. [ibid]
 
-The first production implementation of a validity sidechain protocol is Zendoo, which was activated on the Horizen mainnet in December 2021.[129] The Zendoo protocol works by requiring that sidechains are registered on the parent chain and then submit "withdrawal certificates" as checkpoints on the parent chain at the end of each sidechain "epoch". Each epoch consists of some number of sidechain blocks that have been added to the chain tip since the end of the previous epoch, plus the forward and backward transfer requests to and from the sidechain. The withdrawal certificate contains data about the sidechain, such as the sidechain ID, the epoch ID, the quality of the certificate (showing that it represents the state of the canonical chain), a hash of the current state of the sidechain, a hash of the last sidechain block accounted for, a bit vector defining all of the UTXOs that have been modified (consumed and created), and a zk proof that proves that the withdrawal certificate is valid according to both the rules of the sidechain and the Zendoo protocol implemented on the parent chain.
+The first production implementation of a validity sidechain protocol is Zendoo, which was activated on the Horizen mainnet in December 2021.[129] The Zendoo protocol works by requiring that sidechains are registered on the parent chain and then submit "withdrawal certificates" as checkpoints on the parent chain at the end of each sidechain "epoch". Each epoch consists of some number of sidechain blocks that have been added to the chain tip since the end of the previous epoch, plus the forward and backward transfer requests to and from the sidechain. The withdrawal certificate contains data about the sidechain, such as the sidechain ID, the epoch ID, the quality of the certificate (showing that it represents the state of the canonical chain), a hash of the current state of the sidechain, a hash of the last sidechain block accounted for, a bit vector defining all of the UTXOs that have been modified (consumed and created), and a validity proof that proves that the withdrawal certificate is valid according to both the rules of the sidechain and the Zendoo protocol implemented on the parent chain.
 
-A problem can arise if the majority of sidechain block producers continue to produce blocks for an epoch but they do not share the data for these blocks with anyone else, and at they end of the epoch they confirm a withdrawal certificate for this epoch. This can create a data availability problem. If the sidechain experiences this data withholding fault, then any user who had a transaction confirmed in the unavailable block(s) and _does not_ have the data for the transaction will lose access to the UTXO(s) involved until the data becomes available. However, using the information in the withdrawal certificate confirmed on the parent chain, all users who _do_ have a copy of the transaction in which they received a UTXO in the current UTXO set (even just a copy of the raw transaction broadcast over the p2p network) will have enough data to produce a zk proof that proves they own the UTXO as of the last confirmed sidechain state. The zk proof can then be used to unilaterally exit the sidechain back to the parent chain.
+A problem can arise if the majority of sidechain block producers continue to produce blocks for an epoch but they do not share the data for these blocks with anyone else, and at they end of the epoch they confirm a withdrawal certificate for this epoch. This can create a data availability problem. If the sidechain experiences this data withholding fault, then any user who had a transaction confirmed in the unavailable block(s) and _does not_ have the data for the transaction will lose access to the UTXO(s) involved until the data becomes available. However, using the information in the withdrawal certificate confirmed on the parent chain, all users who _do_ have a copy of the transaction in which they received a UTXO in the current UTXO set (even just a copy of the raw transaction broadcast over the p2p network) will have enough data to produce a proof showing that they own the UTXO as of the last confirmed sidechain state. The validity proof can then be used to unilaterally exit the sidechain back to the parent chain.
 
-The Zendoo protocol accepts a nuanced tradeoff between data availability and scalability. Recall that in each state update confirmed in the parent chain blocks, validity rollups store all of the transaction data that users need to produce their own validity proofs and unilaterally exit back to the parent chain. Validity rollups on bitcoin could therefore confirm at most around 250,000 transactions in bitcoin's 4 million WU block size limit (see details in Table 2). In contrast, Zendoo stores a highly compressed representation of the current state of the sidechain in parent chain blocks. This compressed representation of the sidechain state puts some users at a risk of data unavailability and imposes a limit on the number of UTXOs that can exist on the sidechain. This puts Zendoo somewhere between validity rollups and validia chains in terms of the strength of its ownership security and its scalability potential.
+The Zendoo protocol accepts a nuanced tradeoff between data availability and scalability. Recall that in each state update confirmed in the parent chain blocks, validity rollups store all of the transaction data that users need to produce their own validity proofs and unilaterally exit back to the parent chain. Validity rollups on bitcoin could therefore confirm at most around 250,000 transactions in bitcoin's 4 million WU block size limit (see details in Table 2). In contrast, Zendoo stores a highly compressed representation of the current state of the sidechain in parent chain blocks. This compressed representation of the sidechain state puts some users at risk of data unavailability and imposes a limit on the number of UTXOs that can exist on the sidechain. This puts Zendoo somewhere between validity rollups and validia chains in terms of the strength of its ownership security and its scalability potential.
 
-The current implementation of Zendoo has a fixed cost of around 152 kilobytes (KB) per withdrawal certificate, assuming a zk proof size of about 45 KB, a bit vector size of about 106 KB (though this varies based on the parameters of the bit vector), and 1 KB for the other miscellaneous sidechain information included in the certificate. The 106 KB bit vector is parameterized to store a maximum of 4,000,000 sidechain UTXOs and 100,000 UTXO updates per epoch. This means that 100,000 transactions could occur on the Zendoo sidechain and so long as the sidechain UTXO set never contains more than 4 million UTXOs, the cost in terms of parent chain block space will be 152 KB per epoch.
+The current implementation of Zendoo has a fixed cost of around 152 kilobytes (KB) per withdrawal certificate, assuming a validity proof size of about 45 KB, a bit vector size of about 106 KB (though this varies based on the parameters of the bit vector), and 1 KB for the other miscellaneous sidechain information included in the certificate. The 106 KB bit vector is parameterized to store a maximum of 4,000,000 sidechain UTXOs and 100,000 UTXO updates per epoch. This means that 100,000 transactions could occur on the Zendoo sidechain and so long as the sidechain UTXO set never contains more than 4 million UTXOs, the cost in terms of parent chain block space will be 152 KB per epoch.
 
-**Table 7. Comparing the per-block capacity of different types of UTXO model dual-funded Lightning channel open transactions**
+**Table 7. Comparing the transaction throughput of UTXO-model validity rollups and validity sidechains, using bitcoin as the parent chain**
 
 | Transaction type             | 1,000,000 WU                          | 3,000,0000 WU                       | Total (tx/block) |
 | ---------------------------- |:-------------------------------------:|:-----------------------------------:|:----------------:|
 | Rollup 1-input-2-output UTXO | Validity proof, script, other tx data | 26,432 txs (113.5 WU/tx)            | 26,432           |
 | Zendoo 1-input-2-output UTXO | Validity proof, script, other tx data | 100,000 txs (106,000 WU/bit vector) | 100,000          |
 
-> Table 7 description: The block is broken up into 1,000,000 WU and 3,000,000 WU portions to illustrate how in the case of rollup transactions, some of the weight limit is reserved for the validity proof and script data while the rest can be used for the rollup transaction data. In the case of Zendoo state updates, there is also a fixed for the validity proof and script data, and Zendoo state updates currently max out at around 100,000 txs per bit vector costing at most 106,000 WU per withdrawal certificate (assuming that, similar to validity rollup data as described in Section 4.1, the witness discount is applied to Zendoo bit vector data).
+> Table 7 description: The block is broken up into 1,000,000 WU and 3,000,000 WU portions to illustrate how in the case of rollup transactions, some of the weight limit is reserved for the validity proof and script data while the rest can be used for the rollup transaction data. In the case of Zendoo state updates, there is also a fixed cost for the validity proof and script data. Zendoo state updates currently max out at around 100,000 txs per bit vector, costing at most 106,000 WU per withdrawal certificate (assuming that, similar to validity rollup data as described in Section 4.1, the witness discount is applied to Zendoo bit vector data).
 
 ## Appendix E. Enabling additional throughput increases with validity proofs
 
@@ -758,11 +776,21 @@ This "proof-sync" technique may solve the IBD problem of large blocks, but it do
 
 [50] https://polynya.medium.com/updated-thoughts-on-modular-blockchains-ce1b159fa1b3
 
+--
+
+New - TODO: cleanup
+
+[51] https://docs.zksync.io/userdocs/security/#priority-queue
+
+[52] https://fuel-labs.ghost.io/token-model-layer-2-block-production/
+
+[53] https://www.alexbeckett.xyz/decentralized-sequencers-where-do-we-go-next/
+
+--
+
 [51] https://blog.matter-labs.io/introducing-zk-sync-the-missing-link-to-mass-adoption-of-ethereum-14c9cea83f58
 
 [52] https://blog.celestia.org/clusters/
-
-[53] https://blockstream.com/sidechains.pdf 
 
 [54] https://twitter.com/ercwl/status/1311452208127447044
 
@@ -880,9 +908,30 @@ This "proof-sync" technique may solve the IBD problem of large blocks, but it do
 
 [111] https://fc18.ifca.ai/preproceedings/6.pdf
 
-[112] https://twitter.com/allenyhsu/status/1203879946591981568
+--
+New - TODO: cleanup
 
-[113] https://tradelayer.substack.com/p/trade-offs-in-zk-design-space
+[112] https://en.wikipedia.org/wiki/Lindy_effect
+
+[113] https://twitter.com/allenyhsu/status/1203879946591981568
+
+[114] https://tradelayer.substack.com/p/trade-offs-in-zk-design-space
+
+[115] https://electriccoin.co/blog/zcash-counterfeiting-vulnerability-successfully-remediated/
+
+[116] https://medium.com/aztec-protocol/vulnerabilities-found-in-aztec-2-0-9b80c8bf416c
+
+[117] https://hackmd.io/@aztec-network/disclosure-of-recent-vulnerabilities
+
+[118] https://vitalik.ca/general/2022/03/14/trustedsetup.html
+
+[119] https://medium.com/starkware/stark-math-the-journey-begins-51bd2b063c71
+
+[120] https://yewtu.be/watch?v=8qSA29vWWds
+
+[121] https://eprint.iacr.org/2019/360
+
+--
 
 [114] https://en.bitcoin.it/wiki/Privacy#Amount_correlation
 
@@ -912,7 +961,26 @@ This "proof-sync" technique may solve the IBD problem of large blocks, but it do
 
 [127] https://blog.celestia.org/celestiums/
 
+--
+New - TODO: cleanup
+
+[128] https://arxiv.org/abs/1905.09274
+
+[129] https://arxiv.org/abs/1809.09044v4
+
+[130] https://www.paradigm.xyz/2022/08/das
+
+--
+
 [128] https://ethresear.ch/t/adamantium-power-users/9600
+
+--
+
+New - TODO: cleanup
+
+[129] https://blockstream.com/sidechains.pdf 
+
+--
 
 [129] https://blog.horizen.io/horizens-cross-chain-protocol-zendoo-is-live-on-mainnet-build-on-the-zero-knowledge-network-of-blockchains/
 
