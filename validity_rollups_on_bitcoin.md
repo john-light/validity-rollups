@@ -9,6 +9,32 @@ By John Light
 
 Contact the author: https://lightco.in/contact
 
+## Table of contents
+
+- Acknowledgements **(TODO)**
+- Preface
+- Section 0. The history and prehistory of validity rollups
+- Section 1. An introduction to validity rollups
+- Section 2. The validity rollup user experience
+- Section 3. Enabling new functionality
+- Section 4. Scaling improvements
+- Section 5. Building validity rollups on bitcoin
+- Section 6. The costs and risks of validity rollups
+- Conclusion **(TODO)**
+- Appendix A. Comparing validity rollups to other protocols
+- Appendix B. Comparing alternative cryptocurrency privacy techniques
+- Appendix C. Increasing throughput with offchain data availability
+- Appendix D. A closer look at validity sidechains
+- Appendix E. Enabling additional throughput increases with validity proofs
+- References **(TODO)**
+- License **(TODO)**
+
+## Preface
+
+Ever since Satoshi Nakamoto first publicly announced bitcoin, its supporters, critics, and skeptics alike have questioned how the protocol would scale as usage increases over time. This question is more important than ever today, as blocks are increasingly full or close to full of transactions. So-called "Layer 2" protocols such as Lightning have been deployed to take some transaction volume "offchain" but even Lightning needs to use _some_ bitcoin block space. It's clear that as bitcoin is adopted by more and more of the world's population (human and machine alike!) more block space will be needed. Another thread of inquiry concerns whether bitcoin's limited scripting capabilities help or hinder its value as electronic cash. Researchers and inventors have shown that the electronic cash transactions first made possible by bitcoin could be given new form by improving transaction privacy, supporting new types of smart contracts, and even creating entirely new blockchain-based assets.
+
+One of the results of the decade-plus research into scaling and expanding the capabilities of blockchains such as bitcoin is the invention of the validity rollup. Given the observed benefits that validity rollups have for the blockchains that have implemented them, attention now turns to the question of whether they would be beneficial for bitcoin and existing Layer 2 protocols such as Lightning, too. We explore this question by closely investigating validity rollup protocols, looking at their history, how they work on a technical level, how they could be built on bitcoin, and what the benefits, costs, and risks of building them on bitcoin might be. We conclude that validity rollups have the potential to improve the scalability, privacy, and programmability of bitcoin without sacrificing its core values or functionality as a peer-to-peer electronic cash system. Given the nature of validity rollups as cryptographically-secured extensions of their base layer, and given bitcoin's status as the most secure settlement layer, one could even say these protocols are a _perfect match_ for one another.
+
 ## Section 0. The history and prehistory of validity rollups
 
 ### Section 0.1 Early applications of cryptographic proofs in cryptocurrencies
@@ -244,7 +270,7 @@ If the parent chain is bitcoin, and the available capacity per block is the same
 | Mainchain 1-input-2-output P2WPKH     | 1,782.5 txs (561 WU/tx)               | 5,347.6 txs (561 WU/tx)  | 7,130            |
 | Rollup shielded 1-input-2-output UTXO | Validity proof, script, other tx data | 4,552 txs (659 WU/tx)    | 4,552            |
 
-> Table 2 description: Note that these figures assume that the witness discount is applied to all of the transaction data that is part of a rollup block. The mainchain block is broken up into 1,000,000 WU and 3,000,000 WU portions in the table to illustrate how in the case of rollup transactions, some of the weight limit must be used for the rollup validity proof and script data while the rest can be used for the rollup transaction data. 
+> Table 2 description: Note that these figures assume that the witness discount is applied to all of the transaction data that is part of a rollup block. The mainchain block is broken up into 1,000,000 WU and 3,000,000 WU portions in the table to illustrate how in the case of rollup transactions, some of the weight limit must be used for the rollup validity proof and script data while the rest can be used for the rollup transaction data.
 
 So far we have only discussed throughput increases in terms of transactions per block based on the currently-available data storage space in each bitcoin block. But unlike bitcoin transactions — even those in a hypothetical world with transaction size optimizations such as cross-input signature aggregation — bitcoin full nodes do not have to execute each validity rollup transaction to determine if they are valid or not. The only computation bitcoin full nodes have to perform to verify a block's worth of validity rollup transactions is to verify a validity proof. A rollup validity proof takes the same amount of time and computational effort to verify whether it is proving the validity of one transaction or a full block's worth of transactions. To take further advantage of this gain in computational efficiency, additional "dumb storage" space per bitcoin block could be provided for rollup transactions. This would enable even more rollup transactions to fit per bitcoin block without any additional CPU burden on bitcoin full nodes.
 
@@ -314,19 +340,23 @@ Despite the popularity of using Turing-complete programming languages to build r
 
 Giving bitcoin full nodes the ability to verify a validity proof is an obvious change that is needed to support validity rollups, since validity proofs are an essential part of how validity rollups work. For this component, whoever writes the code to enable validity proof verification in bitcoin will need to make some decisions about the types of rollups they want to enable. Implementing the ability to verify proofs of more complex programs will enable rollups with more capabilities (e.g. more expressive smart contracts, like Rootstock or Stacks) while simpler proofs would enable rollups with fewer capabilities (e.g. simple payments and limited opcodes, like Liquid or bitcoin).
 
-Recursive covenants are a type of smart contract that restricts the type of script that satoshis can be sent to once they are spent. Del Bonis uses recursive covenenants to ensure that satoshis that are locked in a rollup script and haven't been withdrawn by their owner yet remain in the script from one rollup state update to the next. Once the owner of satoshis on the rollup confirms a valid withdrawal transaction on the rollup, then they can exit the recursive covenant script with their satoshis to the Layer 1 withdrawal address they specified.
+Less obvious is the need for recursive covenants, at least in the Del Bonis bitcoin rollup design. Recursive covenants are a type of smart contract that restricts the type of script that satoshis can be sent to once they are spent. Del Bonis uses recursive covenenants to ensure that satoshis that are locked in a rollup script and haven't been withdrawn by their owner yet remain in the script from one rollup state update to the next. Once the owner of satoshis on the rollup confirms a valid withdrawal transaction on the rollup, then they can exit the recursive covenant script with their satoshis to the Layer 1 withdrawal address they specified.
 
-Recursive covenants are a change to Script that has long been considered by the bitcoin community. As of February 2022, Dave Harding reports that, "I believe the last time the merits of allowing recursive covenants was discussed at length on this list, not a single person replied to say that they were opposed to the idea."[90] However there are currently no specific proposals that have achieved broad consensus among the bitcoin developer community to implement recursive covenants.
+Recursive covenants are a change to Script that has long been considered by the bitcoin community. As of February 2022, Dave Harding reports that, "I believe the last time the merits of allowing recursive covenants was discussed at length on this list, not a single person replied to say that they were opposed to the idea."[90] However there are currently no specific proposals that have achieved broad consensus among the bitcoin developer community to implement recursive covenants. There are proposals such as BIP-118 and BIP-119 that enable more limited covenants, but these do not have the recursion property needed to ensure that UTXOs sent to the rollup remain in the rollup until their owner is ready to withdraw them back to the bitcoin mainchain.[91, 92]
 
-The OP_EVAL and PUSHSCRIPT opcodes are nice-to-haves that reduce the size of the rollup script in some areas, reducing the amount of blockspace used and therefore making rollups cheaper to use, all else being equal. Increasing or removing the stack element size limit is another nice-to-have that makes rollups cheaper to use, in this case by increasing the number of transactions that can fit into each rollup state update, thereby enabling the cost of the rollup update to be shared by a larger number of transactions.
+Del Bonis identifies the OP_EVAL and PUSHSCRIPT opcodes as nice-to-haves that reduce the size of the rollup script in some areas, reducing the amount of blockspace used and therefore making rollups cheaper to use, all else being equal. Increasing or removing the stack element size limit are another nice-to-have that he identifies as making rollups cheaper to use, in this case by increasing the number of transactions that can fit into each rollup state update, thereby enabling the cost of the rollup update to be shared by a larger number of transactions.[89]
 
-The Del Bonis rollup design is one way to build validity rollups on bitcoin, but not the only way. For example, it would be possible to add an extension block to bitcoin with custom logic that supports the creation of specific or arbitrary rollup designs. In his post, Del Bonis discusses several alternative ways that rollups could be built on bitcoin, either as minor tweaks to his more detailed design or using entirely different mechanisms for ensuring the security of funds held in the rollup. Rather than add direct support for the opcodes needed, support for validity rollup primitives could be implemented in Simplicity using Jets, for example.[91]
+The Del Bonis rollup design is one way to build validity rollups on bitcoin, but not the only way. For example, it would be possible to add an extension block to bitcoin with custom logic that supports the creation of specific or arbitrary rollup designs. In his post, Del Bonis discusses several alternative ways that rollups could be built on bitcoin, either as minor tweaks to his more detailed design or using entirely different mechanisms for ensuring the security of funds held in the rollup. Rather than add direct support for the opcodes needed, support for validity rollup primitives could be implemented in Simplicity using Jets, for example.[93]
 
-What is clear is that it is possible to build validity rollups on bitcoin. Some implementations would be more technically difficult to achieve than others, but even with the simpler implementations proposed, bitcoin users stand to gain significant scaling benefits and potentially privacy and other desirable functionality as well.
+The Elements sidechain project (and the Liquid blockchain that is based on Elements) does not yet have support for the validity proofs needed to support a validity rollup, but it does have support for recursive covenants.[94, 95] Implementing support for validity proofs in Elements, along with some of the other changes Del Bonis identified as nice to have, could therefore be a path to testing a validity rollup protocol that is ultimately intended to be deployed to bitcoin.
+
+What is clear is that it is that with some changes it would be possible to build validity rollups on bitcoin. Some designs would be more technically difficult to implement than others, but even with the simpler implementations proposed, bitcoin users stand to gain significant scaling benefits and potentially more privacy and other desirable functionality as well.
 
 ## Section 6. The costs and risks of validity rollups
 
-While the benefits validity rollups can bring to bitcoin in terms of enabling increased transaction throughput, better transaction privacy, and greater flexibility in the ways satoshis can be encumbered all sound good on paper, these benefits are not without cost or risk. In addition to the usual costs (developer review time, user testing time, etc) and risks (chain split, BTC price decrease, etc) associated with software updates and bitcoin consensus changes in particular, rollups have their own unique costs and risks that need to be considered. This section will examine the most obvious costs and risks uncovered while preparing this report, though others may exist or come up in the future that are not coverd here.
+While the benefits validity rollups can bring to bitcoin in terms of enabling increased transaction throughput, better transaction privacy, and greater flexibility in the ways satoshis can be encumbered all sound good on paper, these benefits are not without cost or risk. In addition to the usual costs (developer review time, user testing time, etc) and risks (chain split, BTC price decrease, etc) associated with bitcoin software updates and consensus changes in particular, validity rollups have their own unique costs and risks that need to be considered.
+
+This section will examine the costs and risks uncovered while preparing this report, though others may exist or emerge in the future that are not covered here. The significance of the costs and risks associated with bitcoin validity rollups largely depends on the implementation details. In some cases the risks examined here are theoretical as opposed to known or proven risks. The theoretical risks are noted where applicable, and included for completeness and to prompt further research into their actual potential for harm.
 
 ### 6.1 Increased bandwidth and storage costs
 
@@ -334,17 +364,17 @@ If block space is not increased to allow for more rollup transactions, then addi
 
 If block space _is_ increased to allow for more rollup transactions, this will increase bandwidth and storage costs for Layer 1 full nodes. More data will need to be relayed around the bitcoin network when broadcasting transactions and blocks. More data will also need to be stored on disk when a block containing rollup transaction data gets added to the blockchain. This is straightforward to measure depending on how much the block space limit is increased to make room for more rollup transactions. See Section 4.1 for data cost calculations per rollup transaction.
 
-### 6.2 Managing full node validation costs
+### 6.2 Managing full node verification costs
 
-Regardless of whether or not block space is increased to allow for more rollup transactions, validity rollups do impose one new cost on Layer 1 full nodes: the cost to verify the validity proof of the rollup state update. This verification cost can vary widely depending on the complexity of the proof. Benchmark verification times for modern proofs are surprisingly difficult to come across. During my research I found proof verification times ranging from 5ms for a two-year-old PLONK-based SNARK to 2ms for a two-year-old STARK.[92, 93] 
+Regardless of whether or not block space is increased to allow for more rollup transactions, validity rollups do impose one new cost on Layer 1 full nodes: the cost to verify the validity proof of the rollup state update. This verification cost can vary widely depending on the complexity of the proof and performance optimizations implemented, all else being equal. Benchmark verification times for modern proofs are difficult to find in the literature. The proof verification times that are cited range from 5ms for a two-year-old PLONK-based SNARK to 2ms for a two-year-old STARK.[92, 93] Newer proof implementations may be even faster to verify on the same hardware, but generally speaking it is proving time that benefits most from optimization, not verification time.
 
 According to benchmarks posted to the Bitcoin Wiki, a bitcoin transaction takes about 0.125ms to verify on a quad-core i7 CPU, which is about 16 times faster than the 2ms verification time of a two-year-old STARK.[94] So if 16 transactions go into a validity rollup state update, then the rollup will break even on verification costs compared to a single Layer 1 bitcoin transaction.
 
-If support for validity rollups is implemented, developers will have to consider an adversarial worst-case scenario where an attacker packs the maximum possible number of validity proofs into a block to try to maximize its verification cost. This would make the block more difficult for weaker full nodes to verify and slow its propagation through the network.
+If support for validity rollups is implemented on bitcoin, developers will have to consider an adversarial worst-case scenario where an attacker packs the maximum possible number of validity proofs into a block to try to maximize its verification cost. This would make the block more difficult for weaker full nodes to verify and slow its propagation through the network.
 
 If we consider the base cost for the rollup state update transaction (verification key + proof + script size) to be 2848 WU, as Del Bonis estimated, that equals a maximum 1404 rollup state update transactions per 4,000,000 WU bitcoin block.[89] At a verification time of 2ms per rollup state update, that is a total verification time of 2.8 seconds per block. The block with the longest verification time currently on record is block #364292, which contains a single non-coinbase transaction that takes ~1 second to verify.[95] So the worst-case scenario for verifying a block full of validity rollup updates is about three times slower than the slowest-to-verify bitcoin block currently on record.
 
-If developers were to implement support for validity rollups in bitcoin, they may also want to somehow limit the number of validity proofs that can go into each block, so they can limit the worst-case verification outcome should a block be stuffed full of them. There is certainly a balance to strike here between the number of rollup state updates allowed per block and the additional verification costs imposed on Layer 1 full nodes.
+If someone were to implement support for validity rollups in bitcoin, they may also want to somehow limit the number of validity proofs that can go into each block, so they can limit the worst-case verification cost should a block be stuffed full of them. There is a balance to strike here between the number of rollup state updates allowed per block and the additional verification costs imposed on Layer 1 full nodes.
 
 ### 6.3 Miner extractable value
 
@@ -366,20 +396,20 @@ Several developers and researchers were asked about this while doing interviews 
 
 Researchers have been able to develop many solutions that prevent or minimize the negative effects of MEV. Some of these solutions are structural changes to consensus that impede the ability of block producers to order transactions in their favor.[101] Other techniques hide transaction information so that block producers and "searchers" are unable to see transactions that would be vulnerable to MEV.[102] Users who don't want to have their lunch eaten by MEV bots can and should demand that developers implement these MEV countermeasures in their rollups and rollup-based financial applications. If these countermeasures become widely implemented then MEV as a general concern could become a thing of the past.
 
-### 6.4 Harmful smart contracts
+### 6.4 Algorithmic incentive manipulation contracts
 
-Enabling validity rollups could have unintended negative side effects aside from MEV in the form of "harmful smart contracts". These are smart contracts that could be used to incentivize miners to attack each other or specific users, disrupting the normal incentives of Nakamoto consensus. This section will look at a few examples of harmful (or potentially harmful) smart contracts that could be enabled because of or alongside validity rollups on bitcoin. This is not an exhaustive catalogue of such contracts. The most important takeaway is that there are risks both known and unknown (with the possibility of unknown risks being a risk itself) associated with enabling more advanced scripts on decentralized blockchains such as bitcoin.
+Adding support for validity rollups on bitcoin could have unintended negative side effects aside from MEV by enabling "algorithmic incentive manipulation" (AIM) attacks.[103] AIM attacks use smart contracts to incentivize miners to attack each other or specific users, disrupting the normal incentives of Nakamoto consensus. This section will look at a few examples of AIM contracts that could be built on bitcoin using sufficiently expressive validity rollups. This is not an exhaustive catalogue of such contracts. It's also worth noting that AIM attacks are possible even if AIM contracts cannot be built on bitcoin directly.[104] The most important takeaway is that there are risks both known and unknown (with the possibility of unknown risks itself being a risk) associated with enabling more expressive scripting capabilities on bitcoin and new layers such as validity rollups built on bitcoin.
 
 **TxWithhold contracts**
-One example of a harmful smart contract is a "TxWithhold" contract. In a BitMEX Research article, Gleb Naumenko describes how covenants can be used to build a smart contract that incentivizes miners to withold (i.e. not confirm) a transaction for a certain number of blocks.[103] As described in Section 5, some designs for building validity rollups on bitcoin require the use of recursive covenants. Even if the rollups enabled are relatively limited in capability e.g. no more capable of expressive contracts than bitcoin is today, by enabling recursive covenants on bitcoin Layer 1, certain TxWithhold smart contracts could be possible. Exactly how much harm these kinds of contracts could do in practice is an area where further research is needed.
+One example of an AIM smart contract is a "TxWithhold" contract. In a BitMEX Research article, Gleb Naumenko describes how covenants can be used to build a smart contract that incentivizes miners to withold (i.e. not confirm) a transaction for a certain number of blocks.[103] As described in Section 5, some designs for building validity rollups on bitcoin require the use of recursive covenants. Even if the rollups enabled are relatively limited in capability e.g. no more capable of expressive contracts than bitcoin is today, by enabling recursive covenants on bitcoin Layer 1, certain TxWithhold contracts could be possible. Exactly how much harm these kinds of TxWithhold contracts could do in practice is an area where further research is needed.
 
 **Re-org wars**
-If a validity rollup on bitcoin supported expressive smart contracts, they could be used to instigate "re-org wars", where smart contracts battle each other to incentivize and dis-incentivize miners reorganizing the blockchain.[104, 105] A similar attack was shown to be possible using a "HistoryRevision contract" on Ethereum Layer 1.[106] It's unclear if such contracts deployed to Layer 2 could have the same effect on Layer 1, or whether it _would_ be possible but only under _certain conditions_ (e.g. heavy overlap of block producers on both layers). Even if such reorg contracts on Layer 2 could have the same effect on Layer 1, if they can both incentivize and dis-incentivize reorgs then perhaps they cancel each other out and there's no harm done. Again, this is an area where further research is needed.
+If a validity rollup on bitcoin supported expressive smart contracts, they could be used to instigate "re-org wars", where smart contracts battle each other to incentivize and dis-incentivize miners reorganizing the blockchain.[104, 105] This type of AIM attack was shown to be possible using a "HistoryRevision contract" on Ethereum Layer 1.[106] It's unclear if such contracts deployed to Layer 2 could have the same effect on Layer 1, or whether it _would_ be possible but only under _certain conditions_ (e.g. heavy overlap of block producers on both layers). Even if such reorg contracts on Layer 2 could have the same effect on Layer 1, if they can both incentivize and dis-incentivize reorgs then perhaps they cancel each other out and there's no harm done. Again, this is an area where further research is needed.
 
-**SPV bridges and optimistic contracts**
-One category of smart contract whose positive uses have been discussed at length by researchers but whose potential for harm has arguably been under-explored is the "SPV bridge" (also referred to as a "hashrate escrow") and the similar category of "optimistic" smart contracts.[107, 108] These smart contracts are similar in that their users "trust" the hashpower majority to not "steal" funds held in the smart contract. In this context, it is not the potential for theft by miners that makes the smart contract harmful (though that would of course be harmful to the specific victims of the theft). Rather, it is _the enabling incentive to collude to effectuate the theft_ that makes the contract potentially harmful _to the security of the blockchain itself_. By creating an incentive to collude to form a hostile majority where no such incentive would otherwise exist, the SPV bridge and similar contracts can be considered to be directly undermining the otherwise honest, correct, incentive-compatible operation of Nakamoto consensus.
+**Majority-vulnerable contracts**
+One category of smart contract whose positive uses have been discussed at length by researchers but whose potential for harm has arguably been under-explored is the "SPV bridge" (also referred to as a "hashrate escrow") and the similar category of "optimistic" smart contracts.[107, 108] SPV bridge and optimistic contracts are collectively referred to here as "majority-vulnerable contracts" because users of these contracts trust the majority of block producers (as measured by whatever Sybil-protection resource is used e.g. hashpower, stake, identities, etc) to not steal funds held in the contract. The obvious risk here is that majority-vulnerable contracts enable an AIM attack that could lead to users getting robbed by block producers. Perhaps of more concern is a more subtle risk: _the existence and use of majority-vulnerable contracts creates an incentive for block producers to collude to effectuate the theft, making majority-vulnerable contracts potentially harmful to the security of the blockchain itself_. By creating an incentive to collude to form a "dishonest" majority where no such incentive would otherwise exist, majority-vulnerable contracts could be considered to be directly undermining the otherwise honest, correct, incentive-compatible operation of Nakamoto consensus.
 
-Implicit in the categorization of such SPV bridge and optimistic contracts as harmful is the assumption that they do in fact incentivize miners to collude to form a hostile majority. However empirical observation has shown that miners have not yet colluded to steal despite such contracts existing, suggesting there is some other counter- or dis-incentive preventing them from doing so.[109] It's also possible that there's simply a tipping point that has yet to be reached and it's only a matter of time before the collusion and theft these contracts incentivize finally occurs. With such contracts having already been deployed in the wild, only time will tell what harm or lack thereof they do to their host networks. Once again, more time and research is needed.
+Empirical observation has shown that block producers have not yet colluded to steal despite the existence of majority-vulnerable contracts, suggesting there is some other incentive or dis-incentive preventing them from stealing.[109] It's also possible that there's simply a tipping point that has yet to be reached and it's only a matter of time before the collusion and theft these contracts incentivize finally occurs. With sufficiently expressive smart contract capabilities, it would be possible to create an AIM contract that automatically allocates the proceeds of theft from a majority-vulnerable contract to block producers who participate in the attack, reducing risk and coordination costs and thereby potentially increasing the likelihood that the attack is attempted and succeeds. Since majority-vulnerable contracts have already been deployed to production, only time will tell whether or not they really are a threat to their host networks.
 
 **Fully-automated totalitarianism**
 
@@ -512,7 +542,7 @@ We can see in Table 5 how validity rollups are designed with a unique combinatio
 >
 > [r] https://arxiv.org/abs/2002.01847
 
-## Appendix B. Comparing three alternative cryptocurrency privacy techniques
+## Appendix B. Comparing alternative cryptocurrency privacy techniques
 
 Due to many of bitcoin's current limitations (e.g. limited scripting capabilities) and qualities (e.g. transparent transaction amounts) the efforts to reduce the traceability and improve the privacy of bitcoin transactions are always an uphill battle. Examples of such protocols built for bitcoin include Cahoots, CoinJoin, CoinSwap, PayJoin, TumbleBit, stealth addresses, and variations or spinoffs thereof.
 
@@ -520,7 +550,7 @@ Perhaps the most important weakness of bitcoin that makes privacy difficult is a
 
 The cost of maintaining anonymity set sizes, plus the requirement to wait for a sufficient number of users to mix equal-amount outputs to gain a sufficiently large anonymity set, can make bitcoin privacy techniques impractical for point of sale transactions or transactions of low value. There is justification for hoping that offchain protocols such as Lightning can offer improvemnts: because Lightning transactions are offchain, the details of transactions are only known to each node along a payment channel path, and in some cases only part of the details of the transaction are known to each node along the path. Atomic multipath routing could add even more ambiguity into Lightning payments, since routing nodes would not know whether they are routing the full payment or only part of the payment. However the privacy enabled here is probabilistic at best, and difficult to quantify for both senders and recipients: it could be the case that their counterparties along the path know either very little or everything about their payments. That's not to mention the privacy issues associated with balance probing and channel open/close transactions.[116] In its current form, Lightning is best considered to be a fast and high-throughput payments solution, not a privacy solution.
 
-Researchers have studied the shortcomings of bitcoin privacy protocols and invented new protocols that they believe offer significant improvements to protect user privacy. We will examine three of the most well-known alternative privacy protocols and compare the amount of data that each reveals about its users, thereby providing a basis for comparing their relative privacy improvements.
+Researchers have studied the shortcomings of bitcoin privacy protocols and invented new protocols that they believe offer significant improvements to protect user privacy. Here we examine three of the most well-known alternative privacy protocols and compare the amount of data that each reveals about its users, thereby providing a basis for comparing their relative privacy improvements.
 
 ### Grin 
 
@@ -891,7 +921,21 @@ New - TODO: cleanup
 
 [90] https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2022-February/019885.html
 
-[91] https://blockstream.com/simplicity.pdf
+--
+
+New -- TODO cleanup
+
+[91] https://github.com/bitcoin/bips/blob/master/bip-0118.mediawiki
+
+[92] https://github.com/bitcoin/bips/blob/master/bip-0119.mediawiki
+
+[93] https://blockstream.com/simplicity.pdf
+
+[94] https://blog.blockstream.com/en-covenants-in-elements-alpha/
+
+[95] https://github.com/ElementsProject/elements/blob/2dda79cf616e8928346eeb9e3282f5744955aa88/doc/tapscript_opcodes.md#new-opcodes-for-additional-functionality
+
+--
 
 [92] https://dusk.network/news/zero-knowledge-plonk-demo
 
@@ -914,6 +958,16 @@ New - TODO: cleanup
 [101] https://hackmd.io/ivUzk3piQEG8ALzCGbxlag#311-Fair-ordering
 
 [102] https://hackmd.io/ivUzk3piQEG8ALzCGbxlag#312-Privacy-solutions
+
+--
+
+New - TODO: cleanup
+
+[103] https://eprint.iacr.org/2020/1614
+
+[104] https://eprint.iacr.org/2019/775
+
+--
 
 [103] https://blog.bitmex.com/txwithhold-smart-contracts/
 
