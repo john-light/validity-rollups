@@ -26,7 +26,7 @@ Contact the author: https://lightco.in/contact
 - Appendix C. Increasing throughput with offchain data availability
 - Appendix D. A closer look at validity sidechains
 - Appendix E. Enabling additional throughput increases with validity proofs
-- Appendix F. 
+- Appendix F. Mitigating harm from compromised cryptographic proof protocols and toxic waste
 - References **(TODO)**
 - License **(TODO)**
 
