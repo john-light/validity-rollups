@@ -430,7 +430,7 @@ A working example showing how transfer restrictions can be implemented using mul
 
 Implementing spending restrictions offchain using multisig would enable the government to change the restrictions whenever they want and make the restrictions as complex as they want. If the government implemented the restrictions directly in a smart contract using a recursive covenant, then their restrictions would be constrained by the size limits and capabilities of bitcoin Script. Allowing for the possibility of changing the transfer restrictions, to mirror the inevitable changes in offchain government policy, would require additional script complexity. If support for recursive covenants was added to bitcoin, and a government wanted to implement totalitarian controls over how its citizens could transfer their satoshis, they would be more likely to implement such controls using multisig, not recursive covenants, due to the flexibility offered by offchain transfer policies.
 
-Some people may argue that yes, while multisig may be more flexible, recursive covenants are scary because they could be used to lock BTC into the script forever. At least with today's multisig implementations, BTC could theoretically leave the multisig script. The possibility of locking BTC into a script forever is still not a new risk. Anthony Towns pointed out that proof-of-burn could be used to burn BTC and mint some amount of govt-BTC in an embedded consensus protocol (similar to how XCP was created on bitcoin) or in a dedicated Spacechain. Once burnt, the govt-BTC would never be able to be converted back into regular BTC, and would forever be locked into the government's transfer restrictions, however they are implemented.
+Some people may argue that yes, while multisig may be more flexible, recursive covenants are scary because they could be used to lock BTC into the script forever. At least with today's multisig implementations, BTC could theoretically leave the multisig script. The possibility of locking BTC into a script forever is still not a new risk. Anthony Towns pointed out that proof-of-burn could be used to burn BTC and mint some amount of govt-BTC in an embedded consensus protocol (similar to how XCP was created on bitcoin) or in a dedicated Spacechain.[116] Once burnt, the govt-BTC would never be able to be converted back into regular BTC, and would forever be locked into the government's transfer restrictions, however they are implemented.
 
 The main takeaway here is that, contrary to popular belief, from a practical standpoint recursive covenants do not introduce any new risks when it comes to government-enforced transfer restrictions. Multisig is already being used to enable such transfer restrictions, and XCP-style proof-of-burn could be used to irreversibly lock BTC into such transfer restrictions. There may be legitimate, good reasons to oppose enabling recursive covenants on bitcoin; their ability to be used to implement transfer restrictions is not one of them.
 
@@ -1061,6 +1061,8 @@ New - TODO: cleanup
 [114] https://docs.blockstream.com/blockstream-amp/overview.html
 
 [115] https://docs.blockstream.com/blockstream-amp/case-studies.html#case-study-2-exordium-security-token
+
+[116] https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2022-February/019923.html
 
 --
 
