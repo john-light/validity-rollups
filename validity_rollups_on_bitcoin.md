@@ -422,15 +422,15 @@ Empirical observation has shown that block producers have not yet colluded to st
 
 Here we again reference the rollup designs from Section 5 that require the use of recursive covenants. The defining quality of a recursive covenant is that it not only defines the conditions under which a UTXO locked in the covenant script can be spent, but it also defines the type of script that the UTXO can be encumbered by after it is spent (hence the name "recursive" covenant). In theory, a recursive covenant can require a UTXO to be locked into the same type of restrictive script forever, no matter how many times the UTXO is spent.
 
-Some commentators have cited the recursive restrictions enabled by recursive covenants as justification for pushing back on the implementation of covenants in bitcoin.[111, 112] They point out that this capability could be used by totalitarian governments to force bitcoin users in their jurisdictions to lock their satoshis into recursive covenants where the government has programmed in their control of the satoshis in perpetuity. While that would indeed be technically possible to implement with recursive covenants, that is only one way that such controls could be implemented.
+Some commentators have cited the recursive restrictions enabled by recursive covenants as justification for pushing back on the implementation of covenants in bitcoin.[131, 132] They point out that this capability could be used by totalitarian governments to force bitcoin users in their jurisdictions to lock their satoshis into recursive covenants where the government has programmed in their control of the satoshis in perpetuity. While that would indeed be technically possible to implement with recursive covenants, that is only one way that such controls could be implemented.
 
-It is currently possible for governments to implement restrictions on how the satoshis owned by their citizens can be transferred, and in a much more flexible way than recursive covenants allow, using a type of smart contract that has been standard in bitcoin for over a decade: multisig.[113] The basic idea is that the government would require satoshis owned by their citizens to be encumbered by a multisig script that requires a signature from both a government-controlled private keys and the actual owner's private key in order to transfer the satoshis to another address. Before the government co-signs the transaction, the computer that has control of the government's private key will check to make sure that the transaction is following a transfer policy that is defined offchain in a normal text file that is stored on the government's computer. If the transaction complies with this transfer policy, then the government computer will co-sign the transaction. If the transaction does not comply with the transfer policy (for example, by trying to transfer satoshis to an address that the government has not approved) then the government copmuter will not co-sign the transaction and the transaction will effectively be blocked. If the government ever wants to update their transfer policy to add or remove restrictions, then it's as simple as updating the offchain text file that defines the policy.
+It is currently possible for governments to implement restrictions on how the satoshis owned by their citizens can be transferred, and in a much more flexible way than recursive covenants allow, using a type of smart contract that has been standard in bitcoin for over a decade: multisig.[133] The basic idea is that the government would require satoshis owned by their citizens to be encumbered by a multisig script that requires a signature from both a government-controlled private keys and the actual owner's private key in order to transfer the satoshis to another address. Before the government co-signs the transaction, the computer that has control of the government's private key will check to make sure that the transaction is following a transfer policy that is defined offchain in a normal text file that is stored on the government's computer. If the transaction complies with this transfer policy, then the government computer will co-sign the transaction. If the transaction does not comply with the transfer policy (for example, by trying to transfer satoshis to an address that the government has not approved) then the government copmuter will not co-sign the transaction and the transaction will effectively be blocked. If the government ever wants to update their transfer policy to add or remove restrictions, then it's as simple as updating the offchain text file that defines the policy.
 
-A working example showing how transfer restrictions can be implemented using multisig is found in Blockstream AMP, a platform developed by the company Blockstream to support the managed issuance and transfer of assets on the Liquid blockchain.[114] Despite the Liquid blockchain already having support for recursive covenants, Blockstream still decided to implement transfer restrictions using multisig. Blockstream explains in their documentation that transfer restrictions implemented at the smart contract level are "very difficult to adapt to fast-moving regulations worldwide".[115] In contrast, "Blockstream AMP implements transfer restrictions through a simple multisig authorizer setup, providing [the user] with flexibility to adapt to shifting regulations."[ibid]
+A working example showing how transfer restrictions can be implemented using multisig is found in Blockstream AMP, a platform developed by the company Blockstream to support the managed issuance and transfer of assets on the Liquid blockchain.[134] Despite the Liquid blockchain already having support for recursive covenants, Blockstream still decided to implement transfer restrictions using multisig. Blockstream explains in their documentation that transfer restrictions implemented at the smart contract level are "very difficult to adapt to fast-moving regulations worldwide".[135] In contrast, "Blockstream AMP implements transfer restrictions through a simple multisig authorizer setup, providing [the user] with flexibility to adapt to shifting regulations."[ibid]
 
 Implementing spending restrictions offchain using multisig would enable the government to change the restrictions whenever they want and make the restrictions as complex as they want. If the government implemented the restrictions directly in a smart contract using a recursive covenant, then their restrictions would be constrained by the size limits and capabilities of bitcoin Script. Allowing for the possibility of changing the transfer restrictions, to mirror the inevitable changes in offchain government policy, would require additional script complexity. If support for recursive covenants was added to bitcoin, and a government wanted to implement totalitarian controls over how its citizens could transfer their satoshis, they would be more likely to implement such controls using multisig, not recursive covenants, due to the flexibility offered by offchain transfer policies.
 
-Some people may argue that yes, while multisig may be more flexible, recursive covenants are scary because they could be used to lock BTC into the script forever. At least with today's multisig implementations, BTC could theoretically leave the multisig script. The possibility of locking BTC into a script forever is still not a new risk. Anthony Towns pointed out that proof-of-burn could be used to burn BTC and mint some amount of govt-BTC in an embedded consensus protocol (similar to how XCP was created on bitcoin) or in a dedicated Spacechain.[116] Once burnt, the govt-BTC would never be able to be converted back into regular BTC, and would forever be locked into the government's transfer restrictions, however they are implemented.
+Some people may argue that yes, while multisig may be more flexible, recursive covenants are scary because they could be used to lock BTC into the script forever. At least with today's multisig implementations, BTC could theoretically leave the multisig script. The possibility of locking BTC into a script forever is still not a new risk. Anthony Towns pointed out that proof-of-burn could be used to burn BTC and mint some amount of govt-BTC in an embedded consensus protocol (similar to how XCP was created on bitcoin) or in a dedicated Spacechain.[136] Once burnt, the govt-BTC would never be able to be converted back into regular BTC, and would forever be locked into the government's transfer restrictions, however they are implemented.
 
 The main takeaway here is that, contrary to popular belief, from a practical standpoint recursive covenants do not introduce any new risks when it comes to government-enforced transfer restrictions. Multisig is already being used to enable such transfer restrictions, and XCP-style proof-of-burn could be used to irreversibly lock BTC into such transfer restrictions. There may be legitimate, good reasons to oppose enabling recursive covenants on bitcoin; their ability to be used to implement transfer restrictions is not one of them.
 
@@ -440,11 +440,11 @@ While the very existence of bitcoin itself is a provocation toward authoritarian
 **Private payments**
 Shielded transactions would enable peer-to-peer transactions that are nearly as private and untraceable as physical cash. In some cases, shielded transactions are potentially even more private and untraceable than physical cash, due to the possibility for remote, anonymous interactions online. This would give people under an authoritarian regime (in their government or in their home) the ability to earn and spend money privately, using a hidden wallet on a small computing device that either would not raise suspicion or could be concealed more easily than physical cash.
 
-Governments have already begun cracking down on the usage of protocols that provide privacy protections to cryptoasset users. The governments of Japan and South Korea have effectively banned the trading of several specific cryptoassets that have implemented privacy protocols, such as DASH, XMR, and ZEC.[116, 117] Most recently, South Korean regulators have pressured exchanges to delist LTC after the Litecoin community implemented support for an opt-in Mimblewimble extension block protocol.[118] Curiously, although both bitcoin and Ethereum support opt-in privacy protocols with similar characteristics as DASH (in the case of bitcoin's coinjoin implementations) and ZEC (in the case of shielded protocols such as Aztec on Ethereum), both BTC and ETH remain available for trading in South Korea. Although BTC and ETH have escaped a ban in these jurisdictions despite supporting nearly identical privacy protocols as several of the banned cryptoassets, this luck may not last forever. If bitcoin were to implement support for validity rollups with strong privacy, for example, this may increase government scrutiny in these and other jurisdictions hostile to financial privacy.
+Governments have already begun cracking down on the usage of protocols that provide privacy protections to cryptoasset users. The governments of Japan and South Korea have effectively banned the trading of several specific cryptoassets that have implemented privacy protocols, such as DASH, XMR, and ZEC.[137, 138] Most recently, South Korean regulators have pressured exchanges to delist LTC after the Litecoin community implemented support for an opt-in Mimblewimble extension block protocol.[139] Curiously, although both bitcoin and Ethereum support opt-in privacy protocols with similar characteristics as DASH (in the case of bitcoin's coinjoin implementations) and ZEC (in the case of shielded protocols such as Aztec on Ethereum), both BTC and ETH remain available for trading in South Korea. Although BTC and ETH have escaped a ban in these jurisdictions despite supporting nearly identical privacy protocols as several of the banned cryptoassets, this luck may not last forever. If bitcoin were to implement support for validity rollups with strong privacy, for example, this may increase government scrutiny in these and other jurisdictions hostile to financial privacy.
 
-An alternative to outright banning of the usage and trading of privacy-protecting cryptoassets is to continue to allow their usage but to apply regulatory pressure on exchanges, block producers, and other identifiably chokepoints to disallow interactions with opt-in privacy protocols. For example, when the United States Treasury Department added the Tornado Cash smart contract addresses to the Specially Designated Nationals list that identifies sanctioned individuals and organizations, it created a chilling effect prompting proactive over-compliance.[119] The exchange FTX reportedly began blocking deposits from addresses that had previously interacted with Tornado Cash, even going so far as to flag deposits associated with the (non-sanctioned) privacy protocol Aztec.[120, 121] Ethereum mining pool Ethermine even began to exclude Tornado Cash transactions from its blocks.[122]
+An alternative to outright banning of the usage and trading of privacy-protecting cryptoassets is to continue to allow their usage but to apply regulatory pressure on exchanges, block producers, and other identifiably chokepoints to disallow interactions with opt-in privacy protocols. For example, when the United States Treasury Department added the Tornado Cash smart contract addresses to the Specially Designated Nationals list that identifies sanctioned individuals and organizations, it created a chilling effect prompting proactive over-compliance.[140] The exchange FTX reportedly began blocking deposits from addresses that had previously interacted with Tornado Cash, even going so far as to flag deposits associated with the (non-sanctioned) privacy protocol Aztec.[141, 142] Ethereum mining pool Ethermine even began to exclude Tornado Cash transactions from its blocks.[143]
 
-The legal advocacy group Coin Center has published an anlysis questioning the legality of adding the Tornado Cash smart contract addresses to the SDN list.[123] Investment group Paradigm has published a separate analysis suggesting that there is no legal basis for Ethermine and other block producers to exclude Tornado Cash transactions in their blocks despite the sanctions.[124] Even if these analyses are correct, it would not mean other, stronger legal attacks could not be mounted against blockchain privacy protocols in the future, particularly in jurisdictions that have fewer free speech or rule of law protections than the United States. While attacks on users of privacy protocols may remain focused at the application layer, it's possible that some governments take their fight to the block producer and consensus layer. Bitcoin is designed to be resilient to these kinds of attacks, but nonetheless, Bitcoin developers and community members will have to decide if the risk of prompting such attacks is worth the advantages of adding strong privacy via validity rollups built on bitcoin.
+The legal advocacy group Coin Center has published an anlysis questioning the legality of adding the Tornado Cash smart contract addresses to the SDN list.[144] Investment group Paradigm has published a separate analysis suggesting that there is no legal basis for Ethermine and other block producers to exclude Tornado Cash transactions in their blocks despite the sanctions.[145] Even if these analyses are correct, it would not mean other, stronger legal attacks could not be mounted against blockchain privacy protocols in the future, particularly in jurisdictions that have fewer free speech or rule of law protections than the United States. While attacks on users of privacy protocols may remain focused at the application layer, it's possible that some governments take their fight to the block producer and consensus layer. Bitcoin is designed to be resilient to these kinds of attacks, but nonetheless, Bitcoin developers and community members will have to decide if the risk of prompting such attacks is worth the advantages of adding strong privacy via validity rollups built on bitcoin.
 
 **Financing a freer future**
 Censorship-resistant smart contracts provide permissionless access to finance outside of authoritarian control, enabling entrepreneurs to raise capital for their businesses, activists to fund their movements, and oppressed minorities to circumvent the financial controls forced on them by the authoritarians in their lives. Control of finance is control of a huge part of the economy and people's livelihoods. Providing a neutral, programmable, globally accessible infrastructure for financial activity can give people under the thumb of authoritarians a way to build wealth and fund a freer future for themselves and their communities.
@@ -453,13 +453,13 @@ Censorship-resistant smart contracts provide permissionless access to finance ou
 Decentralized domain name systems provide websites with censorship-resistant memorable identities. When combined with shielded bitcoin used to pay file hosts on decentralized filesharing protocols such as Bittorrent or IPFS, it becomes possible to create websites that are nearly impossible to take down. In societies where activists and journalists are targeted for the information they publish, this could be a real thorn in the side of authoritarians.
 
 **To be (a powerful and private smart contract platform) or not to be...**
-Giving people new tools to fight authoritarians is a good thing. The risk is that these powerful new tools invite more negative attention to bitcoin. Where freedom vs authoritarianism is concerned, the anti-authoritarian bitcoin community may be willing to say, "bring it on". But these powerful new tools enabled by validity rollups can be used for harmful purposes as well. Just as private payments can be used by someone to escape the prying eyes of their abusive domestic partner, private payments can also be used to facilitate untraceable ransom payments. Just as a censorship-resistant website can be used to host an uncomfortable political truth, it can also be used to host nonconsensual material that victimizes innocent people. The bitcoin community already has to deal with these kinds of concerns, but validity rollups could amplify them even further.[115, 116]
+Giving people new tools to fight authoritarians is a good thing. The risk is that these powerful new tools invite more negative attention to bitcoin. Where freedom vs authoritarianism is concerned, the anti-authoritarian bitcoin community may be willing to say, "bring it on". But these powerful new tools enabled by validity rollups can be used for harmful purposes as well. Just as private payments can be used by someone to escape the prying eyes of their abusive domestic partner, private payments can also be used to facilitate untraceable ransom payments. Just as a censorship-resistant website can be used to host an uncomfortable political truth, it can also be used to host nonconsensual material that victimizes innocent people. The bitcoin community already has to deal with these kinds of concerns, but validity rollups could amplify them even further.[146, 147]
 
-This is another one of those issues where if validity rollups are enabled, the bitcoin community will have to make a decision about exactly _what kind_ of rollups will be enabled: does the bitcoin community invite the full contents of Pandora's box to be released on L2, or are there certain features or smart contracts that bitcoin users should never be allowed to access in a trustless manner? I phrase the question that way, with an emphasis on "trustless", because the alternative to supporting these powerful and controversial use-cases directly on bitcoin (via an L1 extension or as a new protocol on L2) is not that these use cases will never happen and all risk and harm from such use cases will be averted. The alternative is the status quo, where bitcoin users must give up control of their satoshis to trusted "bridges" in exchange for IOUs on sidechains or altcoin chains where these use cases are actually supported.[64] On this question, the choice before the bitcoin community is not between _risk_ or _no risk_, it is between _risk without trusted third parties / with fewer trusted third parties_ or _risk with trusted third parties / more trusted third parties_.
+This is another one of those issues where if validity rollups are enabled, the bitcoin community will have to make a decision about exactly _what kind_ of rollups will be enabled: does the bitcoin community invite the full contents of Pandora's box to be released on L2, or are there certain features or smart contracts that bitcoin users should never be allowed to access in a trustless manner? I phrase the question that way, with an emphasis on "trustless", because the alternative to supporting these powerful and controversial use-cases directly on bitcoin (via an L1 extension or as a new protocol on L2) is not that these use cases will never happen and all risk and harm from such use cases will be averted. The alternative is the status quo, where bitcoin users must give up control of their satoshis to trusted "bridges" in exchange for IOUs on sidechains or altcoin chains where these use cases are actually supported.[70] On this question, the choice before the bitcoin community is not between _risk_ or _no risk_, it is between _risk without trusted third parties / with fewer trusted third parties_ or _risk with trusted third parties / more trusted third parties_.
 
 ### 6.6 Novel cryptography
 
-The novelty or "Lindy" factor of the cryptography used in validity proofs depends on what kind of validity proof is being referred to.[112] STARK-based validity proofs rely on the oldest cryptographic primitives and have the weakest security assumptions of the various validity proof systems. SNARK-based validity proofs rely on newer cryptographic primitives such as elliptic curves (as in bitcoin) and have stronger security assumptions.[113]
+The novelty or "Lindy" factor of the cryptography used in validity proofs depends on what kind of validity proof is being referred to.[148] STARK-based validity proofs rely on the oldest cryptographic primitives and have the weakest security assumptions of the various validity proof systems. SNARK-based validity proofs rely on newer cryptographic primitives such as elliptic curves (as in bitcoin) and have stronger security assumptions.[149]
 
 **Figure 9. The Cryptographic Proof Family Trees - Age and cryptographic assumptions**
 
@@ -467,31 +467,31 @@ The novelty or "Lindy" factor of the cryptography used in validity proofs depend
 
 > Image source: [ibid]
 
-Another consideration is the age of implementation and "battle hardening" that a given validity proof implementation has gone through. With the oldest production implementations now several years old (about as old as the Schnorr algorithm implementation that was integrated into Bitcoin Core) there are several validity proof systems that could be used or at least looked at for inspiration.[114] That said, there have been vulnerabilities found in some production implementations of cryptographic proof protocols.[115, 116] Each time such a vulnerability is discovered in a given cryptographic proof implementation, that implementation's "Lindy clock" is reset back to zero.
+Another consideration is the age of implementation and "battle hardening" that a given validity proof implementation has gone through. With the oldest production implementations now several years old (about as old as the Schnorr algorithm implementation that was integrated into Bitcoin Core) there are several validity proof systems that could be used or at least looked at for inspiration.[150] That said, there have been vulnerabilities found in some production implementations of cryptographic proof protocols.[151, 152] Each time such a vulnerability is discovered in a given cryptographic proof implementation, that implementation's "Lindy clock" is reset back to zero.
 
-While the implementations of the oldest validity proof and Schnorr protocols used by cryptocurrencies in production are now around the same age, the _protocol designs_ that the validity proof implementations are based on are relatively new compared to the Schnorr signature algorithm. This means that the validity proof designs have had less time for review. We can generally expect that if there is a vulnerability in a protocol design, then as time goes and the number of reviews the protocol receives increases, the likelihood that the vulnerability will be discovered also increases. For example, during a review of the details of Zcash's "Sprout" cryptographic proof protocol ahead of giving a technical presentation about the protocol in 2018, Ariel Gabizon discovered a critical design flaw that would have enabled an attacker to undetectably counterfeit shielded coins.[117]
+While the implementations of the oldest validity proof and Schnorr protocols used by cryptocurrencies in production are now around the same age, the _protocol designs_ that the validity proof implementations are based on are relatively new compared to the Schnorr signature algorithm. This means that the validity proof designs have had less time for review. We can generally expect that if there is a vulnerability in a protocol design, then as time goes and the number of reviews the protocol receives increases, the likelihood that the vulnerability will be discovered also increases. For example, during a review of the details of Zcash's "Sprout" cryptographic proof protocol ahead of giving a technical presentation about the protocol in 2018, Ariel Gabizon discovered a critical design flaw that would have enabled an attacker to undetectably counterfeit shielded coins.[153]
 
 The discovery of vulnerabilities in the design and implementation of production cryptographic proof systems shows that additional caution, time, review, and testing is warranted when deploying such a system into a blockchain such as bitcoin where it may not be possible to fix a vulnerability without a consensus-level software update. Vulnerabilities in a cryptographic proof protocol would put the coins secured by the protocol at risk either by causing the validity proofs to fail verification when they should succeed (effectively freezing the assets secured by the proof protocol) or by causing the validity proofs to successfully verify when they should fail (enabling an attacker to counterfeit and/or steal assets secured by the proof protocol).
 
 ### 6.7 Compromised "toxic waste"
 
-Some cryptographic proof protocols rely on a "parameter generation ceremony" (also known as a "trusted setup") to instantiate the protocol.[118] The purpose of this ceremony is to generate "public parameters" that can be used to verify the validity proofs produced by users of the protocol. In order to generate the public parameters, random numbers have to be used as inputs. If a user knows all of the random numbers used to generate the public parameters, they will be able to produce counterfeit proofs that appear valid even though the transaction the proof is validating violates the basic expectations of the protocol e.g. a user with all of the random numbers could mint coins "out of thin air" rather than minting them via the mining protocol. Because these random numbers are both critical to the integrity of the protocol and necessary byproducts of the protocol setup that must be carefully kept separate from each other at all time, they are often referred to as "toxic waste".
+Some cryptographic proof protocols rely on a "parameter generation ceremony" (also known as a "trusted setup") to instantiate the protocol.[154] The purpose of this ceremony is to generate "public parameters" that can be used to verify the validity proofs produced by users of the protocol. In order to generate the public parameters, random numbers have to be used as inputs. If a user knows all of the random numbers used to generate the public parameters, they will be able to produce counterfeit proofs that appear valid even though the transaction the proof is validating violates the basic expectations of the protocol e.g. a user with all of the random numbers could mint coins "out of thin air" rather than minting them via the mining protocol. Because these random numbers are both critical to the integrity of the protocol and necessary byproducts of the protocol setup that must be carefully kept separate from each other at all time, they are often referred to as "toxic waste".
 
-STARK-based proof protocols, being "transparent" in nature, inherently do not require a parameter generation ceremony and therefore do not generate toxic waste.[119] In contrast, most SNARK-based proof protocols, including all of the proof protocols used by SNARK-based validity rollups in production today, do require a parameter generation ceremony. However in 2019 Sean Bowe discovered how to do zero-knowledge proof constructions on ordinary elliptic curves, with the exciting outcome that zk-SNARKs could be produced without the need for a parameter generation ceremony.[120] Later that year, Bowe published a paper with co-authors Daira Hopwood and Jack Grigg describing the new protocol, which they named "Halo".[83] The invention of the Halo protocol opens the possbility of SNARK-based validity rollups that do not require a parameter generation ceremony, thereby eliminating the toxic waste vulnerability.
+STARK-based proof protocols, being "transparent" in nature, inherently do not require a parameter generation ceremony and therefore do not generate toxic waste.[155] In contrast, most SNARK-based proof protocols, including all of the proof protocols used by SNARK-based validity rollups in production today, do require a parameter generation ceremony. However in 2019 Sean Bowe discovered how to do zero-knowledge proof constructions on ordinary elliptic curves, with the exciting outcome that zk-SNARKs could be produced without the need for a parameter generation ceremony.[120] Later that year, Bowe published a paper with co-authors Daira Hopwood and Jack Grigg describing the new protocol, which they named "Halo".[92] The invention of the Halo protocol opens the possbility of SNARK-based validity rollups that do not require a parameter generation ceremony, thereby eliminating the toxic waste vulnerability.
 
 See Appendix F for a look at how the risk of compromised cryptographic proofs and toxic waste could be mitigated to prevent harm to L1 bitcoin users.
 
 ## Conclusion
 
-In this report, we described the history of validity rollups, how they work, and how they could be built on bitcoin. We described how, even in their simplest form, validity rollups can enable over 100 times more transaction throughput on bitcoin with no loss of ownership security for validity rollup users compared to the ownership security of transacting on bitcoin L1. Given that validity rollups are "trustless" by design, and could be implemented without introducing new risks or sacrificing any of bitcoin's core values or features, we believe the simplest possible implementations of validity rollups are a great fit for bitcoin.
+In this report, we described the history of validity rollups, how they work, and how they could be built on bitcoin. We described how, even in their simplest form, validity rollups can enable over 100 times more transaction throughput on bitcoin with no loss of ownership security for validity rollup users compared to the ownership security of transacting on bitcoin L1. Given that validity rollups are "trustless" by design, and could be implemented without introducing new risks or sacrificing any of bitcoin's core values or features, we believe the simplest possible implementations of validity rollups would be a great fit for bitcoin.
 
-Optionally, the implementation of validity rollups on bitcoin could also support the verification of more powerful validity proofs. This would enable new capabilities for bitcoin users, such as support for more expressive smart contracts and stronger privacy protocols. Depending on how support for these more powerful validity proofs is implemented, these new capabilities could be enabled at little to no increase in the cost of running an L1 full node. However, these new capabilities could also come with new risks, such as enabling new classes of AIM and MEV attacks, along with the possibility of provoking a crackdown on bitcoin by authoritarian governments who may be opposed to the strong privacy and censorship-resistant applications these protocols enable. Each of these new capabilities, and the risks that come with them, should be scrutinized on an individual basis, each with their own cost-benefit, risk-reward analysis, to determine whether or not they would be worth enabling on bitcoin, even in a validity rollup on L2. Some analysis of these issues was presented or referenced in this report, but should not be considered the last word on the subject.
+Optionally, the implementation of validity rollups on bitcoin could also support the verification of more powerful validity proofs. This would enable new capabilities for bitcoin users, such as support for more expressive smart contracts and stronger privacy protocols. Depending on how support for these more powerful validity proofs is implemented, these new capabilities could be enabled at little to no increase in the cost of running an L1 full node. However, these new capabilities could also come with new risks, such as enabling new kinds of AIM and MEV attacks, along with the possibility of provoking a crackdown on bitcoin by authoritarian governments who may be opposed to the strong privacy and censorship-resistant applications these protocols enable. Each of these new capabilities, and the risks that come with them, should be scrutinized on an individual basis, each with their own cost-benefit, risk-reward analysis, to determine whether or not they would be worth enabling on bitcoin, even in a validity rollup on L2. Some analysis of these issues was presented or referenced in this report, but should not be considered the last word on the subject. These are areas deserving of more research, experimentation, and observation.
 
 ## Appendix A. Comparing validity rollups to other protocols
 
 Validity rollups are part of a decade-long history of protocols designed to improve the scalability and capabilities of blockchain-based digital asset and smart contracts.
 
-We can see in Table 5 how validity rollups are designed with a unique combination of onchain data availability and validity proofs, giving them no channel or denomination limit and ownership security equal to that of their parent chain. See also similar comparisons (sans rollups) by Gudgeon et al in their April 2019 paper "SoK: Layer-Two Blockchain Protocols".[121]
+We can see in Table 5 how validity rollups are designed with a unique combination of onchain data availability and validity proofs, giving them no channel or denomination limit and ownership security equal to that of their parent chain. See also similar comparisons (sans rollups) by Gudgeon et al in their April 2019 paper "SoK: Layer-Two Blockchain Protocols".[157]
 
 **Table 5. Protocol comparison table**
 
@@ -519,57 +519,57 @@ We can see in Table 5 how validity rollups are designed with a unique combinatio
 |                           | Centralized sidechain [q]    | Custodial                 | Offchain                                  | No                         | No              | No                             |
 |                           | Zendoo[r]                    | Validity proof            | Offchain with onchain checkpoints         | No                         | Maybe**         | No                             |
 
-> Table 5 notes:
-> [ * ] "Parent chain miners can steal" here refers to the idea that if enough parent chain block producers aka "miners" collude then they can steal money from users of the protocol in question without either the cooperation of the user being stolen from (as would be necessary if they were censoring and extoring the user) or needing to re-org a parent chain block (as would be necessary if they were double-spend attacking the user).
+> Table 5 notes:  
+> [ * ] "Parent chain miners can steal" here refers to the idea that if enough parent chain block producers aka "miners" collude then they can steal money from users of the protocol in question without either the cooperation of the user being stolen from (as would be necessary if they were censoring and extoring the user) or needing to re-org a parent chain block (as would be necessary if they were double-spend attacking the user). See also <a href="https://lightco.in/2021/06/21/miners-can-steal/" target="_blank">https://lightco.in/2021/06/21/miners-can-steal/</a>
 > 
 > [ ** ] "Maybe" in this column refers to the fact that unilateral exit is possible only if the necessary data is available to users who need it to create their withdrawal transaction.
 > 
 > [ *** ] See Appendix C for more details about validia chains.
 
-> Table 5 references:
-> [a] https://lightning.network/lightning-network-paper.pdf
+> Table 5 references:  
+> [a] <a href="https://lightning.network/lightning-network-paper.pdf" target="_blank">https://lightning.network/lightning-network-paper.pdf</a>
 > 
-> [b] https://l4.ventures/papers/statechannels.pdf
+> [b] <a href="https://l4.ventures/papers/statechannels.pdf" target="_blank">https://l4.ventures/papers/statechannels.pdf</a>
 > 
-> [c] https://medium.com/@RubenSomsen/statechains-non-custodial-off-chain-bitcoin-transfer-1ae4845a4a39
+> [c] <a href="https://medium.com/@RubenSomsen/statechains-non-custodial-off-chain-bitcoin-transfer-1ae4845a4a39" target="_blank">https://medium.com/@RubenSomsen/statechains-non-custodial-off-chain-bitcoin-transfer-1ae4845a4a39</a>
 >
-> [d] https://plasma.io/plasma.pdf Note: There are [many varieties](https://medium.com/onther-tech/plasma-world-map-ba8810276bf2) of Plasma, but they all have the fundamental qualities described in the above table in common.
+> [d] <a href="https://plasma.io/plasma.pdf" target="_blank">https://plasma.io/plasma.pdf</a> Note: There are <a href="https://medium.com/onther-tech/plasma-world-map-ba8810276bf2" target="_blank">many varieties of Plasma</a>, but they all have the fundamental qualities described in the above table in common.
 >
-> [e] https://ethresear.ch/t/on-chain-scaling-to-potentially-500-tx-sec-through-mass-tx-validation/3477
+> [e] <a href="https://ethresear.ch/t/on-chain-scaling-to-potentially-500-tx-sec-through-mass-tx-validation/3477" target="_blank">https://ethresear.ch/t/on-chain-scaling-to-potentially-500-tx-sec-through-mass-tx-validation/3477</a>
 >
-> [f] https://ethresear.ch/t/minimal-viable-merged-consensus/5617
+> [f] <a href="https://ethresear.ch/t/minimal-viable-merged-consensus/5617" target="_blank">https://ethresear.ch/t/minimal-viable-merged-consensus/5617</a>
 >
-> [g] https://medium.com/starkware/volition-and-the-emerging-data-availability-spectrum-87e8bfa09bb
+> [g] <a href="https://medium.com/starkware/volition-and-the-emerging-data-availability-spectrum-87e8bfa09bb" target="_blank">https://medium.com/starkware/volition-and-the-emerging-data-availability-spectrum-87e8bfa09bb</a>
 >
-> [h] https://ethresear.ch/t/adamantium-power-users/9600
+> [h] <a href="https://ethresear.ch/t/adamantium-power-users/9600" target="_blank">https://ethresear.ch/t/adamantium-power-users/9600</a>
 >
-> [i] https://blog.matter-labs.io/zkporter-a-breakthrough-in-l2-scaling-ed5e48842fbf
+> [i] <a href="https://blog.matter-labs.io/zkporter-a-breakthrough-in-l2-scaling-ed5e48842fbf" target="_blank">https://blog.matter-labs.io/zkporter-a-breakthrough-in-l2-scaling-ed5e48842fbf</a>
 >
-> [j] https://blog.celestia.org/celestiums/ 
+> [j] <a href="https://blog.celestia.org/celestiums/" target="_blank">https://blog.celestia.org/celestiums/</a>
 >
-> [k] https://gist.github.com/RubenSomsen/7ecf7f13dc2496aa7eed8815a02f13d1
+> [k] <a href="https://gist.github.com/RubenSomsen/7ecf7f13dc2496aa7eed8815a02f13d1" target="_blank">https://gist.github.com/RubenSomsen/7ecf7f13dc2496aa7eed8815a02f13d1</a>
 >
-> [l] https://blockstream.com/sidechains.pdf
+> [l] <a href="https://blockstream.com/sidechains.pdf" target="_blank">https://blockstream.com/sidechains.pdf</a>
 >
-> [m] https://near.org/blog/eth-near-rainbow-bridge/
+> [m] <a href="https://near.org/blog/eth-near-rainbow-bridge/" target="_blank">https://near.org/blog/eth-near-rainbow-bridge/</a>
 >
-> [n] https://www.truthcoin.info/blog/drivechain/
+> [n] <a href="https://www.truthcoin.info/blog/drivechain/" target="_blank">https://www.truthcoin.info/blog/drivechain/</a>
 >
-> [o] https://github.com/nomic-io/bitcoin-peg/blob/master/bitcoinPeg.md
+> [o] <a href="https://github.com/nomic-io/bitcoin-peg/blob/master/bitcoinPeg.md" target="_blank">https://github.com/nomic-io/bitcoin-peg/blob/master/bitcoinPeg.md</a>
 >
-> [p] https://www.rsk.co/Whitepapers/RSK-White-Paper-Updated.pdf
+> [p] <a href="https://www.rsk.co/Whitepapers/RSK-White-Paper-Updated.pdf" target="_blank">https://www.rsk.co/Whitepapers/RSK-White-Paper-Updated.pdf</a>
 >
-> [q] https://wbtc.network/assets/wrapped-tokens-whitepaper.pdf 
+> [q] <a href="https://wbtc.network/assets/wrapped-tokens-whitepaper.pdf" target="_blank">https://wbtc.network/assets/wrapped-tokens-whitepaper.pdf</a>
 >
-> [r] https://arxiv.org/abs/2002.01847
+> [r] <a href="https://arxiv.org/abs/2002.01847" target="_blank">https://arxiv.org/abs/2002.01847</a>
 
 ## Appendix B. Comparing alternative cryptocurrency privacy techniques
 
 Due to many of bitcoin's current limitations (e.g. limited scripting capabilities) and qualities (e.g. transparent transaction amounts) the efforts to reduce the traceability and improve the privacy of bitcoin transactions are always an uphill battle. Examples of such protocols built for bitcoin include Cahoots, CoinJoin, CoinSwap, PayJoin, TumbleBit, stealth addresses, and variations or spinoffs thereof.
 
-Perhaps the most important weakness of bitcoin that makes privacy difficult is also seen as one of bitcoin's biggest strengths: the transparent nature of transaction amounts i.e. bitcoin's public auditability. Because bitcoin transaction amounts are transparent and publicly visible on the blockchain, they can be used to correlate senders and recipients and distinguish recipient addresses from change addresses and self-sends.[114, 115] Bitcoin privacy protocols try to fight these heuristics by mixing coins with one or more other users and by creating equal-amount outputs to increase the anonymity set of each transaction. But if any participant in the mix does something to de-anonymize themselves, they are removed from the anonymity set (sometimes without other mix participants even knowing). Eventually, an anonymity set can be whittled down to being no larger than a single-output transaction.[116] This gradual degradation of mix anonymity sets makes bitcoin privacy inherently fragile, requiring constant costs (incurred as mining fees) to maintain anonymity set sizes via re-mixing or other "post-mix" privacy techniques.
+Perhaps the most important weakness of bitcoin that makes privacy difficult is also seen as one of bitcoin's biggest strengths: the transparent nature of transaction amounts i.e. bitcoin's public auditability. Because bitcoin transaction amounts are transparent and publicly visible on the blockchain, they can be used to correlate senders and recipients and distinguish recipient addresses from change addresses and self-sends.[158, 159] Bitcoin privacy protocols try to fight these heuristics by mixing coins with one or more other users and by creating equal-amount outputs to increase the anonymity set of each transaction. But if any participant in the mix does something to de-anonymize themselves, they are removed from the anonymity set (sometimes without other mix participants even knowing). Eventually, an anonymity set can be whittled down to being no larger than a single-output transaction.[160] This gradual degradation of mix anonymity sets makes bitcoin privacy inherently fragile, requiring constant costs (incurred as mining fees) to maintain anonymity set sizes via re-mixing or other "post-mix" privacy techniques.
 
-The cost of maintaining anonymity set sizes, plus the requirement to wait for a sufficient number of users to mix equal-amount outputs to gain a sufficiently large anonymity set, can make bitcoin privacy techniques impractical for point of sale transactions or transactions of low value. There is justification for hoping that offchain protocols such as Lightning can offer improvemnts: because Lightning transactions are offchain, the details of transactions are only known to each node along a payment channel path, and in some cases only part of the details of the transaction are known to each node along the path. Atomic multipath routing could add even more ambiguity into Lightning payments, since routing nodes would not know whether they are routing the full payment or only part of the payment. However the privacy enabled here is probabilistic at best, and difficult to quantify for both senders and recipients: it could be the case that their counterparties along the path know either very little or everything about their payments. That's not to mention the privacy issues associated with balance probing and channel open/close transactions.[116] In its current form, Lightning is best considered to be a fast and high-throughput payments solution, not a privacy solution.
+The cost of maintaining anonymity set sizes, plus the requirement to wait for a sufficient number of users to mix equal-amount outputs to gain a sufficiently large anonymity set, can make bitcoin privacy techniques impractical for point of sale transactions or transactions of low value. There is justification for hoping that offchain protocols such as Lightning can offer improvemnts: because Lightning transactions are offchain, the details of transactions are only known to each node along a payment channel path, and in some cases only part of the details of the transaction are known to each node along the path. Atomic multipath routing could add even more ambiguity into Lightning payments, since routing nodes would not know whether they are routing the full payment or only part of the payment. However the privacy enabled here is probabilistic at best, and difficult to quantify for both senders and recipients: it could be the case that their counterparties along the path know either very little or everything about their payments. That's not to mention the privacy issues associated with balance probing and channel open/close transactions.[161] In its current form, Lightning is best considered to be a fast and high-throughput payments solution, not a privacy solution. (This could change in the future!)[76]
 
 Researchers have studied the shortcomings of bitcoin privacy protocols and invented new protocols that they believe offer significant improvements to protect user privacy. Here we examine three of the most well-known alternative privacy protocols and compare the amount of data that each reveals about its users, thereby providing a basis for comparing their relative privacy improvements.
 
@@ -581,43 +581,43 @@ Grin is the second independent implementation of the Mimblewimble protocol. Whil
 
 ![figure10_vr](https://user-images.githubusercontent.com/9424721/186960781-6f0abb70-3efa-4670-863d-9cf1e79875cb.png)
 
-> Image source: [117]
+> Image source: [162]
 
 To quote from the Grin documentation:
 
 > ...[I]t is possible to monitor peer-to-peer network activity and obtain the transactions before they're included in a block and aggregated with others. By setting up sniffing nodes connected to many peers, you can figure out which outputs are being spent by what transaction, allowing you to build a partial transaction graph by separating the aggregation done at the block level... As of today, an almost complete transaction graph can be constructed.[ibid] 
 
-Work is ongoing to improve the privacy of Mimblewimble-based cryptocurrencies by combining the protocol with other privacy techniques. See for example Chaidos and Gelfer's Lelantus-MW protocol.[118]
+Work is ongoing to improve the privacy of Mimblewimble-based cryptocurrencies by combining the protocol with other privacy techniques. See for example Chaidos and Gelfer's Lelantus-MW protocol.[163]
 
 ### Monero
 
-Monero launched as a fork of Bytecoin, which was the first implementation of the CryptoNote protocol. The defining privacy features of the CryptoNote protocol are its one-time ring signatures and stealth addresses.[119] Ring signatures enable senders to use outputs from other transactions as "decoy inputs" to obscure the true input or source of their transaction, in effect doing a non-interactive coinjoin with other users of the protocol. Stealth addresses enable recipients to share a static public address that senders then use to derive single-use private addresses, this way the addresses that appear as recipients on the blockchain cannot be linked to the public stealth address originally shared by the recipient.
+Monero launched as a fork of Bytecoin, which was the first implementation of the CryptoNote protocol. The defining privacy features of the CryptoNote protocol are its one-time ring signatures and stealth addresses.[164] Ring signatures enable senders to use outputs from other transactions as "decoy inputs" to obscure the true input or source of their transaction, in effect doing a non-interactive coinjoin with other users of the protocol. Stealth addresses enable recipients to share a static public address that senders then use to derive single-use private addresses, this way the addresses that appear as recipients on the blockchain cannot be linked to the public stealth address originally shared by the recipient.
 
-Monero has since improved on the original CryptoNote protocol by implementing RingCT, a protocol that combines ring signatures and confidential transactions to hide transaction amounts.[120] The addition of RingCT means that inputs no longer need to select equal-amount decoys, which makes it so that the anonymity set of each ring signature can be as large as the user is willing to pay for them to be (or as large as the protocol will allow them to be; as of Monero 0.13.0 all rings must have a size of 11, to ensure uniformity).[121]
+Monero has since improved on the original CryptoNote protocol by implementing RingCT, a protocol that combines ring signatures and confidential transactions to hide transaction amounts.[165] The addition of RingCT means that inputs no longer need to select equal-amount decoys, which makes it so that the anonymity set of each ring signature can be as large as the user is willing to pay for them to be (or as large as the protocol will allow them to be; as of Monero 0.13.0 all rings must have a size of 11, to ensure uniformity).[166]
 
-Despite Monero's significant privacy improvements compared to bitcoin, the web of transactions created by RingCT and stealth addresses are not as impenetrable as the mass of metadata on the blockchain would first appear. There are attacks based on common usage patterns such as the overseer attack, the flashlight attack, and the tainted dust attack that can be used to deanonymize either the sender or recipient of a transaction.[66] As with bitcoin-based privacy protocols, decoy-based protocols such as that implemented in Monero have been shown to be fragile in practice (though arguably more forgiving to "mistakes" than bitcoin, thanks to the multiple layers of cryptographic hiding and obfuscation).
+Despite Monero's significant privacy improvements compared to bitcoin, the web of transactions created by RingCT and stealth addresses are not as impenetrable as the mass of metadata on the blockchain would first appear. There are attacks based on common usage patterns such as the overseer attack, the flashlight attack, and the tainted dust attack that can be used to deanonymize either the sender or recipient of a transaction.[73] As with bitcoin-based privacy protocols, decoy-based protocols such as that implemented in Monero have been shown to be fragile in practice (though arguably more forgiving to "mistakes" than bitcoin, thanks to the multiple layers of cryptographic hiding and obfuscation).
 
 **Figure 11. How a Monero transaction looks in the explorermonero.com explorer**
 
 ![figure11_vr](https://user-images.githubusercontent.com/9424721/186961096-4d5c4718-36c6-4fc3-906c-2bc6058bfbd7.png)
 
-> Image source: [122]
+> Image source: [167]
 
 ### Zcash
 
-Zcash is the first implementation of the Zerocash protocol. The defining privacy feature of the Zerocash protocol is its use of zk-SNARKs to encrypt the amount, sender, and recipient of specially-crafted "shielded" transactions, fully hiding these details from the public. Rather than refer to specific public accounts or transparent unspent transaction outputs in the blockchain, spenders instead create a zero-knowledge proof that convinces network full nodes that the sender owns and can therefore spend a certain number of "notes" (the encrypted equivalent of unspent transaction outputs) and that the amounts of the encrypted inputs are equal to the sum of the encrypted outputs plus the transparent mining fee.[123]
+Zcash is the first implementation of the Zerocash protocol. The defining privacy feature of the Zerocash protocol is its use of zk-SNARKs to encrypt the amount, sender, and recipient of specially-crafted "shielded" transactions, fully hiding these details from the public. Rather than refer to specific public accounts or transparent unspent transaction outputs in the blockchain, spenders instead create a zero-knowledge proof that convinces network full nodes that the sender owns and can therefore spend a certain number of "notes" (the encrypted equivalent of unspent transaction outputs) and that the amounts of the encrypted inputs are equal to the sum of the encrypted outputs plus the transparent mining fee.[168]
 
 **Figure 12. How a Zcash shielded transaction looks in the zcha.in explorer**
 
 ![figure12_vr](https://user-images.githubusercontent.com/9424721/186961677-5b858ee8-9d44-4208-8d9a-f456693c9581.png)
 
-> Image source: [124]
+> Image source: [169]
 
-While Zerocash transactions hide the most transaction information of all currently known techniques, there is still some onchain metadata leakage that could be used to de-anonymize transactions. For example, a Zerocash transaction publicly reveals the amount of inputs and outputs used in the transaction. This has been shown in practice to be enough information to de-anonymize the sender of a Zerocash transaction.[125] While this demonstration was contrived, and there is a way to mitigate this attack by merging the notes together before sending them to their final destination, and the risk of deanonymization decreases the more transactions with like-input-and-output note amounts there are to hide among, the mock attack showed how the little metadata that Zerocash does reveal can be used to deanonymize users. Countermeasures against the onchain (and offchain) metadata leaks that there are must therefore be taken by users (or the wallets of users) who need to remain unidentifiable when transacting with shielded coins.
+While Zerocash transactions hide the most transaction information of all currently known techniques, there is still some onchain metadata leakage that could be used to de-anonymize transactions. For example, a Zerocash transaction publicly reveals the amount of inputs and outputs used in the transaction. This has been shown in practice to be enough information to de-anonymize the sender of a Zerocash transaction.[170] While this demonstration was contrived, and there is a way to mitigate this attack by merging the notes together before sending them to their final destination, and the risk of deanonymization decreases the more transactions with like-input-and-output note amounts there are to hide among, the mock attack showed how the little metadata that Zerocash does reveal can be used to deanonymize users. Countermeasures against the onchain (and offchain) metadata leaks that there are must therefore be taken by users (or the wallets of users) who need to remain unidentifiable when transacting with shielded coins.
 
 ### A note on "opt-out" vs "opt-in" privacy
 
-Some people may argue that the "opt-in" nature of encrypted protocols implemented in a validity rollup makes the privacy less effective for those who use it, and that "opt-out" encrypted protocols on blockchains such as Beam or Monero will always provide superior privacy, all else being equal. This is a misunderstanding. There is actually no such thing as purely "opt-out" privacy, because _all_ protocols, private or not, are "opt-in" at first (assuming no one is coerced by some external force to use them). People "opt-in" to using Monero by choosing to download a Monero wallet and buy, receive, or mine monero, just as people would "opt-in" to using an encrypted validity rollup on bitcoin by downloading a compatible bitcoin wallet and buying or receiving encrypted bitcoin or depositing their transparent bitcoin into the encrypted validity rollup. Likewise, an encrypted bitcoin user could choose to never touch transparent bitcoin, the same way a Monero user can choose to never touch transparent bitcoin. In both cases, people first "opt-in" to the encrypted protocol, and then they can choose whether or not they ever want to "opt-out". The only meaningful difference to end users in these cases is the unit of account involved.
+Some people may argue that the "opt-in" nature of encrypted protocols implemented in a validity rollup makes the privacy less effective for those who use it, and that "opt-out" encrypted protocols (where the encryption is "on by default" and users must explicitly "opt-out" to remove the encryption) on blockchains such as Beam or Monero will always provide superior privacy, all else being equal. This is a misunderstanding. There is actually no such thing as purely "opt-out" encryption, because _all_ protocols, encrypted or not, are "opt-in" at first, external coercion notwithstanding. People "opt-in" to encrypting their transactions using Monero by choosing to download a Monero wallet and buy, receive, or mine monero, just as people would "opt-in" to using an encrypted validity rollup on bitcoin by downloading a compatible bitcoin wallet and depositing their transparent bitcoin into the encrypted validity rollup or buying or receiving encrypted bitcoin. Likewise, an encrypted bitcoin user could choose to never touch transparent bitcoin, the same way a Monero user can choose to never touch transparent bitcoin. In both cases, people first "opt-in" to the encrypted protocol, and then they can choose whether or not they ever want to "opt-out". The only meaningful difference to end users in these cases is the unit of account involved.
 
 ## Appendix C. Increasing throughput with offchain data availability
 
@@ -633,7 +633,7 @@ The validia chain varieties invented so far are:
 - Volition: Per-transaction choice between offchain or onchain data availability
 - Adamantium: Choice between custodial or self-custodial offchain data availability, with onchain fallback
 
-("Validia chain" and "valutia" (pronounced "vuh-loo-sha") are new nomenclature developed for this report to classify previously unnamed categories of blockchains. Since the other categories mentioned here had cool names it seemed appropriate to assign a couple of new cool names where they seemed needed.)
+("Validia chain" and "valutia" — pronounced "vuh-loo-sha" — are new nomenclature developed for this report to classify previously unnamed categories of blockchains. Since the other categories mentioned here had cool names it seemed appropriate to assign a couple of new cool names where it seemed like they were needed.)
 
 Since data availability is no longer provided by the parent chain, validia chains are not considered rollups. However, validia chains do still offer many benefits when compared to alternatives:
 - No channel limitations (unlike state channels)
@@ -649,7 +649,7 @@ To expand on each of the options:
 
 A validium is a validia chain where data availability is provided by one or more uncollateralized third party data custodians. In order for the state of a validium to advance, the data custodian (or m-of-n custodians, if a federation of data custodians is used) must sign the new state root, attesting that they have a copy of the data. If the validium ceases producing blocks for some reason, users can query the data custodian(s) to receive a copy of the data they need to produce a validity proof and unilaterally exit the validium and withdraw their assets back to the parent chain. So long as at least one data custodian has the necessary data, unilateral exit remains possible. If no full copy of the validium state data is available, then the assets of all users of the validium are frozen until the data becomes available again.
 
-The first mainnet Validium deployed was DeversiFi, a noncustodial exchange built on Ethereum.[125]
+The first mainnet Validium deployed was DeversiFi, a noncustodial exchange built on Ethereum.[171]
 
 ### Validity valutia
 
@@ -659,9 +659,9 @@ If at any point data that should be available becomes unavailable, then the coll
 
 Since data availability is provided offchain, it is expected that storing valutia data will be less expensive than storing it directly on the parent chain, as it would be with a rollup. At the same time, the collateralized value at stake should provide stronger data availability guarantees than a validium's uncollateralized data custodians. This offers users one more option in the tradeoff space of cost and security.
 
-In an April 2021 blog post, Matter Labs proposed the first validity valutia, zkPorter.[126] The design Matter Labs proposed used Ethereum as the settlement layer and a network of zkSync token stakers for data availability. In a February 2022 blog post, Celestia Labs proposed a similar valutia design called a Celestium, which could work with validity proof- or fault proof-secured bridges.[127] Celestia Labs proposed that Celestiums would use Ethereum as the settlement layer and a separate blockchain called Celestia specifically for data availability.
+In an April 2021 blog post, Matter Labs proposed the first validity valutia, zkPorter.[172] The design Matter Labs proposed used Ethereum as the settlement layer and a network of zkSync token stakers for data availability. In a February 2022 blog post, Celestia Labs proposed a similar valutia design called a Celestium, which could work with validity proof- or fault proof-secured bridges.[173] Celestia Labs proposed that Celestiums would use Ethereum as the settlement layer and a separate blockchain called Celestia specifically for data availability.
 
-In the May 2019 "LazyLedger: A Distributed Data Availability Ledger With Client-Side Smart Contracts" paper that Celestia is based on, Al-Bassam proposes using "data availability sampling" so that valutia chain nodes that rely on LazyLedger for data availability do not have to download the entire LazyLedger blockchain to confirm whether or not the data is available.[128] This data availability sampling technique is based on earlier work by Al-Bassam et al in the September 2018 paper "Fraud Proofs: Maximising Light Client Security and Scaling Blockchains with Dishonest Majorities".[129] Later research published by Joachim Neu in August 2022 shows that data availability sampling is not a silver bullet, and there remain several open questions about the effectiveness of this technique at scale.[130]
+In the May 2019 "LazyLedger: A Distributed Data Availability Ledger With Client-Side Smart Contracts" paper that Celestia is based on, Al-Bassam proposes using "data availability sampling" so that valutia chain nodes that rely on LazyLedger for data availability do not have to download the entire LazyLedger blockchain to confirm whether or not the data is available.[174] This data availability sampling technique is based on earlier work by Al-Bassam et al in the September 2018 paper "Fraud Proofs: Maximising Light Client Security and Scaling Blockchains with Dishonest Majorities".[175] Later research published by Joachim Neu in August 2022 shows that data availability sampling is not a silver bullet, and there remain several open questions about the effectiveness of this technique at scale.[176]
 
 ### Volition
 
@@ -669,7 +669,7 @@ A volition gives users a choice on a per-transaction basis between storing data 
 
 The per-transaction optionality provided by volitions means that users can tailor the security and cost of their transaction to the given application. For low-stakes applications, such as recreational gaming or low-value payments, validium/valutia mode could be used. For high-stakes applications, such as rare art collecting or high-value trades, rollup mode could be used. To reduce the decision cost, applications could suggest a mode to use depending on the value or context of a transaction, or even make that decision for the user automatically based on a user-configurable setting.
 
-Volitions were first described by StarkWare in their June 2020 post "Volition and the Emerging Data Availability Spectrum".[125] zkPorter was the first proposed implementation of volition.[126]
+Volitions were first described by StarkWare in their June 2020 post "Volition and the Emerging Data Availability Spectrum".[171] zkPorter was the first proposed implementation of volition.[172]
 
 ### Adamantium
 
@@ -681,7 +681,7 @@ If a Power User does not sign the new state root in a timely manner, then their 
 
 The adamantium model is not risk-free: although Power Users must attest to having the necessary data to enable unilateral exit, it is possible that they don't actually have the data at the time of the attestation, or that they later lose access to the data for some reason. Users must weigh the cost of computing the state and securing backups of this data (or paying someone else to do this for them, and taking on the risk of this outsourcing) against the cost of using a validity rollup that has strong data availability guarantees built-in.
 
-The Adamantium model was first described by Starkware in their June 2020 post "Volition and the Emerging Data Availability Spectrum" under the name "Trustless Off-Chain Data Availability" or "TODA" for short.[125] It was later given the name "Adamantium" and described in-depth by Avihu Levy in the Ethereum research forum in May 2021.[128]
+The Adamantium model was first described by Starkware in their June 2020 post "Volition and the Emerging Data Availability Spectrum" under the name "Trustless Off-Chain Data Availability" or "TODA" for short.[171] It was later given the name "Adamantium" and described in-depth by Avihu Levy in the Ethereum research forum in May 2021.[177]
 
 ### The data availability security spectrum
 
@@ -696,13 +696,13 @@ The Adamantium model was first described by Starkware in their June 2020 post "V
 | Uncollateralized Volition | Data onchain or offchain (uncollateralized)                                                                |
 | Valdium                   | Data offchain (uncollateralized)                                                                           |
 
-> Table 6 description: Categorizing validity bridges based on the data availability solution used. Ordered from most to least security, in the author's humble opinion. Inspired by the table by Brand et al in [125]. Onchain settlement + onchain data availability is a validity rollup, which offers the strongest security guarantees. Onchain settlement + offchain data availability opens a diverse spectrum of options for data availability with varying degrees of cost and security for end users to consider.
+> Table 6 description: Categorizing validity bridges based on the data availability solution used. Ordered from most to least security, in the author's humble opinion. Inspired by the table by Brand et al in [171]. Onchain settlement + onchain data availability is a validity rollup, which offers the strongest security guarantees. Onchain settlement + offchain data availability opens a diverse spectrum of options for data availability with varying degrees of cost and security for end users to consider.
 
 ## Appendix D. A closer look at validity sidechains
 
 In the October 2014 paper "Enabling Blockchain Innovations with Pegged Sidechains" by Back et al, the authors defined a pegged sidechain as:
 
-> a sidechain whose assets can be imported from and returned to other chains; that is, a sidechain that supports two-way pegged assets.[129]
+> a sidechain whose assets can be imported from and returned to other chains; that is, a sidechain that supports two-way pegged assets.[178]
 
 In the same paper, Back et al also gave pegged sidechains these ownership security requirements:
 
@@ -717,7 +717,7 @@ Another protocol that satisfies requirement (1) is a validity sidechain. This is
 
 > An exciting recent development in academic cryptography has been the invention of SNARKs. SNARKs are space-efficient, quickly verifiable zero-knowledge cryptographic proofs that some computation was done... Then blocks could be constructed which prove their changes to the unspent-output set, but do so in zero-knowledge in the actual transactions. They could even commit to the full verification of all previous blocks, allowing new users to get up to speed by verifying only the single latest block. These proofs could also replace the DMMSes used to move coins from another chain by proving that the sending chain is valid according to some rules previously defined. [ibid]
 
-The first production implementation of a validity sidechain protocol is Zendoo, which was activated on the Horizen mainnet in December 2021.[129] The Zendoo protocol works by requiring that sidechains are registered on the parent chain and then submit "withdrawal certificates" as checkpoints on the parent chain at the end of each sidechain "epoch". Each epoch consists of some number of sidechain blocks that have been added to the chain tip since the end of the previous epoch, plus the forward and backward transfer requests to and from the sidechain. The withdrawal certificate contains data about the sidechain, such as the sidechain ID, the epoch ID, the quality of the certificate (showing that it represents the state of the canonical chain), a hash of the current state of the sidechain, a hash of the last sidechain block accounted for, a bit vector defining all of the UTXOs that have been modified (consumed and created), and a validity proof that proves that the withdrawal certificate is valid according to both the rules of the sidechain and the Zendoo protocol implemented on the parent chain.
+The first production implementation of a validity sidechain protocol is Zendoo, which was activated on the Horizen mainnet in December 2021.[179] The Zendoo protocol works by requiring that sidechains are registered on the parent chain and then submit "withdrawal certificates" as checkpoints on the parent chain at the end of each sidechain "epoch". Each epoch consists of some number of sidechain blocks that have been added to the chain tip since the end of the previous epoch, plus the forward and backward transfer requests to and from the sidechain. The withdrawal certificate contains data about the sidechain, such as the sidechain ID, the epoch ID, the quality of the certificate (showing that it represents the state of the canonical chain), a hash of the current state of the sidechain, a hash of the last sidechain block accounted for, a bit vector defining all of the UTXOs that have been modified (consumed and created), and a validity proof that proves that the withdrawal certificate is valid according to both the rules of the sidechain and the Zendoo protocol implemented on the parent chain.
 
 A problem can arise if the majority of sidechain block producers continue to produce blocks for an epoch but they do not share the data for these blocks with anyone else, and at they end of the epoch they confirm a withdrawal certificate for this epoch. This can create a data availability problem. If the sidechain experiences this data withholding fault, then any user who had a transaction confirmed in the unavailable block(s) and _does not_ have the data for the transaction will lose access to the UTXO(s) involved until the data becomes available. However, using the information in the withdrawal certificate confirmed on the parent chain, all users who _do_ have a copy of the transaction in which they received a UTXO in the current UTXO set (even just a copy of the raw transaction broadcast over the p2p network) will have enough data to produce a proof showing that they own the UTXO as of the last confirmed sidechain state. The validity proof can then be used to unilaterally exit the sidechain back to the parent chain.
 
@@ -730,25 +730,25 @@ The current implementation of Zendoo has a fixed cost of around 152 kilobytes (K
 | Transaction type             | 1,000,000 WU                          | 3,000,0000 WU                       | Total (tx/block) |
 | ---------------------------- |:-------------------------------------:|:-----------------------------------:|:----------------:|
 | Rollup 1-input-2-output UTXO | Validity proof, script, other tx data | 26,432 txs (113.5 WU/tx)            | 26,432           |
-| Zendoo 1-input-2-output UTXO | Validity proof, script, other tx data | 100,000 txs (106,000 WU/bit vector) | 100,000          |
+| Zendoo 1-input-2-output UTXO | Validity proof, script, other tx data | 100,000 txs (106,000 WU/bit vector) | 2,500,000        |
 
-> Table 7 description: The block is broken up into 1,000,000 WU and 3,000,000 WU portions to illustrate how in the case of rollup transactions, some of the weight limit is reserved for the validity proof and script data while the rest can be used for the rollup transaction data. In the case of Zendoo state updates, there is also a fixed cost for the validity proof and script data. Zendoo state updates currently max out at around 100,000 txs per bit vector, costing at most 106,000 WU per withdrawal certificate (assuming that, similar to validity rollup data as described in Section 4.1, the witness discount is applied to Zendoo bit vector data).
+> Table 7 description: The block is broken up into 1,000,000 WU and 3,000,000 WU portions to illustrate how in the case of rollup transactions, some of the weight limit is reserved for the validity proof and script data while the rest can be used for the rollup transaction data. In the case of Zendoo state updates, there is also a fixed cost for the validity proof and script data. Zendoo state updates currently max out at around 100,000 transactions per withdrawal certificate, at a cost of about 152,000 WU per withdrawal certificate (assuming that, similar to validity rollup data as described in Section 4.1, the witness discount is applied to all Zendoo data). Assuming a cost of around 2000 WU for each state update script, that means about 25 Zendoo state updates could fit into each bitcoin L1 block, for a maximum of 2,500,000 transactions per block.
 
 ## Appendix E. Enabling additional throughput increases with validity proofs
 
-Validity proofs can be used to help bitcoin scale even further than validity rollups alone enable. Using recursive proofs, the validity of the blockchain up to a given block height could be proven using a single aggregated proof.[130] The implication is that the block size limit could be increased without making it any harder for full nodes to verify the blockchain. The block size limit wouldn't be able to be increased _too much_, and developers would still need to ensure block propagation times remain reasonable, but even a 50-100% increase could mean up to an additional 125,000-250,000 rollup transactions per block. 
+Validity proofs can be used to help bitcoin scale even further than validity rollups alone enable. Using recursive proofs, the validity of the blockchain up to a given block height could be proven using a single aggregated proof.[180] The implication is that the block size limit could be increased without making it any harder for full nodes to verify the blockchain. The block size limit wouldn't be able to be increased _too much_, and developers would still need to ensure block propagation times remain reasonable, but even a 50-100% increase could mean up to an additional 125,000-250,000 rollup transactions per block. 
 
-There are several factors holding back bitcoin block size limit increases today. One is that the larger blocks are allowed to get, the longer they take to verify.[131] A uniquely formatted block could be easy for a powerful computer to verify, but harder for weaker machines to verify. This puts more powerful computers at a mining advantage, because they can mine one of these uniquely formatted blocks, broadcast it to the network, and begin working on the next block before less powerful miners have finished verifying the block. Related is the time it takes for initial block download (IBD). As larger blocks are added to the chain tip, it takes longer and longer for full nodes to sync up to the chain tip and then keep up with the chain tip as new blocks are mined.
+There are several factors holding back bitcoin block size limit increases today. One is that the larger blocks are allowed to get, the longer they take to verify.[181] A uniquely formatted block could be easy for a powerful computer to verify, but harder for weaker machines to verify. This puts more powerful computers at a mining advantage, because they can mine one of these uniquely formatted blocks, broadcast it to the network, and begin working on the next block before less powerful miners have finished verifying the block. Related is the time it takes for initial block download (IBD). As larger blocks are added to the chain tip, it takes longer and longer for full nodes to sync up to the chain tip and then keep up with the chain tip as new blocks are mined.
 
 Another factor holding back block size limit increases is block propagation time due to network bandwidth constraints. Larger blocks propagate slower through the network by virtue of their larger size relative to the bandwidth speeds available to peers on the network.[ibid] This effect can create an incentive for centralization of mining in private, high-speed networks, or even centralization within the same data centers, so that miners can quickly propagate blocks to each other without the latency introduced by p2p network bandwidth constraints.
 
 Proofs of the validity of the blockchain solve the IBD issue for blocks of arbitrary size by removing the requirement that full nodes download and execute every transaction in every block to sync up to the chain tip. Instead, a validity proof can be produced as of a given block height `n` that can be used to convince full nodes that 1) a copy of the UTXO set is derived from the heaviest valid chain as of block `n` and 2) that newly received blocks `n+1, n+2, etc` correctly build upon the heaviest valid chain. This means that full nodes only have to download a copy of the UTXO set as of block `n`, verify the proof of `n`, and execute transactions in blocks built on top of `n` up until the next proof, rather than execute all transactions in all blocks from genesis. Proofs can continue to be generated for each block or for batches of blocks to maintain fast IBD and sync times for full nodes.
 
-This "proof-sync" technique may solve the IBD problem of large blocks, but it does not solve the mining centralization problems. Work still needs to be done to decrease the bandwidth costs and propogation times of increased Layer 1 transaction volume, for example by implementing or further optimizing protocols such as Compact Block Relay and Erlay that reduce bandwidth requirements even as transaction volume increases.[132, 133] And there's no getting around the requirement for storage of blockchain data, which increases as the size of the blockchain grows. Still, having one less problem to solve (the IBD problem) is a nice improvement. The best part is that no consensus rule changes are required to implement and start using proof-sync clients. As of the time of writing, Lukas George and Robin Linus have begun work on a proof-sync bitcoin client implementation written in Cairo called "Zerosync".[134] 
+This "proof-sync" technique may solve the IBD problem of large blocks, but it does not solve the mining centralization problems. Work still needs to be done to decrease the bandwidth costs and propogation times of increased Layer 1 transaction volume, for example by implementing or further optimizing protocols such as Compact Block Relay and Erlay that reduce bandwidth requirements even as transaction volume increases.[182, 183] And there's no getting around the requirement for storage of blockchain data, which increases as the size of the blockchain grows. Still, having one less problem to solve (the IBD problem) is a nice improvement. The best part is that no consensus rule changes are required to implement and start using proof-sync clients. As of the time of writing, Lukas George and Robin Linus have begun work on a proof-sync bitcoin client implementation written in Cairo called "Zerosync".[184] 
 
 ## Appendix F. Mitigating harm from compromised cryptographic proof protocols and toxic waste
 
-One concern that is often brought up when discussing the idea of implementing cryptographic proofs for privacy on bitcoin is the possibility of unexpected inflation. If someone discovers this kind of vulnerability in the cryptography used for the privacy protocol, they can exploit the vulnerability to mint an arbitrary amount of BTC. Furthermore, because transactions using the privacy protocol are encrypted in some way, the inflation will be undetectable for some period of time. This concern stems from a fundamental tradeoff in the design of cryptocurrency privacy protocols based on cryptographic proofs: a cryptographic proof can be perfectly hiding, or perfectly binding, but not both.[135] This tradeoff means that the protocol designer must either allow the money supply to be inflated via counterfeit but preserve privacy if the cryptography is broken (perfectly hiding), or they preserve the money supply integrity but allow privacy to be broken (perfectly binding). Production implementations of encrypted transactions, including those covered in Appendix B, are typically designed to be perfectly hiding.
+One concern that is often brought up when discussing the idea of implementing cryptographic proofs for privacy on bitcoin is the possibility of unexpected inflation. If someone discovers this kind of vulnerability in the cryptography used for the privacy protocol, they can exploit the vulnerability to mint an arbitrary amount of BTC. Furthermore, because transactions using the privacy protocol are encrypted in some way, the inflation will be undetectable for some period of time. This concern stems from a fundamental tradeoff in the design of cryptocurrency privacy protocols based on cryptographic proofs: a cryptographic proof can be perfectly hiding, or perfectly binding, but not both.[185] This tradeoff means that the protocol designer must either allow the money supply to be inflated via counterfeit but preserve privacy if the cryptography is broken (perfectly hiding), or they preserve the money supply integrity but allow privacy to be broken (perfectly binding). Production implementations of encrypted transactions, including those covered in Appendix B, are typically designed to be perfectly hiding.
 
 The same risk exists when using computational proofs for transaction verification as opposed to transaction privacy, for example to verify unencrypted rollup transactions. If the cryptographic proof is broken, then anyone who exploits the vulnerability will be able to forge proofs withdraw assets from the rollup even if they do not have the private keys to the addresses that control those assets according to the rollup ledger. In this case, the forgery can be detected immediately, but there is still the potential for disastrous harm if L1 full nodes and miners do not react to prevent the forged proofs from being confirmed on L1.
 
@@ -758,7 +758,7 @@ Some people may argue that building an encrypted validity rollup on bitcoin woul
 
 So if you don't want to worry about being left holding worthless encrypted bitcoin because someone exploited an inflation vulnerability and withdrew the maximum available balance from the rollup, you can keep all of your bitcoin in a fully-auditable transparent bitcoin layer. If you are willing to risk keeping some spending bitcoin encrypted so you can transact with strong privacy but want to keep the rest of your bitcoin transparent so you don't put your savings at risk of undetectable inflation then you can do that too. And if you aren't worried about an inflation vulnerability at all, or find the privacy gains worth the risk, you can keep all of your bitcoins encrypted if you want to. The encrypted rollup gives you several options depending on your risk tolerance.
 
-It's important to note here that undetectable inflation in encrypted protocols is _already possible_ because there are already encrypted protocols where the supply of encrypted bitcoin-denominated assets is at risk of an inflation vulnerability. For example, L-BTC on Liquid and renBTC on Aztec could both be unexpectedly and undetectably inflated if there was an inflation vulnerability that got exploited.[136, 70] The only relevant difference between these existing encrypted protocols and validity rollups for the purpose of this discussion is that with L-BTC and renBTC bitcoin users have to trust third parties with the custody of their satoshis while validity rollups are non-custodial by design. The outcome that would be achieved by someone who opposes the implementation of an encrypted validity rollup on bitcoin due to concerns about undetectable inflation would not be to prevent users from putting their bitcoin at risk of an inflation vulnerability, but to prevent users from doing so _in a non-custodial way_ and instead drive bitcoins into the control of trusted custodians — the law of unintended(?) consequences in action.[137]
+It's important to note here that undetectable inflation in encrypted protocols is _already possible_ because there are already encrypted protocols where the supply of encrypted bitcoin-denominated assets is at risk of an inflation vulnerability. For example, L-BTC on Liquid and renBTC on Aztec could both be unexpectedly and undetectably inflated if there was an inflation vulnerability that got exploited.[186, 78] The only relevant difference between these existing encrypted protocols and validity rollups for the purpose of this discussion is that with L-BTC and renBTC bitcoin users have to trust third parties with the custody of their satoshis while validity rollups are non-custodial by design. The outcome that would be achieved by someone who opposes the implementation of an encrypted validity rollup on bitcoin due to concerns about undetectable inflation would not be to prevent users from putting their bitcoin at risk of an inflation vulnerability, but to prevent users from doing so _in a non-custodial way_ and instead drive bitcoins into the control of trusted custodians — the law of unintended(?) consequences in action.[187]
 
 ## References
 
@@ -912,7 +912,7 @@ It's important to note here that undetectable inflation in encrypted protocols i
 
 [75] https://medium.com/boltlabs/zkchannels-for-bitcoin-f1bbf6e3570e
 
-[76] https://arxiv-export1.library.cornell.edu/abs/2208.09716v1
+[76] https://arxiv.org/abs/2208.09716v1
 
 [77] https://bitcoiner.guide/privacy/
 
@@ -1022,154 +1022,120 @@ It's important to note here that undetectable inflation in encrypted protocols i
 
 [130] https://lightco.in/2022/06/15/miners-can-steal-2/
 
-[111] https://yewtu.be/watch?v=vAE5fOZ2Luw (fast forward to 11:01)
+[131] https://yewtu.be/watch?v=vAE5fOZ2Luw (fast forward to 11:01)
 
-[112] https://bitcoinmagazine.com/culture/bitcoin-songsheet-private-property
+[132] https://bitcoinmagazine.com/culture/bitcoin-songsheet-private-property
 
-[113] https://github.com/bitcoin/bips/blob/master/bip-0011.mediawiki 
+[133] https://github.com/bitcoin/bips/blob/master/bip-0011.mediawiki 
 
-[114] https://docs.blockstream.com/blockstream-amp/overview.html
+[134] https://docs.blockstream.com/blockstream-amp/overview.html
 
-[115] https://docs.blockstream.com/blockstream-amp/case-studies.html#case-study-2-exordium-security-token
+[135] https://docs.blockstream.com/blockstream-amp/case-studies.html#case-study-2-exordium-security-token
 
-[116] https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2022-February/019923.html
+[136] https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2022-February/019923.html
 
---
+[137] https://www.forbes.com/sites/adelsteinjake/2018/04/30/japans-financial-regulator-is-pushing-crypto-exchanges-to-drop-altcoins-favored-by-criminals/
 
-New - TODO: cleanup
+[138] https://asiatimes.com/2020/11/south-korea-bans-privacy-coins/
 
-[116] https://www.forbes.com/sites/adelsteinjake/2018/04/30/japans-financial-regulator-is-pushing-crypto-exchanges-to-drop-altcoins-favored-by-criminals/?sh=19be8fad1b8a
+[139] https://finance.yahoo.com/news/litecoin-anonymity-gets-booted-south-031233431.html
 
-[117] https://asiatimes.com/2020/11/south-korea-bans-privacy-coins/
+[140] https://home.treasury.gov/news/press-releases/jy0916
 
-[118] https://finance.yahoo.com/news/litecoin-anonymity-gets-booted-south-031233431.html
+[141] https://twitter.com/batuhan_katirci/status/1558086141273722880
 
-[119] https://home.treasury.gov/news/press-releases/jy0916
+[142] https://twitter.com/WuBlockchain/status/1560989831307890690
 
-[120] https://twitter.com/batuhan_katirci/status/1558086141273722880
+[143] https://twitter.com/takenstheorem/status/1560479290264883201
 
-[121] https://twitter.com/WuBlockchain/status/1560989831307890690
+[144] https://www.coincenter.org/analysis-what-is-and-what-is-not-a-sanctionable-entity-in-the-tornado-cash-case/
 
-[122] https://twitter.com/takenstheorem/status/1560479290264883201
+[145] https://www.paradigm.xyz/2022/09/base-layer-neutrality
 
-[123] https://www.coincenter.org/analysis-what-is-and-what-is-not-a-sanctionable-entity-in-the-tornado-cash-case/
+[146] https://www.pymnts.com/cryptocurrency/2022/privacy-coin-moneros-use-in-ransomware-fuels-growing-security-concerns/
 
-[124] https://www.paradigm.xyz/2022/09/base-layer-neutrality
+[147] https://fc18.ifca.ai/preproceedings/6.pdf
 
---
+[148] https://en.wikipedia.org/wiki/Lindy_effect
 
-[115] https://www.pymnts.com/cryptocurrency/2022/privacy-coin-moneros-use-in-ransomware-fuels-growing-security-concerns/
+[149] https://twitter.com/allenyhsu/status/1203879946591981568
 
-[116] https://fc18.ifca.ai/preproceedings/6.pdf
+[150] https://tradelayer.substack.com/p/trade-offs-in-zk-design-space
 
---
-New - TODO: cleanup
+[151] https://electriccoin.co/blog/zcash-counterfeiting-vulnerability-successfully-remediated/
 
-[112] https://en.wikipedia.org/wiki/Lindy_effect
+[152] https://medium.com/aztec-protocol/vulnerabilities-found-in-aztec-2-0-9b80c8bf416c
 
-[113] https://twitter.com/allenyhsu/status/1203879946591981568
+[153] https://hackmd.io/@aztec-network/disclosure-of-recent-vulnerabilities
 
-[114] https://tradelayer.substack.com/p/trade-offs-in-zk-design-space
+[154] https://vitalik.ca/general/2022/03/14/trustedsetup.html
 
-[115] https://electriccoin.co/blog/zcash-counterfeiting-vulnerability-successfully-remediated/
+[155] https://medium.com/starkware/stark-math-the-journey-begins-51bd2b063c71
 
-[116] https://medium.com/aztec-protocol/vulnerabilities-found-in-aztec-2-0-9b80c8bf416c
+[156] https://yewtu.be/watch?v=8qSA29vWWds
 
-[117] https://hackmd.io/@aztec-network/disclosure-of-recent-vulnerabilities
+[157] https://eprint.iacr.org/2019/360
 
-[118] https://vitalik.ca/general/2022/03/14/trustedsetup.html
+[158] https://en.bitcoin.it/wiki/Privacy#Amount_correlation
 
-[119] https://medium.com/starkware/stark-math-the-journey-begins-51bd2b063c71
+[159] https://en.bitcoin.it/wiki/Privacy#Change_address_detection
 
-[120] https://yewtu.be/watch?v=8qSA29vWWds
+[160] https://arxiv.org/abs/2109.10229v2
 
-[121] https://eprint.iacr.org/2019/360
+[161] https://abytesjourney.com/lightning-privacy/
 
---
+[162] https://docs.grin.mw/about-grin/privacy/
 
-[114] https://en.bitcoin.it/wiki/Privacy#Amount_correlation
+[163] https://docs.beam.mw/Lelantus-MW.pdf
 
-[115] https://en.bitcoin.it/wiki/Privacy#Change_address_detection
+[164] https://bytecoin.org/old/whitepaper.pdf
 
---
+[165] https://www.getmonero.org/2016/09/19/monero-0.10.0-released.html
 
-New - TODO: cleanup
+[166] https://www.getmonero.org/2018/10/11/monero-0.13.0-released.html
 
-[116] https://arxiv.org/abs/2109.10229v2
+[167] https://www.exploremonero.com/transaction/9942cb34786bbb46f106ed31a6bb67eeb6e946d592def0900cab60ca83199f22
 
---
+[168] https://z.cash/technology/zksnarks/
 
-[116] https://abytesjourney.com/lightning-privacy/
+[169] https://explorer.zcha.in/transactions/169b903466119c78653eaf94d8d4b69eb51c38a3a6fcaa318f21f41adcec59ea
 
-[117] https://docs.grin.mw/about-grin/privacy/
+[170] https://twitter.com/socrates1024/status/1224434578149888000
 
-[118] https://docs.beam.mw/Lelantus-MW.pdf
+[171] https://medium.com/starkware/volition-and-the-emerging-data-availability-spectrum-87e8bfa09bb
 
-[119] https://bytecoin.org/old/whitepaper.pdf
+[172] https://blog.matter-labs.io/zkporter-a-breakthrough-in-l2-scaling-ed5e48842fbf
 
-[120] https://www.getmonero.org/2016/09/19/monero-0.10.0-released.html
+[173] https://blog.celestia.org/celestiums/
 
-[121] https://www.getmonero.org/2018/10/11/monero-0.13.0-released.html
+[174] https://arxiv.org/abs/1905.09274
 
-[122] https://www.exploremonero.com/transaction/9942cb34786bbb46f106ed31a6bb67eeb6e946d592def0900cab60ca83199f22
+[175] https://arxiv.org/abs/1809.09044v4
 
-[123] https://z.cash/technology/zksnarks/
+[176] https://www.paradigm.xyz/2022/08/das
 
---
+[177] https://ethresear.ch/t/adamantium-power-users/9600
 
-New - TODO: cleanup
+[178] https://blockstream.com/sidechains.pdf
 
-[124] https://explorer.zcha.in/transactions/169b903466119c78653eaf94d8d4b69eb51c38a3a6fcaa318f21f41adcec59ea
+[179] https://blog.horizen.io/horizens-cross-chain-protocol-zendoo-is-live-on-mainnet-build-on-the-zero-knowledge-network-of-blockchains/
 
-[125] https://twitter.com/socrates1024/status/1224434578149888000
+[180] https://eprint.iacr.org/2020/352.pdf
 
---
+[181] https://bitfury.com/content/downloads/block-size-1.1.1.pdf
 
-[125] https://medium.com/starkware/volition-and-the-emerging-data-availability-spectrum-87e8bfa09bb
+[182] https://github.com/bitcoin/bips/blob/master/bip-0152.mediawiki
 
-[126] https://blog.matter-labs.io/zkporter-a-breakthrough-in-l2-scaling-ed5e48842fbf
+[183] https://arxiv.org/abs/1905.10518
 
-[127] https://blog.celestia.org/celestiums/
+[184] https://github.com/lucidLuckylee/zerosync
 
---
-New - TODO: cleanup
+[185] https://web.archive.org/web/20201105045447/https://old.reddit.com/r/Bitcoin/comments/izj4a3/technical_confidential_transactions_and_their/
 
-[128] https://arxiv.org/abs/1905.09274
+[186] https://blockstream.com/assets/downloads/pdf/liquid-whitepaper.pdf
 
-[129] https://arxiv.org/abs/1809.09044v4
+[187] https://www.econlib.org/library/Enc/UnintendedConsequences.html
 
-[130] https://www.paradigm.xyz/2022/08/das
-
---
-
-[128] https://ethresear.ch/t/adamantium-power-users/9600
-
---
-
-New - TODO: cleanup
-
-[129] https://blockstream.com/sidechains.pdf 
-
---
-
-[129] https://blog.horizen.io/horizens-cross-chain-protocol-zendoo-is-live-on-mainnet-build-on-the-zero-knowledge-network-of-blockchains/
-
-[130] https://eprint.iacr.org/2020/352.pdf
-
-[131] https://bitfury.com/content/downloads/block-size-1.1.1.pdf
-
-[132] https://github.com/bitcoin/bips/blob/master/bip-0152.mediawiki
-
-[133] https://arxiv.org/abs/1905.10518
-
-[134] https://github.com/lucidLuckylee/zerosync
-
---
-
-New - TODO: cleanup
-
-[135] https://web.archive.org/web/20201105045447/https://old.reddit.com/r/Bitcoin/comments/izj4a3/technical_confidential_transactions_and_their/
-
-[136] https://blockstream.com/assets/downloads/pdf/liquid-whitepaper.pdf
-
-[137] https://www.econlib.org/library/Enc/UnintendedConsequences.html
+## License
+Copyright and related rights to all original work produced in this report have been waived via [CC0](/LICENSE). 
+Copyright and related rights to all works produced by third parties referenced in this report remain with the respective rightsholder(s).
