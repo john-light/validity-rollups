@@ -11,24 +11,24 @@ Contact the author: https://lightco.in/contact
 
 ## Table of contents
 
-- Acknowledgements **(TODO)**
-- Preface
-- Section 0. The history and prehistory of validity rollups
-- Section 1. An introduction to validity rollups
-- Section 2. The validity rollup user experience
-- Section 3. Enabling new functionality
-- Section 4. Scaling improvements
-- Section 5. Building validity rollups on bitcoin
-- Section 6. The costs and risks of validity rollups
-- Conclusion
-- Appendix A. Comparing validity rollups to other protocols
-- Appendix B. Comparing alternative cryptocurrency privacy techniques
-- Appendix C. Increasing throughput with offchain data availability
-- Appendix D. A closer look at validity sidechains
-- Appendix E. Enabling additional throughput increases with validity proofs
-- Appendix F. Mitigating harm from compromised cryptographic proof protocols and toxic waste
-- References **(TODO)**
-- License **(TODO)**
+- Acknowledgements **(TODO)**  
+- Preface  
+- Section 0. The history and prehistory of validity rollups  
+- Section 1. An introduction to validity rollups  
+- Section 2. The validity rollup user experience  
+- Section 3. Enabling new functionality  
+- Section 4. Scaling improvements  
+- Section 5. Building validity rollups on bitcoin  
+- Section 6. The costs and risks of validity rollups  
+- Conclusion  
+- Appendix A. Comparing validity rollups to other protocols  
+- Appendix B. Comparing alternative cryptocurrency privacy techniques  
+- Appendix C. Increasing throughput with offchain data availability  
+- Appendix D. A closer look at validity sidechains  
+- Appendix E. Enabling additional throughput increases with validity proofs  
+- Appendix F. Mitigating harm from compromised cryptographic proof protocols and toxic waste  
+- References **(TODO)**  
+- License **(TODO)**  
 
 ## Preface
 
@@ -184,16 +184,16 @@ One of the interesting qualities of validity rollups is that they can enable ent
 
 Since the early days of bitcoin, additional scripting capabilities have been envisioned to enable more types of assets and smart contracts than bitcoin supports natively.[67] In the years since then, new capabilities have been implemented either as extensions to Script (bitcoin's native scripting language) or using entirely new smart contract languages. Here are just a few of the new smart contract languages that have been proposed:
 
-- Cairo: [https://www.cairo-lang.org/cairo-welcome-on-board/](https://www.cairo-lang.org/cairo-welcome-on-board/)
-- Clarity: [https://clarity-lang.org/](https://clarity-lang.org/)
-- Huff: [https://docs.huff.sh/get-started/overview/](https://docs.huff.sh/get-started/overview/)
-- Lexon: [http://www.lexon.tech](http://www.lexon.tech)
-- Move: [https://github.com/MystenLabs/awesome-move](https://github.com/MystenLabs/awesome-move)
-- Michelson: [https://tezos.b9lab.com/michelson](https://tezos.b9lab.com/michelson)
-- Noir: [https://noir-lang.github.io/book/index.html](https://noir-lang.github.io/book/index.html)
-- Simplicity: [https://blog.blockstream.com/en-simplicity-github/](https://blog.blockstream.com/en-simplicity-github/)
-- Sway: [https://fuellabs.github.io/sway/v0.18.1/](https://fuellabs.github.io/sway/v0.18.1/)
-- Yul: [https://docs.soliditylang.org/en/latest/yul.html](https://docs.soliditylang.org/en/latest/yul.html)
+- Cairo: [https://www.cairo-lang.org/cairo-welcome-on-board/](https://www.cairo-lang.org/cairo-welcome-on-board/)  
+- Clarity: [https://clarity-lang.org/](https://clarity-lang.org/)  
+- Huff: [https://docs.huff.sh/get-started/overview/](https://docs.huff.sh/get-started/overview/)  
+- Lexon: [http://www.lexon.tech](http://www.lexon.tech)  
+- Move: [https://github.com/MystenLabs/awesome-move](https://github.com/MystenLabs/awesome-move)  
+- Michelson: [https://tezos.b9lab.com/michelson](https://tezos.b9lab.com/michelson)  
+- Noir: [https://noir-lang.github.io/book/index.html](https://noir-lang.github.io/book/index.html)  
+- Simplicity: [https://blog.blockstream.com/en-simplicity-github/](https://blog.blockstream.com/en-simplicity-github/)  
+- Sway: [https://fuellabs.github.io/sway/v0.18.1/](https://fuellabs.github.io/sway/v0.18.1/)  
+- Yul: [https://docs.soliditylang.org/en/latest/yul.html](https://docs.soliditylang.org/en/latest/yul.html)  
 - zkMove: [https://www.zkmove.net/](https://www.zkmove.net/)
 
 Today, there are two ways that these programming languages could be used in a bitcoin context:
@@ -627,18 +627,18 @@ Storing a rollup's transaction data directly in the blocks of its parent chain h
 
 This is where the concept of a _validia chain_ comes in. A validia chain is a blockchain that, like a validity rollup, inherits double-spend security from a parent chain by advancing its state using validity proofs that are sequentially verified by parent chain full nodes. Unlike a validity rollup, rather than exclusively use the parent chain for data availability, validia chains use one or more offchain data availability solutions instead. The tradeoff here is that throughput can be increased beyond bitcoin's block size limit — potentially lowering per-transaction costs as well due to the use of a cheaper data availability solution — at the expense of a possible reduction in the certainty and security of data availability guarantees. Bitcoin could add support for these validia protocols at the same time that support for validity rollups is added by implementing flexible enough rollup scripts to support various offchain data availability solutions. This would give users the choice between highly secure but expensive onchain data availability or less secure but less expensive offchain data availability.
 
-The validia chain varieties invented so far are:
-- Validium: Offchain uncollateralized data availability
-- Validity valutia: Offchain collateralized data availability
-- Volition: Per-transaction choice between offchain or onchain data availability
+The validia chain varieties invented so far are:  
+- Validium: Offchain uncollateralized data availability  
+- Validity valutia: Offchain collateralized data availability  
+- Volition: Per-transaction choice between offchain or onchain data availability  
 - Adamantium: Choice between custodial or self-custodial offchain data availability, with onchain fallback
 
 ("Validia chain" and "valutia" — pronounced "vuh-loo-sha" — are new nomenclature developed for this report to classify previously unnamed categories of blockchains. Since the other categories mentioned here had cool names it seemed appropriate to assign a couple of new cool names where it seemed like they were needed.)
 
-Since data availability is no longer provided by the parent chain, validia chains are not considered rollups. However, validia chains do still offer many benefits when compared to alternatives:
-- No channel limitations (unlike state channels)
-- No denomination limits (unlike statechains)
-- Double-spend security is inherited from the parent chain (unlike sidechains)
+Since data availability is no longer provided by the parent chain, validia chains are not considered rollups. However, validia chains do still offer many benefits when compared to alternatives:  
+- No channel limitations (unlike state channels)  
+- No denomination limits (unlike statechains)  
+- Double-spend security is inherited from the parent chain (unlike sidechains)  
 - Third parties can freeze user assets, but not arbitrarily steal them at no cost (unlike plasma chains, statechains, or uncollateralized sidechains)
 
 (See Table 5 for a more detailed comparison.)
@@ -744,11 +744,11 @@ Another factor holding back block size limit increases is block propagation time
 
 Proofs of the validity of the blockchain solve the IBD issue for blocks of arbitrary size by removing the requirement that full nodes download and execute every transaction in every block to sync up to the chain tip. Instead, a validity proof can be produced as of a given block height `n` that can be used to convince full nodes that 1) a copy of the UTXO set is derived from the heaviest valid chain as of block `n` and 2) that newly received blocks `n+1, n+2, etc` correctly build upon the heaviest valid chain. This means that full nodes only have to download a copy of the UTXO set as of block `n`, verify the proof of `n`, and execute transactions in blocks built on top of `n` up until the next proof, rather than execute all transactions in all blocks from genesis. Proofs can continue to be generated for each block or for batches of blocks to maintain fast IBD and sync times for full nodes.
 
-This "proof-sync" technique may solve the IBD problem of large blocks, but it does not solve the mining centralization problems. Work still needs to be done to decrease the bandwidth costs and propogation times of increased Layer 1 transaction volume, for example by implementing or further optimizing protocols such as Compact Block Relay and Erlay that reduce bandwidth requirements even as transaction volume increases.[182, 183] And there's no getting around the requirement for storage of blockchain data, which increases as the size of the blockchain grows. Still, having one less problem to solve (the IBD problem) is a nice improvement. The best part is that no consensus rule changes are required to implement and start using proof-sync clients. As of the time of writing, Lukas George and Robin Linus have begun work on a proof-sync bitcoin client implementation written in Cairo called "Zerosync".[184] 
+This "proof-sync" technique may solve the IBD problem of large blocks, but it does not solve the mining centralization problems. Work still needs to be done to decrease the bandwidth costs and propogation times of increased Layer 1 transaction volume, for example by implementing or further optimizing protocols such as Compact Block Relay and Erlay that reduce bandwidth requirements even as transaction volume increases.[182, 183] And there's no getting around the requirement for storage of blockchain data, which increases as the size of the blockchain grows. Still, having one less problem to solve (the IBD problem) is a nice improvement. The best part is that no consensus rule changes are required to implement and start using proof-sync clients. As of the time of writing, there are two projects working on building a proof-sync bitcoin client implementation written in Cairo, one is called Khepri and the other is called Zerosync.[184, 185]
 
 ## Appendix F. Mitigating harm from compromised cryptographic proof protocols and toxic waste
 
-One concern that is often brought up when discussing the idea of implementing cryptographic proofs for privacy on bitcoin is the possibility of unexpected inflation. If someone discovers this kind of vulnerability in the cryptography used for the privacy protocol, they can exploit the vulnerability to mint an arbitrary amount of BTC. Furthermore, because transactions using the privacy protocol are encrypted in some way, the inflation will be undetectable for some period of time. This concern stems from a fundamental tradeoff in the design of cryptocurrency privacy protocols based on cryptographic proofs: a cryptographic proof can be perfectly hiding, or perfectly binding, but not both.[185] This tradeoff means that the protocol designer must either allow the money supply to be inflated via counterfeit but preserve privacy if the cryptography is broken (perfectly hiding), or they preserve the money supply integrity but allow privacy to be broken (perfectly binding). Production implementations of encrypted transactions, including those covered in Appendix B, are typically designed to be perfectly hiding.
+One concern that is often brought up when discussing the idea of implementing cryptographic proofs for privacy on bitcoin is the possibility of unexpected inflation. If someone discovers this kind of vulnerability in the cryptography used for the privacy protocol, they can exploit the vulnerability to mint an arbitrary amount of BTC. Furthermore, because transactions using the privacy protocol are encrypted in some way, the inflation will be undetectable for some period of time. This concern stems from a fundamental tradeoff in the design of cryptocurrency privacy protocols based on cryptographic proofs: a cryptographic proof can be perfectly hiding, or perfectly binding, but not both.[186] This tradeoff means that the protocol designer must either allow the money supply to be inflated via counterfeit but preserve privacy if the cryptography is broken (perfectly hiding), or they preserve the money supply integrity but allow privacy to be broken (perfectly binding). Production implementations of encrypted transactions, including those covered in Appendix B, are typically designed to be perfectly hiding.
 
 The same risk exists when using computational proofs for transaction verification as opposed to transaction privacy, for example to verify unencrypted rollup transactions. If the cryptographic proof is broken, then anyone who exploits the vulnerability will be able to forge proofs withdraw assets from the rollup even if they do not have the private keys to the addresses that control those assets according to the rollup ledger. In this case, the forgery can be detected immediately, but there is still the potential for disastrous harm if L1 full nodes and miners do not react to prevent the forged proofs from being confirmed on L1.
 
@@ -758,7 +758,7 @@ Some people may argue that building an encrypted validity rollup on bitcoin woul
 
 So if you don't want to worry about being left holding worthless encrypted bitcoin because someone exploited an inflation vulnerability and withdrew the maximum available balance from the rollup, you can keep all of your bitcoin in a fully-auditable transparent bitcoin layer. If you are willing to risk keeping some spending bitcoin encrypted so you can transact with strong privacy but want to keep the rest of your bitcoin transparent so you don't put your savings at risk of undetectable inflation then you can do that too. And if you aren't worried about an inflation vulnerability at all, or find the privacy gains worth the risk, you can keep all of your bitcoins encrypted if you want to. The encrypted rollup gives you several options depending on your risk tolerance.
 
-It's important to note here that undetectable inflation in encrypted protocols is _already possible_ because there are already encrypted protocols where the supply of encrypted bitcoin-denominated assets is at risk of an inflation vulnerability. For example, L-BTC on Liquid and renBTC on Aztec could both be unexpectedly and undetectably inflated if there was an inflation vulnerability that got exploited.[186, 78] The only relevant difference between these existing encrypted protocols and validity rollups for the purpose of this discussion is that with L-BTC and renBTC bitcoin users have to trust third parties with the custody of their satoshis while validity rollups are non-custodial by design. The outcome that would be achieved by someone who opposes the implementation of an encrypted validity rollup on bitcoin due to concerns about undetectable inflation would not be to prevent users from putting their bitcoin at risk of an inflation vulnerability, but to prevent users from doing so _in a non-custodial way_ and instead drive bitcoins into the control of trusted custodians — the law of unintended(?) consequences in action.[187]
+It's important to note here that undetectable inflation in encrypted protocols is _already possible_ because there are already encrypted protocols where the supply of encrypted bitcoin-denominated assets is at risk of an inflation vulnerability. For example, L-BTC on Liquid and renBTC on Aztec could both be unexpectedly and undetectably inflated if there was an inflation vulnerability that got exploited.[187, 78] The only relevant difference between these existing encrypted protocols and validity rollups for the purpose of this discussion is that with L-BTC and renBTC bitcoin users have to trust third parties with the custody of their satoshis while validity rollups are non-custodial by design. The outcome that would be achieved by someone who opposes the implementation of an encrypted validity rollup on bitcoin due to concerns about undetectable inflation would not be to prevent users from putting their bitcoin at risk of an inflation vulnerability, but to prevent users from doing so _in a non-custodial way_ and instead drive bitcoins into the control of trusted custodians — the law of unintended(?) consequences in action.[188]
 
 ## References
 
@@ -1128,13 +1128,15 @@ It's important to note here that undetectable inflation in encrypted protocols i
 
 [183] https://arxiv.org/abs/1905.10518
 
-[184] https://github.com/lucidLuckylee/zerosync
+[184] https://github.com/bitcoin-stark/khepri
 
-[185] https://web.archive.org/web/20201105045447/https://old.reddit.com/r/Bitcoin/comments/izj4a3/technical_confidential_transactions_and_their/
+[185] https://github.com/lucidLuckylee/zerosync
 
-[186] https://blockstream.com/assets/downloads/pdf/liquid-whitepaper.pdf
+[186] https://web.archive.org/web/20201105045447/https://old.reddit.com/r/Bitcoin/comments/izj4a3/technical_confidential_transactions_and_their/
 
-[187] https://www.econlib.org/library/Enc/UnintendedConsequences.html
+[187] https://blockstream.com/assets/downloads/pdf/liquid-whitepaper.pdf
+
+[188] https://www.econlib.org/library/Enc/UnintendedConsequences.html
 
 ## License
 Copyright and related rights to all original work produced in this report have been waived via [CC0](/LICENSE). 
