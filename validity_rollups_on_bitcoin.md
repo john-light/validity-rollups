@@ -554,8 +554,6 @@ We can see in [Table 5](#table-5-protocol-comparison-table) how validity rollups
 > [ ** ] "Maybe" in this column refers to the fact that unilateral exit is possible only if the necessary data is available to users who need it to create their withdrawal transaction.
 > 
 > [ *** ] See [Appendix C](#appendix-c-increasing-throughput-with-offchain-data-availability) for more details about validia chains.
->
-> [ **** ] "Maybe" in this instance refers to a specific attack against a Softchain. If a softchain is merge-mined with its parent chain, then the parent chain miners are also the softchain miners. And if enough of the softchain miners are malicious, then it could be possible for them to create an invalid withdrawal transaction and steal all of the BTC held in the softchain without the mainchain full nodes noticing. Ergo, parent miners could steal from the softchain -- by becoming softchain miners, and colluding to steal from the softchain.
 
 > Table 5 references:  
 > [a] <a href="https://lightning.network/lightning-network-paper.pdf" target="_blank">https://lightning.network/lightning-network-paper.pdf</a>
