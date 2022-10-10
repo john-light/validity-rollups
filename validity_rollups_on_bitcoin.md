@@ -4,6 +4,8 @@ By John Light
 
 Contact the author: <https://lightco.in/contact>
 
+Hosted on [GitHub](https://github.com/john-light/validity-rollups/blob/main/validity_rollups_on_bitcoin.md)
+
 <h2> Table of contents <sup id="toc"></sup></h2>
 
 - [Acknowledgements](#acknowledgements)  
