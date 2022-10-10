@@ -286,7 +286,7 @@ If the parent chain is bitcoin, and the available capacity per block is the same
 
 (Potentially even more UTXO model rollup transactions could fit per block if addresses are made to be even shorter than bitcoin L1 addresses are today. Francois Grieu has proposed a cryptogram design that is 16 characters in length with up to 117 bits of security.[^90] This may be an acceptable security tradeoff if the addresses are storing relatively low amounts of value for relatively short periods of time.)
 
-#### Table 2. Comparing how many transactions can fit per bitcoin mainchain block based on a given transaction type
+<h4> Table 2. Comparing how many transactions can fit per bitcoin mainchain block based on a given transaction type <sup id="table-2-comparing-how-many-transactions-can-fit-per-bitcoin-mainchain-block-based-on-a-given-transaction-type"></sup></h4>
 
 | Transaction type                      | 1,000,000 WU                          | 3,000,0000 WU            | Total (tx/block) |
 | ------------------------------------- |:-------------------------------------:|:------------------------:|:----------------:|
@@ -533,7 +533,7 @@ Validity rollups are part of a decade-long history of protocols designed to impr
 
 We can see in [Table 5](#table-5-protocol-comparison-table) how validity rollups are designed with a unique combination of onchain data availability and validity proofs, giving them no channel or denomination limit and ownership security equal to that of their parent chain. See also similar comparisons (sans rollups) by Gudgeon et al in their April 2019 paper "SoK: Layer-Two Blockchain Protocols".[^157]
 
-#### Table 5. Protocol comparison table
+<h4> Table 5. Protocol comparison table <sup id="table-5-protocol-comparison-table"></sup></h4>
 
 | Protocol                  | Subcategory                  | Bridge security model     | Data availability                         | Channel/denomination limit | Unilateral exit | Parent chain miners can steal* |
 | ------------------------- |:----------------------------:|:-------------------------:|:-----------------------------------------:|:--------------------------:|:---------------:|:------------------------------:|
