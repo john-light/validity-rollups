@@ -9,7 +9,7 @@ By John Light
 
 Contact the author: <https://lightco.in/contact>
 
-## Table of contents <sup id="toc"></sup>
+<h2> Table of contents <sup id="toc"></sup></h2>
 
 - [Acknowledgements](#acknowledgements)  
 - [Preface](#preface)  
@@ -30,7 +30,8 @@ Contact the author: <https://lightco.in/contact>
 - [License](#license)  
 - [References](#references)  
 
-## Acknowledgements
+<h2> Acknowledgements <sup id="acknowledgements"></sup></h2>
+
 [↩](#toc)
 
 This report is the product of the author's participation in the Human Rights Foundation's [ZK-Rollup Research Fellowship](https://hrf.org/zkrollups). Financial support for the ZK-Rollup Research Fellowship was provided by Starkware and CMS Holdings. The author thanks these organizations for their support.
@@ -39,17 +40,19 @@ The author also thanks the following individuals for answering questions, provid
 
 Please note that inclusion in this acknowledgements section should not be interpreted as an endorsement of the contents of this report. Any claims, conclusions, opinions, errors, _et cetera_ belong to the author alone, unless explicitly stated otherwise.
 
-## Preface
+<h2> Preface <sup id="preface"></sup></h2>
+
 [↩](#toc)
 
 Ever since Satoshi Nakamoto first publicly announced bitcoin, its supporters, critics, and skeptics alike have questioned how the protocol would scale as usage increases over time. This question is more important than ever today, as blocks are increasingly full or close to full of transactions. So-called "Layer 2" (L2) protocols such as the Lightning Network have been deployed to take some transaction volume "offchain" but even Lightning needs to use _some_ bitcoin block space. It's clear that as bitcoin is adopted by more and more of the world's population (human and machine alike!) more block space will be needed. Another thread of inquiry concerns whether bitcoin's limited scripting capabilities help or hinder its value as electronic cash. Researchers and inventors have shown that the electronic cash transactions first made possible by bitcoin could be given new form by improving transaction privacy, supporting new types of smart contracts, and even creating entirely new blockchain-based assets.
 
 One of the results of the decade-plus research into scaling and expanding the capabilities of blockchains such as bitcoin is the invention of the validity rollup. Given the observed benefits that validity rollups have for the blockchains that have already implemented them, attention now turns to the question of whether they would be beneficial for bitcoin and existing bitcoin L2 protocols such as Lightning, too. We explore this question by examining validity rollups from several angles, including their history, how they work on a technical level, how they could be built on bitcoin, and what the benefits, costs, and risks of building them on bitcoin might be. We conclude that validity rollups have the potential to improve the scalability, privacy, and programmability of bitcoin without sacrificing bitcoin's core values or functionality as a peer-to-peer electronic cash system. Given the "trustless" nature of validity rollups as cryptographically-secured extensions of their parent chain, and given bitcoin's status as the most secure settlement layer, one could even say these protocols are a _perfect match_ for one another.
 
-## Section 0. The history and prehistory of validity rollups
+<h2> Section 0. The history and prehistory of validity rollups <sup id="section-0-the-history-and-prehistory-of-validity-rollups"></sup></h2>
+
 [↩](#toc)
 
-### Section 0.1 Early applications of cryptographic proofs in cryptocurrencies
+<h3> Section 0.1 Early applications of cryptographic proofs in cryptocurrencies <sup id="section-01-early-applications-of-cryptographic-proofs-in-cryptocurrencies"></sup></h3>
 
 > This is a very interesting topic.  If a solution was found, a much better, easier, more convenient implementation of Bitcoin would be possible.  
 >   
@@ -69,7 +72,7 @@ The first concrete proposal for using zk proofs in a bitcoin context came from G
 
 The first cryptocurrency to deploy zk proof technology to mainnet was Firo (fka Zcoin, fka Moneta), an implementation of the Zerocoin protocol that launched in September 2016.[^7] This was followed shortly after by the launch of Zcash, the first cryptocurrency to implement zk-SNARK proofs using the Zerocash protocol, in October 2016.[^8] The production implementation of zk proofs in Zcoin and Zcash for privacy, and the potential shown in Ben-Sasson et al's work for improving blockchain scalability with cryptographic proofs, led to increased investment and research into improving the technology. This increased investment in turn resulted in significant improvements in the capabilities and performance of cryptographic proofs.[^9]
 
-### Section 0.2 The road to validity rollups
+<h3> Section 0.2 The road to validity rollups <sup id="section-02-the-road-to-validity-rollups"></sup></h3>
 
 At the same time that general research into the applicability of cryptographic proof technology to cryptocurrencies was happening, a parallel track of research was ongoing specifically to improve the scalability of cryptocurrencies. This track of scaling research would eventually converge with the cryptographic proof research.
 
@@ -103,7 +106,8 @@ With solutions to the most important shortcomings of previous scalability propos
 
 This brings us to the present day. Ethereum developers have redesigned their whole roadmap around rollups, and other blockchains are taking a similar rollup-centric approach.[^47][^48][^49][^50] Given the large amount of excitement and investment going into rollup technology, and given the alignment of trustless validity rollups with the trustless ethos of bitcoin, one might wonder: are validity rollups a good fit for bitcoin, too? To answer this question, we must first take a step back and answer the more foundational questions: Is it even technically possible to build validity rollups on bitcoin? And if it is technically possible to build validity rollups on bitcoin, what would be the benefits, costs, and risks associated with doing so?[^51]
 
-## Section 1. An introduction to validity rollups
+<h2> Section 1. An introduction to validity rollups <sup id="section-1-an-introduction-to-validity-rollups"></sup></h2>
+
 [↩](#toc)
 
 A rollup is a blockchain that stores the state root and at least enough transaction data to recompute the current state from genesis inside of the block of a different "parent" blockchain, while shifting transaction execution "offchain" to a separate node network. This is in contrast to related protocols such as state channels, sidechains, and validia chains, which also execute transactions offchain but keep the vast majority (if not all) of their transaction data offchain as well. The operation of a rollup is otherwise identical to any other other blockchain: transactions are bundled into blocks, those blocks are broadcast to a network for verification, and valid blocks are added to the "tip" of the chain of previous blocks. (And as with other blockchains, if there are multiple valid blocks competing to get added to the chain tip, how to choose which block gets added to the chain tip varies depending on the rollup consensus rules.)
@@ -116,10 +120,11 @@ Whether a rollup is a validity rollup or an optimistic rollup, the security of t
 
 See [Appendix A](#appendix-a-comparing-validity-rollups-to-other-protocols) for a table comparing validity rollups to other offchain protocols.
 
-## Section 2. The validity rollup user experience
+<h2> Section 2. The validity rollup user experience <sup id="section-2-the-validity-rollup-user-experience"></sup></h2>
+  
 [↩](#toc)
 
-### Section 2.1 Deploying a validity rollup
+<h3> Section 2.1 Deploying a validity rollup <sup id="section-21-deploying-a-validity-rollup"></sup></h3>
 
 To create a validity rollup, a protocol is implemented on the parent blockchain that defines how the validity rollup works. This protocol includes details such as rollup consensus rules, how to verify that rollup blocks follow the consensus rules, how rollup block producers are selected in case there are multiple competing block producers, a protocol for moving assets from the parent chain to the rollup and back to the parent chain again, etc. The rollup protocol is often implemented as a smart contract that is deployed to the parent chain, however the rollup could also be implemented directly in the consensus rules of the parent chain, making it an "enshrined rollup".[^54]
 
@@ -127,7 +132,7 @@ Once the rules of the rollup are defined on the parent chain, the genesis block 
 
 With each rollup block that gets produced, the rollup transaction data is stored in a state update transaction on the parent chain along with a cryptographic proof of the validity of the rollup block (the "validity proof" — which may or may not also be "zero knowledge" in nature). Once the state update transaction is confirmed on the parent chain, the rollup block is considered confirmed by rollup full nodes and is added to the rollup chain tip. In order to re-organize a rollup block that has been confirmed on the parent chain, the parent chain block that the rollup block was confirmed in would have to be re-organized too. This gives rollups their _inherited double-spend security_ feature. 
 
-### Section 2.2 Using a validity rollup
+<h3> Section 2.2 Using a validity rollup <sup id="section-22-using-a-validity-rollup"></sup></h3>
 
 To begin using a rollup, a new user has two options: either transfer an existing asset from the parent chain to the rollup, or receive a transfer from someone who already owns an asset on the rollup. Transferring an asset from the parent chain to the rollup is straightforward: the user sends a deposit transaction to the rollup contract on the parent chain specifying the asset and amount to deposit from their address, along with the rollup address that should receive the deposit. Once the deposit transaction is confirmed on the parent chain, the user will receive their asset in their specified rollup address and can then freely transfer the asset to any other rollup address as they would if they were using the base layer blockchain.
 
@@ -141,7 +146,7 @@ The ability to freely transfer assets on a rollup to any other rollup address ma
 > 
 > The economic penalty provides transaction recipients a strong guarantee that pending transactions cumulatively worth less than the value of the security bond will be confirmed as promised. Recipients can thus treat the signed receipt from block producers "as good as cash", providing ~instant confirmation for their transaction. [^58]
 
-### Section 2.3 Exiting a validity rollup
+<h3> Section 2.3 Exiting a validity rollup <sup id="section-23-exiting-a-validity-rollup"></sup></h3>
 
 To transfer assets on the rollup back to an address on the parent chain, a rollup user submits a withdrawal transaction to the rollup, specifying the asset and amount to withdraw, along with the parent chain address that should receive the withdrawal. Once the withdrawal transaction is confirmed on the rollup, the withdrawn asset will be deleted from the rollup ledger and the rollup smart contract on the parent chain will send the withdrawn asset to the specified parent chain address.
 
@@ -149,7 +154,7 @@ If the rollup block producers are uncooperative, for example by refusing to incl
 
 A validity rollup bridge gives users two important guarantees: 1) only users who can cryptographically prove ownership of an asset can transfer that asset on the rollup or withdraw the asset back to the parent chain, and 2) as long users can get the necessary transaction confirmed on the parent chain, users can always advance the state of the rollup, including unilaterally exiting the rollup back to the parent chain, even if rollup block production has otherwise completely halted for whatever reason. These guarantees give assets held on the rollup the same level of ownership security as assets held on the parent chain.
 
-### Section 2.4 Case study: Passing the #tBTCzkSyncTorch
+<h3> Section 2.4 Case study: Passing the #tBTCzkSyncTorch <sup id="section-24-case-study-passing-the-tBTCzkSyncTorch"></sup></h3>
 
 One of the first multi-user applications of a validity rollup was #tBTCzkSyncTorch, a social media game started by Eric Wall in September 2020. The game was simple: Wall deposited some TBTC ("trustless BTC" on Ethereum) into zkSync, an L2 validity rollup, then told his followers:
 
@@ -189,12 +194,13 @@ It should be noted that this is an apples-to-oranges comparison: zkSync is a rol
 
 A more thorough look at the Lightning Network and how it compares, contrasts, and is complementary to validity rollups (and vice versa) can be found in [Section 4.4](#section-44-scaling-the-lightning-network-with-validity-rollups).
 
-## Section 3. Enabling new functionality
+<h2> Section 3. Enabling new functionality <sup id="section-3-enabling-new-functionality"></sup></h2>
+
 [↩](#toc)
 
 One of the interesting qualities of validity rollups is that they can enable entirely new functionality to be added to their parent chain without the need for any additional consensus rule changes. This is made possible because rather than be aware of the specific consensus rules of the rollup and know how to execute transactions by following those rules, the parent chain full nodes only need to know how to verify the rollup validity proof. So an L2 validity rollup built on bitcoin L1, for example, could implement an execution environment that supports a more flexible smart contract languages or more advanced privacy technologies, with no other changes needed to bitcoin.[^66] 
 
-### Section 3.1 New smart contract languages
+<h3> Section 3.1 New smart contract languages <sup id="section-31-new-smart-contract-languages"></sup></h3>
 
 Since the early days of bitcoin, additional scripting capabilities have been envisioned to enable more types of assets and smart contracts than bitcoin supports natively.[^67] In the years since then, new capabilities have been implemented either as extensions to Script (bitcoin's native scripting language) or using entirely new smart contract languages. Here are just a few of the new smart contract languages that have been proposed:
 
@@ -219,7 +225,7 @@ In both cases, these alternative programming languages would not be able to oper
 
 If it were possible to build validity rollups with alternative execution environments on bitcoin, then bitcoin users could experiment with these alternative execution environments while retaining the full "self-custodial" ownership security of bitcoin L1. Validity rollups would eliminate the need for BTC IOUs, since validity rollups built on bitcoin would be able to operate on BTC natively. Additionally, because bitcoin full nodes would only have to verify a proof of correct computation, and not actually replay the full computation needed to execute rollup transactions, implementing these alternative execution models in a validity rollup would impose little-to-no additional computational burden on bitcoin full nodes.
 
-### Section 3.2 New privacy protections
+<h3> Section 3.2 New privacy protections <sup id="section-32-new-privacy-protections"></sup></h3>
 
 Bitcoin's transparency makes privacy protocols built onchain inherently fragile and therefore inadequate for preserving privacy in the long-run.[^73] Offchain L2 protocols such as Lightning and zkChannels have their own privacy challenges and limitations, largely due to the transparency and limited scripting capabilities of the bitcoin base layer these protocols are built on.[^74][^75] (See the August 2022 zk-PCN paper for a recently proposed improvement to payment channel network privacy.[^76]) Because of bitcoin's inherent privacy limitations and the immaturity of the tooling that does exist, bitcoin users must either follow long, detailed guides about how to gain some semblance of privacy, meticulously following each step and hoping other users do the same so that they can preserve their anonymity set, or else surrender their bitcoin to a centralized or federated offchain system to gain stronger, more easily usable privacy elsewhere.[^77][^78][^79]
 
@@ -241,10 +247,11 @@ A comparison of new onchain private transaction techniques that could be impleme
 
 Because of their objectively superior privacy protections, for the purposes of the scalability discussion in [Section 4](#section-4-scaling-improvements), shielded transactions are used as the example in the case where a new private transaction protocol is implemented in a validity rollup on bitcoin.
 
-## Section 4. Scaling improvements
+<h2> Section 4. Scaling improvements <sup id="section-4-scaling-improvements"></sup></h2>
+
 [↩](#toc)
 
-### Section 4.1 Increasing throughput with validity rollups
+<h3> Section 4.1 Increasing throughput with validity rollups <sup id="section-41-increasing-throughput-with-validity-rollups"></sup></h3>
 
 James Prestwich has defined scaling in a blockchain context as "validating more transactions on the same hardware".[^85] By this definition, validity rollups can improve scaling by increasing the number of transactions that gain the full security of the parent chain with no (or marginal) additional computational costs for parent chain full nodes. Exactly how much validity rollups improve scaling depends on the implementation details. (Note that the transaction sizes and throughput numbers in this section are approximate and could change depending on implementation details.)
 
@@ -296,7 +303,7 @@ See [Appendix C](#appendix-c-increasing-throughput-with-offchain-data-availabili
 
 See [Appendix E](#appendix-e-enabling-additional-throughput-increases-with-validity-proofs) for a look at how validity proofs can enable even more throughput increases than validity rollups alone.
 
-### Section 4.2 Fractal scaling with rollups
+<h3> Section 4.2 Fractal scaling with rollups <sup id="section-42-fractal-scaling-with-rollups"></sup></h3>
 
 The scaling gains provided by validity rollups do not stop at L2. Validity rollups can be layered on top of validity rollups to provide "fractal scaling" to virtually unlimited levels of scale. Once bitcoin L1 blocks fill up with L2 validity rollup transactions, a Layer 3 (L3) validity rollup could be built on top of the L2 validity rollup. Then once the L2 validity rollup blocks fill up with L3 validity rollup transactions, an Layer 4 (L4) validity rollup could be built on top of the L3 validity rollup, and so on, and so on.[^91]
 
@@ -306,7 +313,7 @@ The scaling gains provided by validity rollups do not stop at L2. Validity rollu
 
 > Figure 6 description: A graphic visualizing how rollups could be layered on top of one another. In this example, there are two L2 rollups: one specialized in providing data availability (perhaps with incentives in place to penalize data unavailability attacks) and another specialized in high-security payments and contracts. On top of the L2 data availability rollup, there are three L3 rollups, each specializing in a different use case: private p2p payments, financial contracts, and in-game asset ownership and transfers. Since the L3 rollups are relying on L2 full nodes for data availability, they could be considered less secure than the L2 rollups that rely on bitcoin L1 full nodes for data availability security. The tradeoff for this reduced security would be lower transaction costs due to the lower cost of data storage on L2. Use cases that require high security could use a L2 rollup such as the high-security payments and contracts rollup here instead.
 
-### Section 4.3 Horizontally scaling validity rollups
+<h3> Section 4.3 Horizontally scaling validity rollups <sup id="section-43-horizontally-scaling-validity-rollups"></sup></h3>
 
 As more transactions need to be proven valid at each rollup layer, the difficulty of creating the necessary validity proofs increases. The computation needed to create these proofs can be parallelized using recursive proof composition. Recursion is essentially "proving the validity of proofs", so many computers could work on proving the validity of different transactions and then these proofs could be combined finally into a single proof, allowing horizontal scaling with multiple computers simultaneously contributing to proving the validity of a rollup block. Trustless recursive proof composition is already possible with both SNARK and STARK proofs.[^92][^93] 
 
@@ -316,7 +323,7 @@ As more transactions need to be proven valid at each rollup layer, the difficult
 
 > Image source: [^93]
 
-### Section 4.4 Scaling the Lightning Network with validity rollups
+<h3> Section 4.4 Scaling the Lightning Network with validity rollups <sup id="section-44-scaling-the-lightning-network-with-validity-rollups"></sup></h3>
 
 The Lightning Network is a decentralized network of bidirectional payment channels that routes payments off-chain and uses smart contracts on a base-layer blockchain for dispute resolution and final settlement.[23] Lightning enables any two users connected by a channel route with sufficient liquidity to send and receive value nearly instantly and generally at much lower cost than transacting on the settlement-layer blockchain. To onboard to Lightning in a self-custodial manner, a user must first confirm a transaction opening a channel with another Lightning user. A dual-funded channel can be used to enable bidirectional liquidity in a single transaction.[^94] Once a channel is opened, it may later need additional onchain transactions for maintenance such as channel rebalancing or channel closing for final settlement.
 
@@ -350,7 +357,8 @@ Although Lightning is most famous for settling on the bitcoin mainchain, Lightni
 
 > Figure 8 description: There are three Lightning nodes: Lightning node "A" that has a channel open on the bitcoin mainchain, Lightning node "B" that has channels open on both the bitcoin mainchain and a Lightning-focused rollup, and Lightning node "C" that has a Lightning channel open on the rollup. B has a dual-funded channel open with both A and C, and can therefore route payments between them, even though A and C each have channels open on different layers.
 
-## Section 5. Building validity rollups on bitcoin
+<h2> Section 5. Building validity rollups on bitcoin <sup id="section-5-building-validity-rollups-on-bitcoin"></sup></h2>
+
 [↩](#toc)
 
 As of the time of writing, nearly every validity rollup deployed to production has been built on blockchains that support smart contracts written in a Turing-complete programming language. The flexibility of Turing-complete programming languages opens a wide design space that rollup developers have taken advantage of to program ideosyncratic features and limitations into the rollup smart contracts, such as scripting capabilities, deposit limits, and upgradeability. The flexibility also means that as the validity proof technology improves and new ways to implement or optimize certain features are discovered, rollup developers can upgrade their smart contracts or deploy new ones to keep up with the state of the art.
@@ -371,20 +379,21 @@ The Elements sidechain project (and the Liquid blockchain that is based on Eleme
 
 What the research so far shows is that with some changes it would be possible to build validity rollups on bitcoin. Some designs would be more technically difficult to implement than others, but even with the simpler implementations proposed, bitcoin users stand to gain significant scaling benefits and potentially more privacy and other desirable functionality as well.
 
-## Section 6. The costs and risks of validity rollups
+<h2> Section 6. The costs and risks of validity rollups <sup id="section-6-the-costs-and-risks-of-validity-rollups"></sup></h2>
+
 [↩](#toc)
 
 While the benefits validity rollups can bring to bitcoin in terms of enabling increased transaction throughput, better transaction privacy, and greater flexibility in the ways BTC can be encumbered all sound good on paper, these benefits are not without cost or risk. In addition to the usual costs (developer review time, user testing time, etc) and risks (chain split, BTC price decrease, etc) associated with bitcoin software updates and consensus changes in particular, validity rollups have their own unique costs and risks that need to be considered.
 
 This section will examine the costs and risks uncovered while preparing this report, though others may exist or emerge in the future that are not covered here. The significance of the costs and risks associated with bitcoin validity rollups largely depends on the implementation details. In some cases the risks examined here are theoretical as opposed to known or proven risks. The theoretical risks are noted where applicable, included for completeness and to prompt further research into their actual potential for harm.
 
-### Section 6.1 Increased bandwidth and storage costs
+<h3> Section 6.1 Increased bandwidth and storage costs <sup id="section-61-increased-bandwidth-and-storage-costs"></sup></h3>
 
 If block space is _not_ increased to allow for more rollup transactions, then adding validity rollups to bitcoin will not result in any inherent increase in bandwidth or storage costs for L1 full nodes. The same available block space and bandwidth will instead be used more efficiently to pack in more transactions for the same bandwidth and storage costs. However, although today the theoretical maximum block size is around 4 MB, in practice the largest block on record so far with "normal" transactions in it was around 2.7 MB (block #748918). Rollups could be more efficient in their use of bitcoin block space, which could result in L1 blocks regularly bumping up against the theoretical maximum of 4 MB in size given enough demand for rollup block space. This would result in larger-than-current-average blocks and thus increased bandwidth and storage costs for L1 full nodes.
 
 If block space _is_ increased to allow for more rollup transactions, and demand for rollup block space results in this additional space being used, then this would further increase bandwidth and storage costs for L1 full nodes. More data will need to be relayed around the bitcoin network when broadcasting transactions and blocks. More data will also need to be stored on disk when a block containing rollup transaction data gets added to the blockchain. This is straightforward to measure depending on how much the block space limit is increased to make room for more rollup transactions. See [Section 4.1](#section-41-increasing-throughput-with-validity-rollups) for data cost calculations per rollup transaction.
 
-### Section 6.2 Managing full node verification costs
+<h3> Section 6.2 Managing full node verification costs <sup id="section-62-managing-full-node-verification-costs"></sup></h3>
 
 Regardless of whether or not block space is increased to allow for more rollup transactions, validity rollups do impose one new cost on L1 full nodes: the cost to verify the validity proof of the rollup state update. This verification cost can vary widely depending on the complexity of the proof and performance optimizations implemented, all else being equal. Benchmark verification times for modern proofs are difficult to find in the literature. The proof verification times that are cited range from 5ms for a two-year-old PLONK-based SNARK to 2ms for a two-year-old STARK.[^108][^109] Newer proof implementations may be even faster to verify on the same hardware, but generally speaking it is proving time that benefits most from optimization, not verification time.
 
@@ -396,7 +405,7 @@ Assuming the base cost for the rollup state update transaction (verification key
 
 If someone were to implement support for validity rollups in bitcoin, they may also want to somehow limit the number of validity proofs that can go into each block, so they can limit the worst-case verification cost should a block be stuffed full of them. They could do this by using proofs that are naturally larger in size (such as STARKs or larger SNARKs) or by requiring consensus to "weight" proofs more heavily (a "proof premium", the opposite of SegWit's "witness discount"). There is a balance to strike here between the number of rollup state updates allowed per block and the additional verification costs imposed on L1 full nodes.
 
-### Section 6.3 Miner extractable value
+<h3> Section 6.3 Miner extractable value <sup id="section-63-miner-extractable-value"></sup></h3>
 
 Bitcoin was launched under the premise that miners are economically rational, self-interested profit maximizers, and that their profit-maximizing behavior will lead to the emergence of a well-operating peer-to-peer electronic cash system. This design has worked pretty well so far. Rumors of a double-spend attack (which turned out to be a non-event) resulted in swift financial retribution, cautioning miners not to ever deviate from the norm against intentionally re-organizing the blockchain for selfish gain.[^112] Even the mere possibility of being able to pull off a so-called "51% attack" has led miners to redistribute their hashpower away from dominant mining pools.[^113]
 
@@ -418,7 +427,7 @@ Even if new forms of MEV are not enabled on L2, depending on how validity rollup
 
 Researchers have been able to develop many solutions that reduce and even prevent the negative effects of MEV. Some of these solutions are structural changes to consensus that impede the ability of block producers to order transactions in their favor.[^119] Other techniques hide transaction information so that block producers and "searchers" are unable to see transactions that would be vulnerable to MEV.[^120] Users who don't want to have their lunch eaten by MEV bots can and should demand that developers implement these MEV countermeasures in their rollups and rollup-based financial applications. If these countermeasures become widely implemented then MEV as a general concern could become a thing of the past.
 
-### Section 6.4 Algorithmic incentive manipulation contracts
+<h3> Section 6.4 Algorithmic incentive manipulation contracts <sup id="section-64-algorithmic-incentive-manipulation-contracts"></sup></h3>
 
 Adding support for validity rollups on bitcoin could have unintended negative side effects aside from MEV by enabling "algorithmic incentive manipulation" (AIM) attacks.[^121] AIM attacks use smart contracts to incentivize miners to attack each other or specific users, disrupting the normal incentives of Nakamoto consensus. This section will look at a few examples of AIM contracts that could be built on bitcoin using sufficiently expressive validity rollups. This is not an exhaustive catalogue of such contracts. It's also worth noting that AIM attacks are possible even if AIM contracts cannot be built on bitcoin directly.[^122] The most important takeaway is that there are risks both known and unknown (with the possibility of unknown risks itself being a risk) associated with enabling more expressive scripting capabilities on bitcoin and new layers such as validity rollups built on bitcoin.
 
@@ -440,7 +449,7 @@ The existence of majority-vulnerable contracts on bitcoin L2 may not be such a p
 
 Empirical observation has shown that block producers have not yet colluded to steal despite the existence of majority-vulnerable contracts, suggesting there is some other incentive or dis-incentive preventing them from stealing.[^130] It's also possible that there's simply a tipping point that has yet to be reached and it's only a matter of time before the collusion and theft these contracts incentivize finally occurs. With sufficiently expressive smart contract capabilities, it would be possible to create an AIM contract that automatically allocates the proceeds of theft from a majority-vulnerable contract to block producers who participate in the attack, reducing risk and coordination costs and thereby potentially increasing the likelihood that the attack is attempted and succeeds. Since majority-vulnerable contracts have already been deployed to production, only time will tell whether or not they really are a threat to their host networks.
 
-#### Fully-automated totalitarianism
+<h3> Section 6.5 Fully-automated totalitarianism <sup id="section-65-fully-automated-totalitarianism"></sup></h3>
 
 Here we again reference the rollup designs from [Section 5](section-5-building-validity-rollups-on-bitcoin) that require the use of recursive covenants. The defining quality of a recursive covenant is that it not only defines the conditions under which a UTXO locked in the covenant script can be spent, but it also defines the type of script that the UTXO can be encumbered by after it is spent (hence the name "recursive" covenant). In theory, a recursive covenant can require a UTXO to be locked into the same type of restrictive script forever, no matter how many times the UTXO is spent.
 
@@ -456,7 +465,7 @@ Some people may argue: Yes, while multisig may be more flexible, recursive coven
 
 The main takeaway here is that, contrary to popular belief, from a practical standpoint recursive covenants do not introduce any new risks when it comes to government-mandated transfer restrictions. Multisig is already being used to enable such transfer restrictions, and XCP-style proof-of-burn could be used to irreversibly lock BTC into such transfer restrictions. There may be legitimate, good reasons to oppose enabling recursive covenants on bitcoin; their ability to be used to implement government-mandated transfer restrictions is not one of them.
 
-### Section 6.5 Provoking authoritarians
+<h3> Section 6.6 Provoking authoritarians <sup id="section-66-provoking-authoritarians"></sup></h3>
 
 While the very existence of bitcoin itself is a provocation toward authoritarians who seek to control how other people earn, save, and spend money, validity rollups could add whole new provocative dimensions to bitcoin.
 
@@ -484,7 +493,7 @@ Giving people new tools to fight authoritarians is a good thing. The risk is tha
 
 This is another one of those issues where if validity rollups are enabled, the bitcoin community will have to make a decision about exactly _what kind_ of rollups will be enabled: does the bitcoin community invite the full contents of Pandora's box to be released on L2, or are there certain features or smart contracts that bitcoin users should never be allowed to access in a trustless manner? I phrase the question that way, with an emphasis on "trustless", because the alternative to supporting these powerful and controversial use-cases directly on bitcoin (via an L1 extension or as a new protocol on L2) is not that these use cases will never happen and all risk and harm from such use cases will be averted. The alternative is the status quo, where bitcoin users must give up control of their BTC to trusted "bridges" in exchange for IOUs on sidechains or altcoin chains where these use cases are actually supported.[70] On this question, the choice before the bitcoin community is not between _risk_ or _no risk_, it is between _risk without trusted third parties / with fewer trusted third parties_ or _risk with trusted third parties / more trusted third parties_.
 
-### Section 6.6 Novel cryptography
+<h3> Section 6.7 Novel cryptography <sup id="section-66-novel-cryptography"></sup></h3>
 
 The novelty or "Lindy" factor of the cryptography used in validity proofs depends on what kind of validity proof is being referred to.[^148] STARK-based validity proofs rely on the oldest cryptographic primitives and have the weakest security assumptions of the various validity proof systems. SNARK-based validity proofs rely on newer cryptographic primitives such as elliptic curves (as in bitcoin) and have stronger security assumptions.[^149]
 
@@ -500,7 +509,7 @@ While the implementations of the oldest validity proof and Schnorr protocols use
 
 The discovery of vulnerabilities in the design and implementation of production cryptographic proof systems shows that additional caution, time, review, and testing is warranted when deploying such a system into a blockchain such as bitcoin where it may not be possible to fix a vulnerability without a consensus-level software update. Vulnerabilities in a cryptographic proof protocol would put the coins secured by the protocol at risk either by causing the validity proofs to fail verification when they should succeed (effectively freezing the assets secured by the proof protocol) or by causing the validity proofs to successfully verify when they should fail (enabling an attacker to counterfeit and/or steal assets secured by the proof protocol).
 
-### Section 6.7 Compromised "toxic waste"
+<h3> Section 6.7 Compromised "toxic waste" <sup id="section-67-compromised-toxic-waste"></sup></h3>
 
 Some cryptographic proof protocols rely on a "parameter generation ceremony" (also known as a "trusted setup") to instantiate the protocol.[^154] The purpose of this ceremony is to generate "public parameters" that can be used to verify the validity proofs produced by users of the protocol. In order to generate the public parameters, random numbers have to be used as inputs. If a user knows all of the random numbers used to generate the public parameters, they will be able to produce counterfeit proofs that appear valid even though the transaction the proof is validating violates the basic expectations of the protocol e.g. a user with all of the random numbers could mint coins "out of thin air" rather than minting them via the mining protocol. Because these random numbers are both critical to the integrity of the protocol and necessary byproducts of the protocol setup that must be carefully kept separate from each other at all time, they are often referred to as "toxic waste".
 
@@ -508,14 +517,16 @@ STARK-based proof protocols, being "transparent" in nature, inherently do not re
 
 See [Appendix F](#appendix-f-mitigating-harm-from-compromised-cryptographic-proof-protocols-and-toxic-waste) for a look at how the risk of compromised cryptographic proofs and toxic waste could be mitigated to prevent harm to L1 bitcoin users.
 
-## Conclusion
+<h2> Conclusion <sup id="conclusion"></sup></h2>
+
 [↩](#toc)
 
 In this report, we described the history of validity rollups, how they work, and how they could be built on bitcoin. We described how, even in their simplest form, validity rollups can enable over 100 times more transaction throughput on bitcoin with no loss of self-custodial ownership security for validity rollup users compared to the ownership security of transacting on bitcoin L1. Given that validity rollups are "trustless" by design, and could be implemented without introducing new risks or sacrificing any of bitcoin's core values or features, we believe the simplest possible implementations of validity rollups would be a great fit for bitcoin.
 
 Optionally, the implementation of validity rollups on bitcoin could also support the verification of more powerful validity proofs. This would enable new capabilities for bitcoin users, such as support for more expressive smart contracts and stronger privacy protocols. Depending on how support for these more powerful validity proofs is implemented, these new capabilities could be enabled at little to no increase in the cost of running an L1 full node. However, these new capabilities could also come with new risks, such as enabling new kinds of AIM and MEV attacks, along with the possibility of provoking a crackdown on bitcoin by authoritarian governments who may be opposed to the strong privacy and censorship-resistant applications these protocols enable. Each of these new capabilities, and the risks that come with them, should be scrutinized on an individual basis, each with their own cost-benefit, risk-reward analysis, to determine whether or not they would be worth enabling on bitcoin, even in a validity rollup on L2. Some analysis of these issues was presented or referenced in this report, but should not be considered the last word on the subject. These are areas deserving of more research, experimentation, and observation.
 
-## Appendix A. Comparing validity rollups to other protocols
+<h2> Appendix A. Comparing validity rollups to other protocols <sup id="appendix-a-comparing-validity-rollups-to-other-protocols"></sup></h2>
+
 [↩](#toc)
 
 Validity rollups are part of a decade-long history of protocols designed to improve the scalability and capabilities of blockchain-based digital asset and smart contracts.
@@ -592,7 +603,8 @@ We can see in [Table 5](#table-5-protocol-comparison-table) how validity rollups
 >
 > [r] <a href="https://arxiv.org/abs/2002.01847" target="_blank">https://arxiv.org/abs/2002.01847</a>
 
-## Appendix B. Comparing alternative cryptocurrency privacy techniques
+<h2> Appendix B. Comparing alternative cryptocurrency privacy techniques <sup id="appendix-b-comparing-alternative-cryptocurrency-privacy-techniques"></sup></h2>
+
 [↩](#toc)
 
 Due to many of bitcoin's current limitations (e.g. limited scripting capabilities) and qualities (e.g. transparent transaction amounts) the efforts to reduce the traceability and improve the privacy of bitcoin transactions are always an uphill battle. Examples of such protocols built for bitcoin include Cahoots, CoinJoin, CoinSwap, PayJoin, TumbleBit, stealth addresses, and variations or spinoffs thereof.
@@ -649,7 +661,8 @@ While Zerocash transactions hide the most transaction information of all current
 
 Some people may argue that the "opt-in" nature of encrypted protocols implemented in a validity rollup makes the privacy less effective for those who use it, and that "opt-out" encrypted protocols (where the encryption is "on by default" and users must explicitly "opt-out" to remove the encryption) on blockchains such as Beam or Monero will always provide superior privacy, all else being equal. This is a misunderstanding. There is actually no such thing as purely "opt-out" encryption, because _all_ protocols, encrypted or not, are "opt-in" at first, external coercion notwithstanding. People "opt-in" to encrypting their transactions using Monero by choosing to download a Monero wallet and buy, receive, or mine monero, just as people would "opt-in" to using an encrypted validity rollup on bitcoin by downloading a compatible bitcoin wallet and depositing their transparent bitcoin into the encrypted validity rollup or buying or receiving encrypted bitcoin. Likewise, an encrypted bitcoin user could choose to never touch transparent bitcoin, the same way a Monero user can choose to never touch transparent bitcoin. In both cases, people first "opt-in" to the encrypted protocol, and then they can choose whether or not they ever want to "opt-out". The only meaningful difference to end users in these cases is the unit of account involved.
 
-## Appendix C. Increasing throughput with offchain data availability
+<h2>  Appendix C. Increasing throughput with offchain data availability <sup id="appendix-c-increasing-throughput-with-offchain-data-availability"></sup></h2>
+
 [↩](#toc)
 
 Validity rollups are designed to increase transaction throughput and potentially provide alternative execution environments without giving up security relative to holding funds and transacting directly on the rollup's parent chain. As explained in [Section 1](#section-1-an-introduction-to-validity-rollups), this high degree of security is obtained by combining the use of validity proofs with the storage of rollup transaction data inside of parent chain blocks. The validity proofs provide the same ownership guarantees as any other valid digital signature accepted by the parent chain, and the onchain data storage provides the same data availability guarantees that every other transaction stored in the parent chain has.
@@ -730,7 +743,8 @@ The Adamantium model was first described by Starkware in their June 2020 post "V
 
 > Table 6 description: Categorizing validity bridges based on the data availability solution used. Ordered from most to least security, in the author's humble opinion. Inspired by the table by Brand et al in [^171]. Onchain settlement + onchain data availability is a validity rollup, which offers the strongest security guarantees. Onchain settlement + offchain data availability opens a diverse spectrum of options for data availability with varying degrees of cost and security for end users to consider. See [Appendix D](#appendix-d-a-closer-look-at-validity-sidechains) for more information about validity sidechains.
 
-## Appendix D. A closer look at validity sidechains
+<h2> Appendix D. A closer look at validity sidechains <sup id="appendix-d-a-closer-look-at-validity-sidechains"></sup></h2>
+
 [↩](#toc)
 
 In the October 2014 paper "Enabling Blockchain Innovations with Pegged Sidechains" by Back et al, the authors defined a pegged sidechain as:
@@ -767,7 +781,8 @@ The current implementation of Zendoo has a fixed cost of around 152 kilobytes (K
 
 > Table 7 description: The block is broken up into 1,000,000 WU and 3,000,000 WU portions to illustrate how in the case of rollup transactions, some of the weight limit is reserved for the validity proof and script data while the rest can be used for the rollup transaction data. In the case of Zendoo state updates, there is also a fixed cost for the validity proof and script data. Zendoo state updates currently max out at around 100,000 transactions per withdrawal certificate, at a cost of about 152,000 WU per withdrawal certificate (assuming that, similar to validity rollup data as described in [Section 4.1](#section-41-increasing-throughput-with-validity-rollups), the witness discount is applied to all Zendoo data). Assuming an additional cost of around 2000 WU for each state update script, that means about twenty-five 154,000 WU Zendoo state updates could fit into each bitcoin L1 block, for a maximum of 2,500,000 transactions per L1 block.
 
-## Appendix E. Enabling additional throughput increases with validity proofs
+<h2> Appendix E. Enabling additional throughput increases with validity proofs <sup id="appendix-e-enabling-additional-throughput-increases-with-validity-proofs"></sup></h2>
+
 [↩](#toc)
 
 Validity proofs can be used to help bitcoin scale even further than validity rollups alone enable. Using recursive proofs, the validity of the blockchain up to a given block height could be proven using a single aggregated proof.[^180] The implication is that the block size limit could be increased without making it any harder for full nodes to verify the blockchain. The block size limit wouldn't be able to be increased _too much_, and developers would still need to ensure block propagation times remain reasonable, but even a 50-100% increase could mean up to an additional 125,000-250,000 rollup transactions per block. 
@@ -780,7 +795,8 @@ Proofs of the validity of the blockchain solve the IBD issue for blocks of arbit
 
 This "proof-sync" technique may solve the IBD problem of large blocks, but it does not solve the mining centralization problems. Work still needs to be done to decrease the bandwidth costs and propogation times of increased L1 transaction volume, for example by implementing or further optimizing protocols such as Compact Block Relay and Erlay that reduce bandwidth requirements even as transaction volume increases.[^182][^183] And there's no getting around the requirement for storage of blockchain data, which increases as the size of the blockchain grows. Still, having one less problem to solve (the IBD problem) is a nice improvement. The best part is that no consensus rule changes are required to implement and start using proof-sync clients. As of the time of writing, there are two projects working on building a proof-sync bitcoin client implementation written in Cairo, one is called Khepri and the other is called Zerosync.[^184][^185]
 
-## Appendix F. Mitigating harm from compromised cryptographic proof protocols and toxic waste
+<h2> Appendix F. Mitigating harm from compromised cryptographic proof protocols and toxic waste <sup id="appendix-f-mitigating-harm-from-compromised-cryptographic-proof-protocols-and-toxic-waste"></sup></h2>
+
 [↩](#toc)
 
 One concern that is often brought up when discussing the idea of implementing cryptographic proofs for privacy on bitcoin is the possibility of unexpected inflation. If someone discovers this kind of vulnerability in the cryptography used for the privacy protocol, they can exploit the vulnerability to mint an arbitrary amount of BTC. Furthermore, because transactions using the privacy protocol are encrypted in some way, the inflation will be undetectable for some period of time. This concern stems from a fundamental tradeoff in the design of cryptocurrency privacy protocols based on cryptographic proofs: a cryptographic proof can be perfectly hiding, or perfectly binding, but not both.[^186] This tradeoff means that the protocol designer must either allow the money supply to be inflated via counterfeit but preserve privacy if the cryptography is broken (perfectly hiding), or they preserve the money supply integrity but allow privacy to be broken (perfectly binding). Production implementations of encrypted transactions, including those covered in [Appendix B](#appendix-b-comparing-alternative-cryptocurrency-privacy-techniques), are typically designed to be perfectly hiding.
@@ -795,13 +811,15 @@ So if you don't want to worry about being left holding worthless encrypted bitco
 
 It's important to note here that undetectable inflation in encrypted protocols is _already possible_ because there are already encrypted protocols where the supply of encrypted bitcoin-denominated assets is at risk of an inflation vulnerability. For example, L-BTC on Liquid and renBTC on Aztec could both be unexpectedly and undetectably inflated if there was an inflation vulnerability that got exploited.[^187][^78] The only relevant difference between these existing encrypted protocols and validity rollups for the purpose of this discussion is that with L-BTC and renBTC bitcoin users have to trust third parties with the custody of their BTC while validity rollups are self-custodial by design. The outcome that would be achieved by someone who opposes the implementation of an encrypted validity rollup on bitcoin due to concerns about undetectable inflation would not be to prevent users from putting their bitcoin at risk of an inflation vulnerability, but to prevent users from doing so _in a self-custodial way_ and instead drive bitcoins into the control of trusted custodians — the law of unintended(?) consequences in action.[^188]
 
-## License
+<h2> License <sup id="license"></sup></h2>
+
 [↩](#toc)
 
 Copyright and related rights to all original work produced in this report have been waived via [CC0](/LICENSE). 
 Copyright and related rights to all works produced by third parties referenced in this report remain with the respective rightsholder(s).
 
-## References
+<h2> References <sup id="references"></sup></h2>
+
 [↩](#toc)
 
 [^1]: https://bitcointalk.org/index.php?topic=770.msg8637#msg8637
