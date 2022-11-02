@@ -1187,7 +1187,7 @@ Copyright and related rights to all works produced by third parties referenced i
 
 [^184]: https://github.com/bitcoin-stark/khepri
 
-[^185]: https://github.com/lucidLuckylee/zerosync
+[^185]: https://github.com/zerosync/zerosync
 
 [^186]: https://web.archive.org/web/20201105045447/https://old.reddit.com/r/Bitcoin/comments/izj4a3/technical_confidential_transactions_and_their/
 
